@@ -156,10 +156,10 @@
   font-size: 1.1rem;
 }
 
-.footer-logo svg {
+.footer-logo img {
   width: 28px;
   height: 28px;
-  color: var(--accent);
+  border-radius: var(--radius-sm);
 }
 
 .footer-links {

@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d1019"/>
+      <stop offset="100%" stop-color="#08090e"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-lg">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="url(#bg)"/>
+
+  <!-- === WIFI SIGNAL ARCS === -->
+  <g filter="url(#glow-lg)" fill="none" stroke="#00d4aa" stroke-linecap="round">
+    <path d="M 218,105 Q 256,75 294,105" stroke-width="4" opacity="0.3"/>
+    <path d="M 200,80 Q 256,38 312,80" stroke-width="4" opacity="0.5"/>
+    <path d="M 180,55 Q 256,0 332,55" stroke-width="4" opacity="0.7"/>
+  </g>
+  <circle cx="256" cy="122" r="6" fill="#00d4aa" filter="url(#glow)" opacity="0.8"/>
+
+  <!-- === LEFT ANTENNA ARM === -->
+  <g filter="url(#glow)">
+    <line x1="160" y1="270" x2="115" y2="220"
+          stroke="#009d80" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="115" cy="220" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <line x1="115" y1="220" x2="80" y2="170"
+          stroke="#00d4aa" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="80" cy="170" r="7" fill="#0a2e28" stroke="#00d4aa" stroke-width="2.5"/>
+    <line x1="80" y1="170" x2="55" y2="125"
+          stroke="#00e8bb" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="55" cy="125" r="8" fill="#00d4aa" opacity="0.7"/>
+    <circle cx="55" cy="125" r="16" fill="#00d4aa" opacity="0.12"/>
+    <circle cx="55" cy="125" r="4" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- === RIGHT ANTENNA ARM === -->
+  <g filter="url(#glow)">
+    <line x1="352" y1="270" x2="397" y2="220"
+          stroke="#009d80" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="397" cy="220" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <line x1="397" y1="220" x2="432" y2="170"
+          stroke="#00d4aa" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="432" cy="170" r="7" fill="#0a2e28" stroke="#00d4aa" stroke-width="2.5"/>
+    <line x1="432" y1="170" x2="457" y2="125"
+          stroke="#00e8bb" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="457" cy="125" r="8" fill="#00d4aa" opacity="0.7"/>
+    <circle cx="457" cy="125" r="16" fill="#00d4aa" opacity="0.12"/>
+    <circle cx="457" cy="125" r="4" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- === BODY (IC chip) === -->
+  <g filter="url(#glow)">
+    <rect x="168" y="242" width="176" height="155" rx="10"
+          fill="#0a2e28" stroke="#00d4aa" stroke-width="4"/>
+
+    <!-- Pin 1 notch -->
+    <path d="M 250,242 A 8,8 0 0 1 262,242" fill="#08090e" stroke="#00d4aa" stroke-width="2" opacity="0.5"/>
+
+    <!-- Die pad -->
+    <rect x="195" y="265" width="122" height="105" rx="4"
+          fill="none" stroke="#00d4aa" stroke-width="1.5" opacity="0.2"/>
+
+    <!-- Circuit traces inside die -->
+    <g stroke="#00d4aa" stroke-width="1" opacity="0.2" fill="none">
+      <line x1="220" y1="280" x2="220" y2="355"/>
+      <line x1="256" y1="270" x2="256" y2="365"/>
+      <line x1="292" y1="280" x2="292" y2="355"/>
+      <line x1="205" y1="318" x2="307" y2="318"/>
+    </g>
+    <g fill="#00d4aa" opacity="0.3">
+      <circle cx="220" cy="318" r="3"/>
+      <circle cx="256" cy="318" r="3"/>
+      <circle cx="292" cy="318" r="3"/>
+    </g>
+
+    <!-- Chip label -->
+    <text x="256" y="380" text-anchor="middle" font-family="'Courier New', monospace"
+          font-size="11" fill="#00d4aa" opacity="0.35" letter-spacing="1">WC-01</text>
+  </g>
+
+  <!-- === LEFT SIDE: IC PINS + PCB TRACE LEGS ===
+       Pins are in lower half of chip body.
+       Upper pin (pin1) routes FURTHEST out, then down.
+       Middle pin routes medium out, then down.
+       Lower pin routes least out, then down.
+       All horizontal then vertical. No crossings. All end at Y=460. -->
+  
+  <!-- Left IC pin stubs -->
+  <g filter="url(#glow)" stroke="#00d4aa" stroke-width="4" stroke-linecap="round">
+    <line x1="148" y1="330" x2="168" y2="330"/>
+    <line x1="148" y1="355" x2="168" y2="355"/>
+    <line x1="148" y1="380" x2="168" y2="380"/>
+  </g>
+
+  <!-- Left PCB trace legs: horizontal out, then vertical down -->
+  <g filter="url(#glow)" fill="none" stroke="#00d4aa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pin 1 (upper) → goes furthest left to x=70, then down -->
+    <path d="M 148,330 L 70,330 L 70,460"/>
+    <!-- Pin 2 (middle) → goes to x=95, then down -->
+    <path d="M 148,355 L 95,355 L 95,460"/>
+    <!-- Pin 3 (lower) → goes to x=120, then down -->
+    <path d="M 148,380 L 120,380 L 120,460"/>
+  </g>
+
+  <!-- Left via pads at corners -->
+  <g fill="#0a2e28" stroke="#00d4aa" stroke-width="2" opacity="0.5">
+    <circle cx="70" cy="330" r="4"/>
+    <circle cx="95" cy="355" r="4"/>
+    <circle cx="120" cy="380" r="4"/>
+  </g>
+
+  <!-- Left solder ring pads (all at y=460) -->
+  <g filter="url(#glow)">
+    <circle cx="70" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="70" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+    <circle cx="95" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="95" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+    <circle cx="120" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="120" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+  </g>
+
+  <!-- === RIGHT SIDE: IC PINS + PCB TRACE LEGS (mirror) === -->
+
+  <!-- Right IC pin stubs -->
+  <g filter="url(#glow)" stroke="#00d4aa" stroke-width="4" stroke-linecap="round">
+    <line x1="344" y1="330" x2="364" y2="330"/>
+    <line x1="344" y1="355" x2="364" y2="355"/>
+    <line x1="344" y1="380" x2="364" y2="380"/>
+  </g>
+
+  <!-- Right PCB trace legs -->
+  <g filter="url(#glow)" fill="none" stroke="#00d4aa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Pin 1 (upper) → goes furthest right to x=442, then down -->
+    <path d="M 364,330 L 442,330 L 442,460"/>
+    <!-- Pin 2 (middle) → goes to x=417, then down -->
+    <path d="M 364,355 L 417,355 L 417,460"/>
+    <!-- Pin 3 (lower) → goes to x=392, then down -->
+    <path d="M 364,380 L 392,380 L 392,460"/>
+  </g>
+
+  <!-- Right via pads at corners -->
+  <g fill="#0a2e28" stroke="#00d4aa" stroke-width="2" opacity="0.5">
+    <circle cx="442" cy="330" r="4"/>
+    <circle cx="417" cy="355" r="4"/>
+    <circle cx="392" cy="380" r="4"/>
+  </g>
+
+  <!-- Right solder ring pads (all at y=460) -->
+  <g filter="url(#glow)">
+    <circle cx="442" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="442" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+    <circle cx="417" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="417" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+    <circle cx="392" cy="460" r="9" fill="#0a2e28" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="392" cy="460" r="4" fill="#00d4aa" opacity="0.6"/>
+  </g>
+
+  <!-- === EYES (LED eyes) === -->
+  <g filter="url(#glow-lg)">
+    <path d="M 218,258 L 203,222 L 198,204"
+          fill="none" stroke="#00d4aa" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="198" cy="197" r="15" fill="#08090e" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="198" cy="197" r="8" fill="#00d4aa"/>
+    <circle cx="198" cy="197" r="12" fill="#00d4aa" opacity="0.15"/>
+    <circle cx="194" cy="193" r="3" fill="#FFFFFF" opacity="0.7"/>
+
+    <path d="M 294,258 L 309,222 L 314,204"
+          fill="none" stroke="#00d4aa" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="314" cy="197" r="15" fill="#08090e" stroke="#00d4aa" stroke-width="3"/>
+    <circle cx="314" cy="197" r="8" fill="#00d4aa"/>
+    <circle cx="314" cy="197" r="12" fill="#00d4aa" opacity="0.15"/>
+    <circle cx="310" cy="193" r="3" fill="#FFFFFF" opacity="0.7"/>
+  </g>
+
+  <!-- === MOUTH === -->
+  <path d="M 237,338 Q 256,355 275,338"
+        fill="none" stroke="#00d4aa" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+
+</svg>
