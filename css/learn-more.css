@@ -1,0 +1,197 @@
+/* Page Hero */
+.page-hero {
+  padding: calc(var(--nav-height) + var(--space-4xl)) 0 var(--space-3xl);
+  text-align: center;
+}
+
+.page-hero h1 {
+  margin-bottom: var(--space-md);
+}
+
+.page-hero p {
+  font-size: 1.15rem;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* Architecture Deep Dive */
+.architecture-deep {
+  background: var(--bg-secondary);
+}
+
+.arch-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.arch-step {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+}
+
+.arch-step-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  color: var(--accent);
+}
+
+.arch-step-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.arch-step h3 {
+  margin-bottom: var(--space-sm);
+}
+
+/* Tools Grid */
+.tools-section {
+  /* default bg */
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* LED Section */
+.led-section {
+  background: var(--bg-secondary);
+  text-align: center;
+}
+
+.led-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.led-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.led-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* Persistence Section */
+.persistence-section {
+  text-align: center;
+}
+
+.ring-buffer {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.buffer-slot {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  transition: all var(--transition-base);
+}
+
+.buffer-slot.filled {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.buffer-slot.write-head {
+  border-color: var(--led-orange);
+  color: var(--led-orange);
+  box-shadow: 0 0 12px rgba(255, 140, 0, 0.3);
+}
+
+.ring-label {
+  margin-top: var(--space-md);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Specs Section */
+.specs-section {
+  background: var(--bg-secondary);
+}
+
+.specs-wrapper {
+  max-width: 750px;
+  margin: 0 auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Getting Started */
+.getting-started {
+  /* default bg */
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* GitHub CTA */
+.github-cta {
+  text-align: center;
+  padding: var(--space-4xl) 0;
+  background: var(--bg-secondary);
+}
+
+.github-cta h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.github-cta .btn {
+  margin-bottom: var(--space-md);
+}
+
+.github-cta .back-link {
+  display: inline-block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color var(--transition-fast);
+}
+
+.github-cta .back-link:hover {
+  color: var(--accent);
+}

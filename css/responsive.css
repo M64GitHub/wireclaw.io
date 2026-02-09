@@ -1,0 +1,182 @@
+/* Large tablets / small desktops */
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 2.75rem;
+  }
+
+  h2 {
+    font-size: 1.85rem;
+  }
+
+  .hero .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    text-align: center;
+  }
+
+  .hero-text .subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-ctas {
+    justify-content: center;
+  }
+
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .arch-flow {
+    gap: var(--space-sm);
+  }
+
+  .arch-node {
+    min-width: 85px;
+    padding: var(--space-md);
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  :root {
+    --space-4xl: 4rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  /* Nav mobile */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-flow {
+    flex-direction: column;
+  }
+
+  .arch-arrow {
+    transform: rotate(90deg);
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-step {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .specs-table th {
+    width: 140px;
+  }
+
+  .led-row {
+    gap: var(--space-lg);
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.85rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  .hero-text .subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-ctas .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .terminal {
+    font-size: 0.75rem;
+  }
+
+  .terminal-body {
+    padding: var(--space-sm);
+    min-height: 220px;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+  }
+
+  .btn {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  .buffer-slot {
+    width: 48px;
+    height: 48px;
+    font-size: 0.65rem;
+  }
+
+  .led-circle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .specs-table th,
+  .specs-table td {
+    padding: 0.65rem var(--space-sm);
+    font-size: 0.8rem;
+  }
+
+  .specs-table th {
+    width: 110px;
+  }
+}

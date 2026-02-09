@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Under the Hood — WireClaw</title>
+  <meta name="description" content="How a $5 ESP32-C6 chip becomes an autonomous AI agent. Architecture, tools, LED feedback, and technical specs.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/learn-more.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo" aria-label="WireClaw home">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M16 2 L8 10 L4 8 L6 16 L2 20 L10 18 L16 26 L22 18 L30 20 L26 16 L28 8 L24 10 L16 2Z" fill="currentColor"/>
+          <circle cx="13" cy="13" r="1.5" fill="#08090e"/><circle cx="19" cy="13" r="1.5" fill="#08090e"/>
+          <path d="M12 17 Q16 21 20 17" fill="none" stroke="#08090e" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span>WireClaw</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="learn-more.html">Learn More</a>
+        <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </nav>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="reveal">Under the <span class="accent">Hood</span></h1>
+      <p class="reveal" style="--stagger: 1">How a $5 chip becomes an autonomous AI agent.</p>
+    </div>
+  </section>
+
+  <!-- Architecture Deep Dive -->
+  <section class="architecture-deep">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>The Agentic <span class="accent">Architecture</span></h2>
+        <p>From user message to real-world action — every step on a single chip.</p>
+      </div>
+      <div class="arch-steps">
+        <div class="arch-step reveal" style="--stagger: 0">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <h3>Input Channels</h3>
+            <p>Telegram bot, USB serial console, or NATS messaging — all three feed into the same processing pipeline. The agent doesn't care how you talk to it.</p>
+          </div>
+        </div>
+        <div class="arch-step reveal" style="--stagger: 1">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <div>
+            <h3>The Agentic Loop</h3>
+            <p>Up to 5 iterations per request. WireClaw reasons about the task, selects tools, executes them, observes results, and decides whether to continue or respond. True agent behavior, not scripted logic.</p>
+          </div>
+        </div>
+        <div class="arch-step reveal" style="--stagger: 2">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <h3>LLM Integration</h3>
+            <p>Direct HTTPS calls to OpenRouter (or any OpenAI-compatible endpoint). Model is runtime-configurable via flash config. No proxy, no middleware — the ESP32 talks to the API directly.</p>
+          </div>
+        </div>
+        <div class="arch-step reveal" style="--stagger: 3">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div>
+            <h3>Tool Execution</h3>
+            <p>Seven built-in tools give the agent direct hardware control — LEDs, GPIO, sensors, filesystem, and device-to-device messaging via NATS.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 7 Tools -->
+  <section class="tools-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>The 7 <span class="accent">Tools</span></h2>
+        <p>Each tool maps to a real hardware or system capability.</p>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card reveal" style="--stagger: 0">
+          <div class="tool-name">led_set</div>
+          <span class="tool-badge">LED</span>
+          <p>Control the onboard RGB LED — set any color, brightness, or turn it off. Visual feedback for every action.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 1">
+          <div class="tool-name">gpio_write</div>
+          <span class="tool-badge">GPIO</span>
+          <p>Drive output pins to control relays, motors, actuators, or any digital output.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 2">
+          <div class="tool-name">gpio_read</div>
+          <span class="tool-badge">GPIO</span>
+          <p>Read digital and analog values from sensors, switches, or voltage dividers.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 3">
+          <div class="tool-name">device_info</div>
+          <span class="tool-badge">System</span>
+          <p>Query free heap, uptime, WiFi signal strength, chip temperature, and more.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 4">
+          <div class="tool-name">file_read</div>
+          <span class="tool-badge">Flash FS</span>
+          <p>Read files from the onboard flash filesystem — configs, logs, persisted data.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 5">
+          <div class="tool-name">file_write</div>
+          <span class="tool-badge">Flash FS</span>
+          <p>Write data to flash — persist sensor readings, update configuration, save notes.</p>
+        </div>
+        <div class="tool-card reveal" style="--stagger: 6">
+          <div class="tool-name">nats_publish</div>
+          <span class="tool-badge">Messaging</span>
+          <p>Publish messages to NATS subjects for device-to-device communication and IoT mesh coordination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LED Feedback -->
+  <section class="led-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>LED <span class="accent">Feedback</span> System</h2>
+        <p>The onboard LED tells you what the agent is doing at a glance.</p>
+      </div>
+      <div class="led-row">
+        <div class="led-item">
+          <div class="led-circle led-orange" style="--stagger: 0"></div>
+          <span class="led-label">Connecting</span>
+        </div>
+        <div class="led-item">
+          <div class="led-circle led-blue" style="--stagger: 1"></div>
+          <span class="led-label">Thinking</span>
+        </div>
+        <div class="led-item">
+          <div class="led-circle led-purple" style="--stagger: 2"></div>
+          <span class="led-label">Tool Loop</span>
+        </div>
+        <div class="led-item">
+          <div class="led-circle led-green" style="--stagger: 3"></div>
+          <span class="led-label">Success</span>
+        </div>
+        <div class="led-item">
+          <div class="led-circle led-red" style="--stagger: 4"></div>
+          <span class="led-label">Error</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conversation Persistence -->
+  <section class="persistence-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Memory That <span class="accent">Survives</span> Reboots</h2>
+        <p>A 6-turn circular buffer stored on flash. Context persists across power cycles.</p>
+      </div>
+      <div class="ring-buffer reveal">
+        <div class="buffer-slot filled" style="--stagger: 0">U:1</div>
+        <div class="buffer-slot filled" style="--stagger: 1">A:1</div>
+        <div class="buffer-slot filled" style="--stagger: 2">U:2</div>
+        <div class="buffer-slot filled" style="--stagger: 3">A:2</div>
+        <div class="buffer-slot filled" style="--stagger: 4">U:3</div>
+        <div class="buffer-slot write-head" style="--stagger: 5">A:3</div>
+      </div>
+      <p class="ring-label reveal" style="--stagger: 6">← oldest ··· newest →  (write head)</p>
+    </div>
+  </section>
+
+  <!-- Technical Specs -->
+  <section class="specs-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Technical <span class="accent">Specs</span></h2>
+      </div>
+      <div class="specs-wrapper reveal">
+        <table class="specs-table">
+          <tbody>
+            <tr><th>MCU</th><td>ESP32-C6 (RISC-V, 160 MHz, 512 KB SRAM)</td></tr>
+            <tr><th>Framework</th><td>Arduino + PlatformIO</td></tr>
+            <tr><th>Language</th><td>C++ (Arduino-flavored)</td></tr>
+            <tr><th>RAM Usage</th><td>~280 KB with active conversation</td></tr>
+            <tr><th>JSON Parsing</th><td>Streaming token-by-token (ArduinoJson)</td></tr>
+            <tr><th>Buffer Strategy</th><td>Chunked HTTP reads, reused scratch buffers</td></tr>
+            <tr><th>Flash Storage</th><td>LittleFS partition for config + conversation history</td></tr>
+            <tr><th>API Protocol</th><td>HTTPS with TLS 1.2, OpenAI-compatible chat completions</td></tr>
+            <tr><th>NATS Support</th><td>Lightweight publish over TCP</td></tr>
+            <tr><th>Configuration</th><td>JSON config on flash — WiFi, API key, model, system prompt</td></tr>
+            <tr><th>History Buffer</th><td>6-turn circular buffer persisted to flash</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Getting Started -->
+  <section class="getting-started">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Getting <span class="accent">Started</span></h2>
+        <p>Three steps from zero to a working AI agent.</p>
+      </div>
+      <div class="steps-list">
+        <div class="step-card reveal" style="--stagger: 0">
+          <div class="step-number">1</div>
+          <div>
+            <h3>Flash the Firmware</h3>
+            <p>Clone the repo and upload with PlatformIO: <code>pio run -t upload</code></p>
+          </div>
+        </div>
+        <div class="step-card reveal" style="--stagger: 1">
+          <div class="step-number">2</div>
+          <div>
+            <h3>Configure on Flash</h3>
+            <p>Edit the JSON config with your WiFi credentials, API key, and preferred model.</p>
+          </div>
+        </div>
+        <div class="step-card reveal" style="--stagger: 2">
+          <div class="step-number">3</div>
+          <div>
+            <h3>Talk to It</h3>
+            <p>Send natural language via Telegram, serial console, or NATS — the agent handles the rest.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GitHub CTA -->
+  <section class="github-cta">
+    <div class="container">
+      <h2 class="reveal">Ready to Put AI on the <span class="accent">Wire</span>?</h2>
+      <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener" class="btn btn-primary reveal" style="--stagger: 1">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <br>
+      <a href="/" class="back-link reveal" style="--stagger: 2">← Back to Home</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+          <path d="M16 2 L8 10 L4 8 L6 16 L2 20 L10 18 L16 26 L22 18 L30 20 L26 16 L28 8 L24 10 L16 2Z"/>
+          <circle cx="13" cy="13" r="1.5" fill="#08090e"/><circle cx="19" cy="13" r="1.5" fill="#08090e"/>
+          <path d="M12 17 Q16 21 20 17" fill="none" stroke="#08090e" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span>WireClaw</span>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <span class="footer-copy">&copy; 2026 WireClaw</span>
+    </div>
+  </footer>
+
+  <script defer src="js/nav.js"></script>
+  <script defer src="js/scroll-reveal.js"></script>
+</body>
+</html>

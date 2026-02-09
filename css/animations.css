@@ -1,0 +1,125 @@
+/* Keyframes */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(0, 212, 170, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(0, 212, 170, 0.2);
+  }
+}
+
+/* Hero animations */
+.hero-text {
+  animation: fadeInLeft 0.8s ease-out both;
+}
+
+.hero-terminal {
+  animation: fadeInRight 0.8s ease-out 0.3s both;
+}
+
+/* Scroll reveal classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: calc(var(--stagger, 0) * 100ms);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Architecture node sequential reveal */
+.arch-node {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: calc(var(--stagger, 0) * 150ms);
+}
+
+.arch-node.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* LED pulse on reveal */
+.led-circle {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition-delay: calc(var(--stagger, 0) * 120ms);
+}
+
+.led-circle.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.led-circle.visible::after {
+  animation: led-pulse 2s ease-in-out infinite;
+  animation-delay: calc(var(--stagger, 0) * 120ms);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal,
+  .arch-node,
+  .led-circle {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-text,
+  .hero-terminal {
+    animation: none;
+    opacity: 1;
+  }
+}
