@@ -186,6 +186,41 @@
   font-family: var(--font-mono);
 }
 
+/* Memory File Card */
+.memory-file {
+  display: inline-block;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.persistence-section .memory-file {
+  display: block;
+  margin: 0 auto;
+}
+
+.memory-file-header {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--accent-dim);
+  border-bottom: 1px solid var(--border-accent);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.memory-file-body {
+  padding: var(--space-md);
+  color: var(--text-secondary);
+  white-space: pre-line;
+  line-height: 1.7;
+}
+
 /* Specs Section */
 .specs-section {
   background: var(--bg-secondary);

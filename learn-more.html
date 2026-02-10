@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Under the Hood - WireClaw</title>
-  <meta name="description" content="How a $5 ESP32-C6 chip runs 17 tools, a rule engine, and an AI agent. Architecture, tools, LED feedback, and technical specs.">
+  <meta name="description" content="How a $5 ESP32-C6 chip runs 18 tools, a rule engine, and an AI agent. Architecture, tools, LED feedback, and technical specs.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
@@ -44,7 +44,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 class="reveal">Under the <span class="accent">Hood</span></h1>
-      <p class="reveal" style="--stagger: 1">How a $5 chip runs 17 tools, a rule engine, and an AI agent.</p>
+      <p class="reveal" style="--stagger: 1">How a $5 chip runs 18 tools, a rule engine, and an AI agent.</p>
     </div>
   </section>
 
@@ -80,7 +80,7 @@
           </div>
           <div>
             <h3>AI Loop</h3>
-            <p>LLM via OpenRouter. 17 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
+            <p>LLM via OpenRouter or local models. 18 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 3">
@@ -89,18 +89,27 @@
           </div>
           <div>
             <h3>Device Registry</h3>
-            <p>Named sensors and actuators persisted to flash. Register once, reference by name everywhere. <code>chip_temp</code> is pre-registered on first boot. Five sensor types, three actuator types.</p>
+            <p>Named sensors and actuators persisted to flash. Register once, reference by name everywhere. <code>chip_temp</code> is pre-registered on first boot. Eight sensor types, three actuator types. Clock sensors auto-register on boot.</p>
+          </div>
+        </div>
+        <div class="arch-step reveal" style="--stagger: 4">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <h3>Time-Based Automation</h3>
+            <p>Virtual clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) auto-register on boot. NTP-synced with timezone and DST. Schedule anything — the same rule engine that watches temperature can watch the clock.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 17 Tools -->
+  <!-- 18 Tools -->
   <section class="tools-section">
     <div class="container">
       <div class="section-header reveal">
-        <h2>17 <span class="accent">Tools</span></h2>
+        <h2>18 <span class="accent">Tools</span></h2>
         <p>Each tool maps to a real hardware or system capability.</p>
       </div>
       <div class="tools-summary reveal">
@@ -117,8 +126,8 @@
           <span class="tools-summary-list"><code>rule_create</code>, <code>rule_list</code>, <code>rule_delete</code>, <code>rule_enable</code></span>
         </div>
         <div class="tools-summary-row">
-          <span class="tools-summary-label">System (4)</span>
-          <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code>, <code>nats_publish</code></span>
+          <span class="tools-summary-label">System (5)</span>
+          <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code>, <code>nats_publish</code>, <code>remote_chat</code></span>
         </div>
       </div>
       <div style="text-align: center; margin-top: var(--space-xl);">
@@ -164,8 +173,10 @@
     <div class="container">
       <div class="section-header reveal">
         <h2>Memory That <span class="accent">Survives</span> Reboots</h2>
-        <p>A 6-turn circular buffer stored on flash. Context persists across power cycles.</p>
       </div>
+
+      <h3 class="reveal" style="text-align: center; margin-bottom: var(--space-lg);">Conversation Buffer</h3>
+      <p class="reveal" style="text-align: center; max-width: 550px; margin: 0 auto var(--space-xl);">A 6-turn circular buffer stored on flash. Context persists across power cycles.</p>
       <div class="ring-buffer reveal">
         <div class="buffer-slot filled" style="--stagger: 0">U:1</div>
         <div class="buffer-slot filled" style="--stagger: 1">A:1</div>
@@ -175,6 +186,15 @@
         <div class="buffer-slot write-head" style="--stagger: 5">A:3</div>
       </div>
       <p class="ring-label reveal" style="--stagger: 6">← oldest ··· newest →  (write head)</p>
+
+      <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Persistent Memory</h3>
+      <p class="reveal" style="text-align: center; max-width: 550px; margin: 0 auto var(--space-xl);">Long-term preferences in <code>/memory.txt</code> on flash. The AI writes autonomously. Injected into every conversation. 512 chars. Survives reboots.</p>
+      <div class="memory-file reveal">
+        <div class="memory-file-header">/memory.txt</div>
+        <div class="memory-file-body">User's favorite color is blue.
+Prefers Celsius for temperature.
+Garden-node is the outdoor sensor.</div>
+      </div>
     </div>
   </section>
 
@@ -191,15 +211,17 @@
             <tr><th>Framework</th><td>Arduino + PlatformIO</td></tr>
             <tr><th>Language</th><td>C++ (Arduino-flavored)</td></tr>
             <tr><th>RAM Usage</th><td>~280 KB with active conversation</td></tr>
-            <tr><th>Tools</th><td>17 built-in (hardware, registry, rules, filesystem, messaging)</td></tr>
-            <tr><th>Rule Engine</th><td>6 conditions, 5 action types, edge-triggered, /rules.json</td></tr>
-            <tr><th>Device Registry</th><td>5 sensor types, 3 actuator types, persisted to flash</td></tr>
-            <tr><th>Telegram Alerts</th><td>Rule-triggered, no LLM, configurable cooldown</td></tr>
+            <tr><th>Tools</th><td>18 built-in (hardware, registry, rules, filesystem, messaging, communication)</td></tr>
+            <tr><th>Rule Engine</th><td>6 conditions, 5 action types, edge-triggered, message interpolation, /rules.json</td></tr>
+            <tr><th>Device Registry</th><td>8 sensor types (incl. 3 virtual clock), 3 actuator types, persisted to flash</td></tr>
+            <tr><th>Clock Sensors</th><td>clock_hour, clock_minute, clock_hhmm — NTP-synced, POSIX timezone + DST</td></tr>
+            <tr><th>Telegram Alerts</th><td>Rule-triggered, no LLM, configurable cooldown, long polling, message interpolation</td></tr>
+            <tr><th>Persistent Memory</th><td>/memory.txt on flash, 512 char limit, AI-managed</td></tr>
             <tr><th>JSON Parsing</th><td>Streaming token-by-token (ArduinoJson)</td></tr>
             <tr><th>Buffer Strategy</th><td>Chunked HTTP reads, reused scratch buffers</td></tr>
             <tr><th>Flash Storage</th><td>LittleFS partition for config, history, rules, and device registry</td></tr>
-            <tr><th>API Protocol</th><td>HTTPS with TLS 1.2, OpenAI-compatible chat completions</td></tr>
-            <tr><th>NATS Support</th><td>Lightweight publish over TCP</td></tr>
+            <tr><th>API Protocol</th><td>HTTPS with TLS 1.2, OpenAI-compatible chat completions, or HTTP for local LLMs (Ollama, llama.cpp)</td></tr>
+            <tr><th>NATS Support</th><td>Publish, subscribe, request/reply over TCP</td></tr>
             <tr><th>Configuration</th><td>JSON config on flash - WiFi, API key, model, system prompt</td></tr>
             <tr><th>History Buffer</th><td>6-turn circular buffer persisted to flash</td></tr>
           </tbody>

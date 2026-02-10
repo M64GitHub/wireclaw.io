@@ -86,14 +86,6 @@
   grid-column: span 2;
 }
 
-.highlights-grid .card:nth-child(4) {
-  grid-column: 2 / span 2;
-}
-
-.highlights-grid .card:nth-child(5) {
-  grid-column: 4 / span 2;
-}
-
 /* Dual-Loop Architecture */
 .architecture-teaser {
   text-align: center;

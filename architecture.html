@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Architecture - WireClaw</title>
-  <meta name="description" content="The full WireClaw architecture. Two loops, seventeen tools, rules that run locally, forever. Deep technical reference.">
+  <meta name="description" content="The full WireClaw architecture. Two loops, eighteen tools, rules that run locally, forever. Deep technical reference.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
@@ -45,7 +45,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 class="reveal">Inside the <span class="accent">Wire</span></h1>
-      <p class="reveal" style="--stagger: 1">The full architecture. Two loops. Seventeen tools. Rules that run locally, forever.</p>
+      <p class="reveal" style="--stagger: 1">The full architecture. Two loops. Eighteen tools. Rules that run locally, forever.</p>
     </div>
   </section>
 
@@ -79,7 +79,7 @@
 
       <div class="code-block reveal" style="--stagger: 2">
         <span class="code-fn">loop</span>():<br>
-        &nbsp;&nbsp;<span class="code-fn">rulesEvaluate</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// always runs</span><br>
+        &nbsp;&nbsp;<span class="code-fn">rulesEvaluate</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// always runs (incl. clock sensors)</span><br>
         &nbsp;&nbsp;<span class="code-fn">checkTelegram</span>()&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// only if message</span><br>
         &nbsp;&nbsp;<span class="code-fn">checkSerial</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// only if message</span><br>
         &nbsp;&nbsp;<span class="code-fn">checkNATS</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// only if message</span>
@@ -197,6 +197,24 @@
         <div class="behavior-item">Persistence: /rules.json on flash</div>
         <div class="behavior-item">Telegram cooldown: 60s default</div>
       </div>
+
+      <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Message Interpolation</h3>
+      <div class="ref-grid reveal" style="--stagger: 3; grid-template-columns: repeat(2, 1fr);">
+        <div class="ref-card">
+          <div class="ref-card-name">{value}</div>
+          <p>The triggering sensor's reading at fire time.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">{device_name}</div>
+          <p>Any named sensor's live reading (e.g., <code>{chip_temp}</code>).</p>
+        </div>
+      </div>
+      <div class="behaviors-list reveal" style="--stagger: 4">
+        <div class="behavior-item">Works in Telegram alerts and NATS publish actions</div>
+        <div class="behavior-item">127 character max message length</div>
+        <div class="behavior-item">Zero heap allocation — stack-based formatting</div>
+        <div class="behavior-item">Example: <code>"Temp is {chip_temp}°C"</code> → <code>"Temp is 36.2°C"</code></div>
+      </div>
     </div>
   </section>
 
@@ -232,6 +250,22 @@
         </div>
       </div>
 
+      <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Virtual Sensors (Clock)</h3>
+      <div class="ref-grid reveal" style="--stagger: 1">
+        <div class="ref-card">
+          <div class="ref-card-name">clock_hour</div>
+          <p>Current hour (0-23). NTP-synced, POSIX timezone + DST.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">clock_minute</div>
+          <p>Current minute (0-59). Updates every rule evaluation cycle.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">clock_hhmm</div>
+          <p>Combined time as hour*100+minute (e.g., 1830 = 6:30 PM). Use with <code>eq</code> for scheduled rules.</p>
+        </div>
+      </div>
+
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Actuator Types</h3>
       <div class="ref-grid reveal" style="--stagger: 1">
         <div class="ref-card">
@@ -248,15 +282,15 @@
         </div>
       </div>
 
-      <p class="insight reveal" style="--stagger: 2"><code>chip_temp</code> is pre-registered on first boot. Persisted to <code>/devices.json</code>.</p>
+      <p class="insight reveal" style="--stagger: 2"><code>chip_temp</code> and three clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) are pre-registered on first boot. Persisted to <code>/devices.json</code>.</p>
     </div>
   </section>
 
-  <!-- All 17 Tools -->
+  <!-- All 18 Tools -->
   <section id="tools" class="architecture-deep">
     <div class="container">
       <div class="section-header reveal">
-        <h2>All 17 <span class="accent">Tools</span></h2>
+        <h2>All 18 <span class="accent">Tools</span></h2>
         <p>The complete tool reference, grouped by category.</p>
       </div>
 
@@ -368,6 +402,17 @@
           </div>
         </div>
       </div>
+
+      <div class="tools-category reveal" style="--stagger: 4">
+        <div class="tools-category-title">Communication</div>
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-name">remote_chat</div>
+            <span class="tool-badge">Multi-Device</span>
+            <p>Send a natural language message to another WireClaw device by name. NATS-based request/reply with 30-second timeout.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -383,6 +428,8 @@
         <div class="try-example reveal" style="--stagger: 1">Set the LED to blue</div>
         <div class="try-example reveal" style="--stagger: 2">When chip temp goes above 28, set LED orange</div>
         <div class="try-example reveal" style="--stagger: 3">List my rules</div>
+        <div class="try-example reveal" style="--stagger: 4">Every day at 8 AM, send me the temp on Telegram</div>
+        <div class="try-example reveal" style="--stagger: 5">My favorite color is purple. Remember that.</div>
       </div>
     </div>
   </section>
@@ -401,13 +448,17 @@
         <span class="boot-arrow" aria-hidden="true">→</span>
         <div class="boot-step"><span class="boot-step-num">3</span> Connect WiFi</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">4</span> Load rules</div>
+        <div class="boot-step"><span class="boot-step-num">4</span> NTP sync</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">5</span> Load devices</div>
+        <div class="boot-step"><span class="boot-step-num">5</span> Load rules</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">6</span> Load history</div>
+        <div class="boot-step"><span class="boot-step-num">6</span> Load devices</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">7</span> Start dual loop</div>
+        <div class="boot-step"><span class="boot-step-num">7</span> Load history</div>
+        <span class="boot-arrow" aria-hidden="true">→</span>
+        <div class="boot-step"><span class="boot-step-num">8</span> Load memory</div>
+        <span class="boot-arrow" aria-hidden="true">→</span>
+        <div class="boot-step"><span class="boot-step-num">9</span> Start dual loop</div>
       </div>
     </div>
   </section>

@@ -8,12 +8,12 @@
     { type: 'result', text: '[result]       chip_temp: 34.2\u00b0C', delay: 300 },
     { type: 'response', text: '[response]     LED is green. Chip temperature is 34.2\u00b0C.', delay: 100 },
     { type: 'spacer' },
-    { type: 'user-input', text: 'Alert me on Telegram when temp goes above 45' },
+    { type: 'user-input', text: 'Every day at 6 PM, send me the chip temp on Telegram' },
     { type: 'spacer' },
-    { type: 'thinking', text: '[thinking...]  Creating automation rule...', delay: 600 },
-    { type: 'tool-call', text: '[tool-call]    rule_create("temp_alert", "chip_temp", "gt", 45, "telegram")', delay: 150 },
-    { type: 'result', text: '[result]       Rule "temp_alert" active. Evaluating every loop.', delay: 300 },
-    { type: 'response', text: '[response]     Done. Rule runs locally, no LLM. Survives reboots.', delay: 100 },
+    { type: 'thinking', text: '[thinking...]  Creating scheduled rule...', delay: 600 },
+    { type: 'tool-call', text: '[tool-call]    rule_create("evening_report", "clock_hhmm", "eq", 1800, "telegram", "Temp: {chip_temp}\u00b0C")', delay: 150 },
+    { type: 'result', text: '[result]       Rule "evening_report" active. Fires daily at 18:00.', delay: 300 },
+    { type: 'response', text: '[response]     Done. You\'ll get the live temp at 6 PM. No LLM needed.', delay: 100 },
   ];
 
   var container = document.querySelector('.hero-terminal .terminal');

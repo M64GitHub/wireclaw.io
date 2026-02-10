@@ -31,14 +31,6 @@
     grid-column: span 2;
   }
 
-  .highlights-grid .card:nth-child(4) {
-    grid-column: span 2;
-  }
-
-  .highlights-grid .card:nth-child(5) {
-    grid-column: span 2;
-  }
-
   .positioning-line {
     font-size: 1.15rem;
   }
@@ -108,9 +100,7 @@
     grid-template-columns: 1fr;
   }
 
-  .highlights-grid .card,
-  .highlights-grid .card:nth-child(4),
-  .highlights-grid .card:nth-child(5) {
+  .highlights-grid .card {
     grid-column: span 1;
   }
 
