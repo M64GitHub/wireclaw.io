@@ -2,7 +2,7 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (reducedMotion) {
-    document.querySelectorAll('.reveal, .arch-node, .led-circle').forEach(function(el) {
+    document.querySelectorAll('.reveal, .arch-node, .led-circle, .loop-panel, .loop-connector').forEach(function(el) {
       el.classList.add('visible');
     });
     return;
@@ -17,7 +17,7 @@
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.reveal, .arch-node, .led-circle').forEach(function(el) {
+  document.querySelectorAll('.reveal, .arch-node, .led-circle, .loop-panel, .loop-connector').forEach(function(el) {
     observer.observe(el);
   });
 })();

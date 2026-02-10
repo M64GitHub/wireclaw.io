@@ -1,20 +1,19 @@
 (function() {
   var terminalScript = [
-    { type: 'user-input', text: 'Turn on the LED and check the temperature sensor' },
+    { type: 'user-input', text: 'Turn on the LED and check the temperature' },
     { type: 'spacer' },
     { type: 'thinking', text: '[thinking...]  Analyzing request...', delay: 600 },
     { type: 'tool-call', text: '[tool-call]    led_set(1, 0, 80, 0)', comment: '<- green LED on', delay: 150 },
-    { type: 'tool-call', text: '[tool-call]    gpio_read(4)', comment: '<- reading sensor pin', delay: 150 },
-    { type: 'result', text: '[result]       Pin 4: analog=2847 (23.4\u00b0C)', delay: 300 },
-    { type: 'response', text: '[response]     LED is on (green). Temperature reads 23.4\u00b0C. All nominal.', delay: 100 },
+    { type: 'tool-call', text: '[tool-call]    sensor_read("chip_temp")', comment: '<- reading sensor', delay: 150 },
+    { type: 'result', text: '[result]       chip_temp: 34.2\u00b0C', delay: 300 },
+    { type: 'response', text: '[response]     LED is green. Chip temperature is 34.2\u00b0C.', delay: 100 },
     { type: 'spacer' },
-    { type: 'user-input', text: 'Blink 3 times then publish status via NATS' },
+    { type: 'user-input', text: 'Alert me on Telegram when temp goes above 45' },
     { type: 'spacer' },
-    { type: 'thinking', text: '[thinking...]  Planning multi-step action...', delay: 600 },
-    { type: 'tool-call', text: '[tool-call]    led_set(1, 0, 0, 80)', comment: '<- blue blink x3', delay: 150 },
-    { type: 'tool-call', text: '[tool-call]    nats_publish("device.status", "online:23.4C")', delay: 150 },
-    { type: 'result', text: '[result]       Published to device.status', delay: 300 },
-    { type: 'response', text: '[response]     Done! Blinked blue 3x and published status to NATS.', delay: 100 },
+    { type: 'thinking', text: '[thinking...]  Creating automation rule...', delay: 600 },
+    { type: 'tool-call', text: '[tool-call]    rule_create("temp_alert", "chip_temp", "gt", 45, "telegram")', delay: 150 },
+    { type: 'result', text: '[result]       Rule "temp_alert" active. Evaluating every loop.', delay: 300 },
+    { type: 'response', text: '[response]     Done. Rule runs locally, no LLM. Survives reboots.', delay: 100 },
   ];
 
   var container = document.querySelector('.hero-terminal .terminal');

@@ -99,6 +99,29 @@
   animation-delay: calc(var(--stagger, 0) * 120ms);
 }
 
+/* Loop panel / connector reveal */
+.loop-panel {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition-delay: calc(var(--stagger, 0) * 150ms);
+}
+
+.loop-panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loop-connector {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+  transition-delay: 300ms;
+}
+
+.loop-connector.visible {
+  opacity: 1;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -111,7 +134,9 @@
 
   .reveal,
   .arch-node,
-  .led-circle {
+  .led-circle,
+  .loop-panel,
+  .loop-connector {
     opacity: 1;
     transform: none;
     transition: none;

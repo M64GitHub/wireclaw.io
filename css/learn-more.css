@@ -68,6 +68,49 @@
   margin: 0 auto;
 }
 
+/* Tools Summary */
+.tools-summary {
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tools-summary-row {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: baseline;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.tools-summary-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 160px;
+}
+
+.tools-summary-list {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.tools-summary-list code {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  background: var(--accent-dim);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
 /* LED Section */
 .led-section {
   background: var(--bg-secondary);

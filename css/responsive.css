@@ -24,19 +24,42 @@
   }
 
   .highlights-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .arch-flow {
-    gap: var(--space-sm);
+  .highlights-grid .card {
+    grid-column: span 2;
   }
 
-  .arch-node {
-    min-width: 85px;
-    padding: var(--space-md);
+  .highlights-grid .card:nth-child(4) {
+    grid-column: span 2;
+  }
+
+  .highlights-grid .card:nth-child(5) {
+    grid-column: span 2;
+  }
+
+  .positioning-line {
+    font-size: 1.15rem;
+  }
+
+  .dual-loop {
+    max-width: 100%;
+  }
+
+  .loop-panel {
+    padding: var(--space-lg) var(--space-xl);
   }
 
   .tools-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ref-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .behaviors-list {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -85,16 +108,62 @@
     grid-template-columns: 1fr;
   }
 
-  .arch-flow {
-    flex-direction: column;
+  .highlights-grid .card,
+  .highlights-grid .card:nth-child(4),
+  .highlights-grid .card:nth-child(5) {
+    grid-column: span 1;
   }
 
-  .arch-arrow {
-    transform: rotate(90deg);
+  .positioning-line {
+    font-size: 1.05rem;
+  }
+
+  .loop-panel {
+    padding: var(--space-lg);
+  }
+
+  .loop-flow {
+    gap: var(--space-sm);
+  }
+
+  .loop-flow-node {
+    padding: var(--space-sm) var(--space-md);
+    min-width: 75px;
+  }
+
+  .loop-connector {
+    padding: var(--space-md) 0;
+    gap: var(--space-sm);
+  }
+
+  .connector-line {
+    max-width: 60px;
+  }
+
+  .connector-label {
+    font-size: 0.75rem;
+    white-space: normal;
   }
 
   .tools-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ref-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .behaviors-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-summary-row {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .tools-summary-label {
+    min-width: auto;
   }
 
   .arch-step {
@@ -114,6 +183,19 @@
 
   .led-row {
     gap: var(--space-lg);
+  }
+
+  .boot-sequence {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .boot-arrow {
+    transform: rotate(90deg);
+  }
+
+  .example-timeline {
+    padding-left: var(--space-xl);
   }
 }
 
@@ -178,5 +260,30 @@
 
   .specs-table th {
     width: 110px;
+  }
+
+  .positioning-line {
+    font-size: 0.95rem;
+  }
+
+  .loop-header h3 {
+    font-size: 1rem;
+  }
+
+  .loop-header h3 code {
+    display: none;
+  }
+
+  .loop-flow-node span {
+    font-size: 0.7rem;
+  }
+
+  .code-block {
+    font-size: 0.75rem;
+    padding: var(--space-md);
+  }
+
+  .try-example {
+    font-size: 0.8rem;
   }
 }

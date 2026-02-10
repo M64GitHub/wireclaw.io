@@ -343,3 +343,50 @@
   padding: 0.1rem 0.4rem;
   border-radius: var(--radius-sm);
 }
+
+/* Loop Badge */
+.loop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.loop-badge-always {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
+}
+
+.loop-badge-ondemand {
+  background: rgba(74, 158, 255, 0.12);
+  color: var(--led-blue);
+  border: 1px solid rgba(74, 158, 255, 0.25);
+}
+
+/* Tools Category */
+.tools-category {
+  margin-bottom: var(--space-2xl);
+}
+
+.tools-category:last-child {
+  margin-bottom: 0;
+}
+
+.tools-category-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-accent);
+}

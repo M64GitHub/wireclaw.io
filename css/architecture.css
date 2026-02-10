@@ -1,0 +1,221 @@
+/* Code Block */
+.code-block {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  max-width: 600px;
+  margin: var(--space-xl) auto;
+}
+
+.code-block .code-comment {
+  color: var(--text-muted);
+}
+
+.code-block .code-fn {
+  color: var(--accent);
+}
+
+/* Insight Quote */
+.insight {
+  text-align: center;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: var(--space-2xl) auto 0;
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.insight .accent {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Reference Grid */
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: var(--space-xl) auto 0;
+}
+
+.ref-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  transition: border-color var(--transition-base);
+}
+
+.ref-card:hover {
+  border-color: var(--border-accent);
+}
+
+.ref-card-name {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: var(--space-xs);
+}
+
+.ref-card p {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Example Timeline */
+.example-timeline {
+  max-width: 700px;
+  margin: var(--space-xl) auto 0;
+  position: relative;
+  padding-left: var(--space-2xl);
+}
+
+.example-timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--border-accent), transparent);
+}
+
+.timeline-step {
+  position: relative;
+  padding-bottom: var(--space-xl);
+}
+
+.timeline-step:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-2xl) + 4px);
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-primary);
+}
+
+.timeline-step h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.timeline-step p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.timeline-step code {
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Try Examples */
+.try-examples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 650px;
+  margin: var(--space-xl) auto 0;
+}
+
+.try-example {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.try-example::before {
+  content: '> ';
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Boot Sequence */
+.boot-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: var(--space-xl) auto 0;
+}
+
+.boot-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: border-color var(--transition-base);
+}
+
+.boot-step:hover {
+  border-color: var(--border-accent);
+}
+
+.boot-step-num {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.boot-arrow {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* Behaviors list */
+.behaviors-list {
+  max-width: 700px;
+  margin: var(--space-xl) auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.behavior-item {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.behavior-item::before {
+  content: '>';
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  flex-shrink: 0;
+}
