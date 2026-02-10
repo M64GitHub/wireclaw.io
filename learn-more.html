@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Under the Hood — WireClaw</title>
+  <title>Under the Hood - WireClaw</title>
   <meta name="description" content="How a $5 ESP32-C6 chip becomes an autonomous AI agent. Architecture, tools, LED feedback, and technical specs.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/reset.css">
@@ -52,7 +52,7 @@
     <div class="container">
       <div class="section-header reveal">
         <h2>The Agentic <span class="accent">Architecture</span></h2>
-        <p>From user message to real-world action — every step on a single chip.</p>
+        <p>From user message to real-world action - every step on a single chip.</p>
       </div>
       <div class="arch-steps">
         <div class="arch-step reveal" style="--stagger: 0">
@@ -61,7 +61,7 @@
           </div>
           <div>
             <h3>Input Channels</h3>
-            <p>Telegram bot, USB serial console, or NATS messaging — all three feed into the same processing pipeline. The agent doesn't care how you talk to it.</p>
+            <p>Telegram bot, USB serial console, or NATS messaging - all three feed into the same processing pipeline. The agent doesn't care how you talk to it.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 1">
@@ -79,7 +79,7 @@
           </div>
           <div>
             <h3>LLM Integration</h3>
-            <p>Direct HTTPS calls to OpenRouter (or any OpenAI-compatible endpoint). Model is runtime-configurable via flash config. No proxy, no middleware — the ESP32 talks to the API directly.</p>
+            <p>Direct HTTPS calls to OpenRouter (or any OpenAI-compatible endpoint). Model is runtime-configurable via flash config. No proxy, no middleware - the ESP32 talks to the API directly.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 3">
@@ -88,7 +88,7 @@
           </div>
           <div>
             <h3>Tool Execution</h3>
-            <p>Seven built-in tools give the agent direct hardware control — LEDs, GPIO, sensors, filesystem, and device-to-device messaging via NATS.</p>
+            <p>Seven built-in tools give the agent direct hardware control - LEDs, GPIO, sensors, filesystem, and device-to-device messaging via NATS.</p>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@
         <div class="tool-card reveal" style="--stagger: 0">
           <div class="tool-name">led_set</div>
           <span class="tool-badge">LED</span>
-          <p>Control the onboard RGB LED — set any color, brightness, or turn it off. Visual feedback for every action.</p>
+          <p>Control the onboard RGB LED - set any color, brightness, or turn it off. Visual feedback for every action.</p>
         </div>
         <div class="tool-card reveal" style="--stagger: 1">
           <div class="tool-name">gpio_write</div>
@@ -126,12 +126,12 @@
         <div class="tool-card reveal" style="--stagger: 4">
           <div class="tool-name">file_read</div>
           <span class="tool-badge">Flash FS</span>
-          <p>Read files from the onboard flash filesystem — configs, logs, persisted data.</p>
+          <p>Read files from the onboard flash filesystem - configs, logs, persisted data.</p>
         </div>
         <div class="tool-card reveal" style="--stagger: 5">
           <div class="tool-name">file_write</div>
           <span class="tool-badge">Flash FS</span>
-          <p>Write data to flash — persist sensor readings, update configuration, save notes.</p>
+          <p>Write data to flash - persist sensor readings, update configuration, save notes.</p>
         </div>
         <div class="tool-card reveal" style="--stagger: 6">
           <div class="tool-name">nats_publish</div>
@@ -211,7 +211,7 @@
             <tr><th>Flash Storage</th><td>LittleFS partition for config + conversation history</td></tr>
             <tr><th>API Protocol</th><td>HTTPS with TLS 1.2, OpenAI-compatible chat completions</td></tr>
             <tr><th>NATS Support</th><td>Lightweight publish over TCP</td></tr>
-            <tr><th>Configuration</th><td>JSON config on flash — WiFi, API key, model, system prompt</td></tr>
+            <tr><th>Configuration</th><td>JSON config on flash - WiFi, API key, model, system prompt</td></tr>
             <tr><th>History Buffer</th><td>6-turn circular buffer persisted to flash</td></tr>
           </tbody>
         </table>
@@ -245,7 +245,7 @@
           <div class="step-number">3</div>
           <div>
             <h3>Talk to It</h3>
-            <p>Send natural language via Telegram, serial console, or NATS — the agent handles the rest.</p>
+            <p>Send natural language via Telegram, serial console, or NATS - the agent handles the rest.</p>
           </div>
         </div>
       </div>
