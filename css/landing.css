@@ -54,19 +54,21 @@
 
 /* Positioning */
 .positioning {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-xl) 0;
   text-align: center;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .positioning-line {
-  font-size: 1.35rem;
-  line-height: 1.8;
-  color: var(--text-secondary);
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: var(--text-muted);
   margin: 0;
 }
 
 .positioning-line .accent {
-  color: var(--accent);
+  color: var(--text-secondary);
 }
 
 /* Highlights */
