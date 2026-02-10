@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Under the Hood - WireClaw</title>
-<<<<<<< HEAD
-  <meta name="description" content="How a $5 ESP32-C6 chip becomes an autonomous AI agent. Architecture, tools, LED feedback, and technical specs.">
-=======
   <meta name="description" content="How a $5 ESP32-C6 chip runs 17 tools, a rule engine, and an AI agent. Architecture, tools, LED feedback, and technical specs.">
->>>>>>> add/rule-evaluation-loop
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
@@ -56,13 +52,8 @@
   <section class="architecture-deep">
     <div class="container">
       <div class="section-header reveal">
-<<<<<<< HEAD
-        <h2>The Agentic <span class="accent">Architecture</span></h2>
-        <p>From user message to real-world action - every step on a single chip.</p>
-=======
         <h2>Dual-Loop <span class="accent">Architecture</span></h2>
         <p>Two systems on one chip. The AI creates. The rules execute.</p>
->>>>>>> add/rule-evaluation-loop
       </div>
       <div class="arch-steps">
         <div class="arch-step reveal" style="--stagger: 0">
@@ -70,13 +61,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
           </div>
           <div>
-<<<<<<< HEAD
-            <h3>Input Channels</h3>
-            <p>Telegram bot, USB serial console, or NATS messaging - all three feed into the same processing pipeline. The agent doesn't care how you talk to it.</p>
-=======
             <h3>Two Loops, One Chip</h3>
             <p>The main <code>loop()</code> runs two systems. The Rule Loop evaluates automation rules every iteration - no network, no latency. The AI Loop activates only when a message arrives via Telegram, serial, or NATS.</p>
->>>>>>> add/rule-evaluation-loop
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 1">
@@ -93,13 +79,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a7 7 0 017 7c0 5-7 11-7 11S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
           </div>
           <div>
-<<<<<<< HEAD
-            <h3>LLM Integration</h3>
-            <p>Direct HTTPS calls to OpenRouter (or any OpenAI-compatible endpoint). Model is runtime-configurable via flash config. No proxy, no middleware - the ESP32 talks to the API directly.</p>
-=======
             <h3>AI Loop</h3>
             <p>LLM via OpenRouter. 17 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
->>>>>>> add/rule-evaluation-loop
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 3">
@@ -107,13 +88,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 7h8M8 11h5M8 15h8"/></svg>
           </div>
           <div>
-<<<<<<< HEAD
-            <h3>Tool Execution</h3>
-            <p>Seven built-in tools give the agent direct hardware control - LEDs, GPIO, sensors, filesystem, and device-to-device messaging via NATS.</p>
-=======
             <h3>Device Registry</h3>
             <p>Named sensors and actuators persisted to flash. Register once, reference by name everywhere. <code>chip_temp</code> is pre-registered on first boot. Five sensor types, three actuator types.</p>
->>>>>>> add/rule-evaluation-loop
           </div>
         </div>
       </div>
@@ -127,18 +103,10 @@
         <h2>17 <span class="accent">Tools</span></h2>
         <p>Each tool maps to a real hardware or system capability.</p>
       </div>
-<<<<<<< HEAD
-      <div class="tools-grid">
-        <div class="tool-card reveal" style="--stagger: 0">
-          <div class="tool-name">led_set</div>
-          <span class="tool-badge">LED</span>
-          <p>Control the onboard RGB LED - set any color, brightness, or turn it off. Visual feedback for every action.</p>
-=======
       <div class="tools-summary reveal">
         <div class="tools-summary-row">
           <span class="tools-summary-label">Hardware (4)</span>
           <span class="tools-summary-list"><code>led_set</code>, <code>gpio_write</code>, <code>gpio_read</code>, <code>temperature_read</code></span>
->>>>>>> add/rule-evaluation-loop
         </div>
         <div class="tools-summary-row">
           <span class="tools-summary-label">Device Registry (5)</span>
@@ -148,31 +116,9 @@
           <span class="tools-summary-label">Rule Engine (4)</span>
           <span class="tools-summary-list"><code>rule_create</code>, <code>rule_list</code>, <code>rule_delete</code>, <code>rule_enable</code></span>
         </div>
-<<<<<<< HEAD
-        <div class="tool-card reveal" style="--stagger: 3">
-          <div class="tool-name">device_info</div>
-          <span class="tool-badge">System</span>
-          <p>Query free heap, uptime, WiFi signal strength, chip temperature, and more.</p>
-        </div>
-        <div class="tool-card reveal" style="--stagger: 4">
-          <div class="tool-name">file_read</div>
-          <span class="tool-badge">Flash FS</span>
-          <p>Read files from the onboard flash filesystem - configs, logs, persisted data.</p>
-        </div>
-        <div class="tool-card reveal" style="--stagger: 5">
-          <div class="tool-name">file_write</div>
-          <span class="tool-badge">Flash FS</span>
-          <p>Write data to flash - persist sensor readings, update configuration, save notes.</p>
-        </div>
-        <div class="tool-card reveal" style="--stagger: 6">
-          <div class="tool-name">nats_publish</div>
-          <span class="tool-badge">Messaging</span>
-          <p>Publish messages to NATS subjects for device-to-device communication and IoT mesh coordination.</p>
-=======
         <div class="tools-summary-row">
           <span class="tools-summary-label">System (4)</span>
           <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code>, <code>nats_publish</code></span>
->>>>>>> add/rule-evaluation-loop
         </div>
       </div>
       <div style="text-align: center; margin-top: var(--space-xl);">
