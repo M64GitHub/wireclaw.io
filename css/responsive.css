@@ -187,6 +187,11 @@
   .example-timeline {
     padding-left: var(--space-xl);
   }
+
+  .nav-links .btn-primary.btn-sm {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Gallery responsive - tablets */
