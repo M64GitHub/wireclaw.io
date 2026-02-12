@@ -188,7 +188,7 @@
     padding-left: var(--space-xl);
   }
 
-  .nav-links .btn-primary.btn-sm {
+  .nav-links .btn.btn-sm {
     width: 100%;
     justify-content: center;
   }
