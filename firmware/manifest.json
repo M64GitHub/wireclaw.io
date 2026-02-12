@@ -1,16 +1,33 @@
 {
   "name": "WireClaw",
   "version": "0.7.0",
-  "home_assistant_domain": "",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32-C6",
       "parts": [
-        { "path": "bootloader.bin", "offset": 0 },
-        { "path": "partitions.bin", "offset": 32768 },
-        { "path": "firmware.bin",   "offset": 65536 },
-        { "path": "littlefs.bin",   "offset": 6750208 }
+        { "path": "esp32c6/bootloader.bin", "offset": 0 },
+        { "path": "esp32c6/partitions.bin", "offset": 32768 },
+        { "path": "esp32c6/firmware.bin",   "offset": 65536 },
+        { "path": "esp32c6/littlefs.bin",   "offset": 2686976 }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "esp32s3/bootloader.bin", "offset": 0 },
+        { "path": "esp32s3/partitions.bin", "offset": 32768 },
+        { "path": "esp32s3/firmware.bin",   "offset": 65536 },
+        { "path": "esp32s3/littlefs.bin",   "offset": 2686976 }
+      ]
+    },
+    {
+      "chipFamily": "ESP32-C3",
+      "parts": [
+        { "path": "esp32c3/bootloader.bin", "offset": 0 },
+        { "path": "esp32c3/partitions.bin", "offset": 32768 },
+        { "path": "esp32c3/firmware.bin",   "offset": 65536 },
+        { "path": "esp32c3/littlefs.bin",   "offset": 2686976 }
       ]
     }
   ]
