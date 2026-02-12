@@ -126,6 +126,27 @@
           <p>On next power-on: loads from flash, resumes evaluation immediately. No re-setup needed.</p>
         </div>
       </div>
+
+      <div class="terminal reveal" style="--stagger: 7; max-width: 720px; margin: var(--space-2xl) auto 0;">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">serial — rule_create via Telegram</span>
+        </div>
+        <div class="terminal-body" style="min-height: auto; max-height: none; font-size: 0.8rem; line-height: 1.6;">
+          <div class="terminal-line user-input" style="color: var(--text-muted); font-weight: 400;">[TG] Message: please set the led to orange, when chip temp is &gt; 27 degrees, and fall back to cyan</div>
+          <div class="terminal-line spacer"></div>
+          <div class="terminal-line thinking">--- Thinking... ---</div>
+          <div class="terminal-line tool-call">[Agent] 2 tool call(s) in iteration 1:</div>
+          <div class="terminal-line tool-call">  -&gt; rule_create({"rule_name": "Chip Temp High", "sensor_name": "chip_temp", "condition": "gt", "threshold": 27, "on_action": "led_set", "on_r": 255, "on_g": 165, "on_b": 0, "off_action": "led_set", "off_r": 0, "off_g": 255, "off_b": 255})</div>
+          <div class="terminal-line result">     = Rule created: rule_02 'Chip Temp High' - chip_temp &gt; 27 (every 5s) with auto-off</div>
+          <div class="terminal-line tool-call">  -&gt; rule_list({})</div>
+          <div class="terminal-line result">     = rule_01 'Room Temp Alert' ON room_temp 30 val=25 idle last=426s; rule_02 'Chip Temp High' ON chip_temp 27 val=0 idle last=0s</div>
+          <div class="terminal-line spacer"></div>
+          <div class="terminal-line response">A rule has been created to set the LED to orange when the chip temperature exceeds 27°C, and it will fall back to cyan when it drops below that threshold.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -197,6 +218,27 @@
         <div class="behavior-item">Persistence: /rules.json on flash</div>
         <div class="behavior-item">Telegram cooldown: 60s default</div>
         <div class="behavior-item">always condition: fires every interval_seconds</div>
+      </div>
+
+      <div class="terminal reveal" style="--stagger: 3; max-width: 720px; margin: var(--space-2xl) auto 0;">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">serial — /rules</span>
+        </div>
+        <div class="terminal-body" style="min-height: auto; max-height: none; font-size: 0.8rem; line-height: 1.6;">
+          <div class="terminal-line user-input">&gt; /rules</div>
+          <div class="terminal-line result">--- rules ---</div>
+          <div class="terminal-line response">  rule_01 'Room Temp Alert' [ON] room_temp gt 30 val=25 <span style="color: var(--text-muted);">idle</span></div>
+          <div class="terminal-line tool-call">    on:  telegram "Room temperature has reached {value}°C."</div>
+          <div class="terminal-line response">  rule_02 'Chip Temp High' [ON] chip_temp gt 27 val=28 <span style="color: var(--led-green);">FIRED</span></div>
+          <div class="terminal-line tool-call">    on:  led_set(255,165,0)</div>
+          <div class="terminal-line tool-call">    off: led_set(0,255,255)</div>
+          <div class="terminal-line response">  rule_03 'Chip Temp Change Alert' [ON] chip_temp change 0 val=28 <span style="color: var(--led-green);">FIRED</span></div>
+          <div class="terminal-line tool-call">    on:  telegram "Chip temperature changed to: {value}°C"</div>
+          <div class="terminal-line result">---</div>
+        </div>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Message Interpolation</h3>
@@ -291,7 +333,26 @@
         </div>
       </div>
 
-      <p class="insight reveal" style="--stagger: 2"><code>chip_temp</code> and three clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) are pre-registered on first boot. Persisted to <code>/devices.json</code>. NATS sensors (<code>nats_value</code>) register on demand - subscribe to any subject, feed external data into rules.</p>
+      <div class="terminal reveal" style="--stagger: 2; max-width: 720px; margin: var(--space-2xl) auto 0;">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">serial — /devices</span>
+        </div>
+        <div class="terminal-body" style="min-height: auto; max-height: none; font-size: 0.8rem; line-height: 1.6;">
+          <div class="terminal-line user-input">&gt; /devices</div>
+          <div class="terminal-line result">--- devices ---</div>
+          <div class="terminal-line response">  chip_temp <span style="color: var(--text-muted);">[internal_temp]</span> pin=255  = 27.7 C</div>
+          <div class="terminal-line response">  clock_hour <span style="color: var(--text-muted);">[clock_hour]</span> pin=255  = 4.0 h</div>
+          <div class="terminal-line response">  clock_minute <span style="color: var(--text-muted);">[clock_minute]</span> pin=255  = 11.0 m</div>
+          <div class="terminal-line response">  clock_hhmm <span style="color: var(--text-muted);">[clock_hhmm]</span> pin=255  = 411.0</div>
+          <div class="terminal-line response">  room_temp <span style="color: var(--text-muted);">[nats_value]</span> nats=home.room.temp  = 0.0 C</div>
+          <div class="terminal-line result">---</div>
+        </div>
+      </div>
+
+      <p class="insight reveal" style="--stagger: 3"><code>chip_temp</code> and three clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) are pre-registered on first boot. Persisted to <code>/devices.json</code>. NATS sensors (<code>nats_value</code>) register on demand - subscribe to any subject, feed external data into rules.</p>
     </div>
   </section>
 
