@@ -31,6 +31,22 @@
     { type: 'tool-call', text: '[tool-call]    led_set(1, 0, 0, 255)', comment: '<- blue', delay: 150 },
     { type: 'result', text: '[result]       LED set to (0, 0, 255)', delay: 300 },
     { type: 'response', text: '[response]     Done. LED is blue — your favorite.', delay: 100 },
+    { type: 'spacer' },
+    { type: 'user-input', text: 'Register a NATS sensor called "room_temp" on subject "home.room.temp" with unit C' },
+    { type: 'spacer' },
+    { type: 'thinking', text: '[thinking...]  Registering NATS sensor...', delay: 600 },
+    { type: 'tool-call', text: '[tool-call]    device_register("room_temp", "nats_value", "home.room.temp", "C")', delay: 150 },
+    { type: 'result', text: '[result]       Subscribed \'room_temp\' -> home.room.temp', delay: 150 },
+    { type: 'result', text: '[result]       Registered nats_value sensor \'room_temp\' on subject \'home.room.temp\'', delay: 300 },
+    { type: 'response', text: '[response]     The NATS sensor "room_temp" has been registered on "home.room.temp" with unit "C".', delay: 100 },
+    { type: 'spacer' },
+    { type: 'user-input', text: 'Send me a Telegram message when the room temperature reaches 30 degrees' },
+    { type: 'spacer' },
+    { type: 'thinking', text: '[thinking...]  Creating rule...', delay: 600 },
+    { type: 'tool-call', text: '[tool-call]    rule_create("Room Temp Alert", "room_temp", "gt", 30, "telegram", "Room temperature has reached {value}\u00b0C.")', delay: 150 },
+    { type: 'result', text: '[result]       Rule created: rule_01 \'Room Temp Alert\' - room_temp > 30 (every 5s)', delay: 300 },
+    { type: 'response', text: '[response]     Done. You\'ll get a Telegram message when room temperature exceeds 30\u00b0C.', delay: 1500 },
+    { type: 'result', text: '[result]       [Rule] rule_01 \'Room Temp Alert\' TRIGGERED (reading=45, threshold=30)', delay: 300 },
   ];
 
   var container = document.querySelector('.hero-terminal .terminal');
