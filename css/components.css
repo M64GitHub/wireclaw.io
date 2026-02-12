@@ -58,6 +58,14 @@
   letter-spacing: 0.02em;
 }
 
+.badge-chip {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-accent);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+}
+
 /* Cards */
 .card {
   background: var(--bg-elevated);
