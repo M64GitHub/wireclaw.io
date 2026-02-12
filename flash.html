@@ -227,6 +227,12 @@
         <div class="compat-item compat-no">Firefox</div>
         <div class="compat-item compat-no">Safari</div>
       </div>
+      <div class="linux-note reveal" style="--stagger: 2">
+        <h3>Linux / Ubuntu Users</h3>
+        <p>If Chromium shows "No compatible devices found", it's likely installed as a <strong>snap</strong>, which blocks access to serial ports. Fix it by granting USB access:</p>
+        <code class="linux-note-cmd">sudo snap connect chromium:raw-usb</code>
+        <p>Then restart Chromium. You also need to be in the <code>dialout</code> group: <code>sudo usermod -aG dialout $USER</code> (log out and back in after).</p>
+      </div>
     </div>
   </section>
 
