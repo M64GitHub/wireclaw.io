@@ -72,7 +72,7 @@
           </div>
           <div>
             <h3>AI Loop</h3>
-            <p>Activates only when a message arrives - via Telegram, serial, or NATS. Calls the LLM through OpenRouter with up to 5 tool-call iterations. Creates rules, registers devices, reads sensors, configures the system.</p>
+            <p>Activates only when a message arrives - via Telegram, serial, or NATS. Calls the LLM through OpenRouter, Ollama, llama.cpp, or any OpenAI-compatible endpoint. HTTP mode for local LLMs saves ~40% RAM. Up to 5 tool-call iterations. Creates rules, registers devices, reads sensors, configures the system.</p>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@
         </div>
         <div class="ref-card">
           <div class="ref-card-name">always</div>
-          <p>Always fires. Runs the action every evaluation interval regardless of sensor state.</p>
+          <p>Periodic. Fires every <code>interval_seconds</code> (default: evaluation interval). Use for heartbeats, scheduled reports, and watchdogs. Tool output shows last=Xs for verification.</p>
         </div>
       </div>
 
@@ -196,10 +196,11 @@
         <div class="behavior-item">Configurable intervals (default 5s)</div>
         <div class="behavior-item">Persistence: /rules.json on flash</div>
         <div class="behavior-item">Telegram cooldown: 60s default</div>
+        <div class="behavior-item">always condition: fires every interval_seconds</div>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Message Interpolation</h3>
-      <div class="ref-grid reveal" style="--stagger: 3; grid-template-columns: repeat(2, 1fr);">
+      <div class="ref-grid reveal" style="--stagger: 3; grid-template-columns: repeat(3, 1fr);">
         <div class="ref-card">
           <div class="ref-card-name">{value}</div>
           <p>The triggering sensor's reading at fire time.</p>
@@ -208,11 +209,15 @@
           <div class="ref-card-name">{device_name}</div>
           <p>Any named sensor's live reading (e.g., <code>{chip_temp}</code>).</p>
         </div>
+        <div class="ref-card">
+          <div class="ref-card-name">{name:msg}</div>
+          <p>Extract the <code>msg</code> field from a JSON NATS payload by device name.</p>
+        </div>
       </div>
       <div class="behaviors-list reveal" style="--stagger: 4">
         <div class="behavior-item">Works in Telegram alerts and NATS publish actions</div>
         <div class="behavior-item">127 character max message length</div>
-        <div class="behavior-item">Zero heap allocation — stack-based formatting</div>
+        <div class="behavior-item">Zero heap allocation - stack-based formatting</div>
         <div class="behavior-item">Example: <code>"Temp is {chip_temp}°C"</code> → <code>"Temp is 36.2°C"</code></div>
       </div>
     </div>
@@ -248,6 +253,10 @@
           <div class="ref-card-name">internal_temp</div>
           <p>Chip's internal temperature sensor. No external hardware needed.</p>
         </div>
+        <div class="ref-card">
+          <div class="ref-card-name">nats_value</div>
+          <p>NATS-subscribed sensor. Receives values published to a configured NATS subject. No GPIO pin. Bridges external systems into the rule engine.</p>
+        </div>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Virtual Sensors (Clock)</h3>
@@ -282,7 +291,7 @@
         </div>
       </div>
 
-      <p class="insight reveal" style="--stagger: 2"><code>chip_temp</code> and three clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) are pre-registered on first boot. Persisted to <code>/devices.json</code>.</p>
+      <p class="insight reveal" style="--stagger: 2"><code>chip_temp</code> and three clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) are pre-registered on first boot. Persisted to <code>/devices.json</code>. NATS sensors (<code>nats_value</code>) register on demand - subscribe to any subject, feed external data into rules.</p>
     </div>
   </section>
 
@@ -430,6 +439,9 @@
         <div class="try-example reveal" style="--stagger: 3">List my rules</div>
         <div class="try-example reveal" style="--stagger: 4">Every day at 8 AM, send me the temp on Telegram</div>
         <div class="try-example reveal" style="--stagger: 5">My favorite color is purple. Remember that.</div>
+        <div class="try-example reveal" style="--stagger: 6">Ask garden-node what its soil moisture is</div>
+        <div class="try-example reveal" style="--stagger: 7">Send me a Telegram every 2 minutes saying "system OK"</div>
+        <div class="try-example reveal" style="--stagger: 8">Register a NATS sensor called room_temp on subject home.room.temp</div>
       </div>
     </div>
   </section>
@@ -450,15 +462,17 @@
         <span class="boot-arrow" aria-hidden="true">→</span>
         <div class="boot-step"><span class="boot-step-num">4</span> NTP sync</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">5</span> Load rules</div>
+        <div class="boot-step"><span class="boot-step-num">5</span> Connect NATS</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">6</span> Load devices</div>
+        <div class="boot-step"><span class="boot-step-num">6</span> Load rules</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">7</span> Load history</div>
+        <div class="boot-step"><span class="boot-step-num">7</span> Load devices</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">8</span> Load memory</div>
+        <div class="boot-step"><span class="boot-step-num">8</span> Load history</div>
         <span class="boot-arrow" aria-hidden="true">→</span>
-        <div class="boot-step"><span class="boot-step-num">9</span> Start dual loop</div>
+        <div class="boot-step"><span class="boot-step-num">9</span> Load memory</div>
+        <span class="boot-arrow" aria-hidden="true">→</span>
+        <div class="boot-step"><span class="boot-step-num">10</span> Start dual loop</div>
       </div>
     </div>
   </section>

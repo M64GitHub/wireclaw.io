@@ -44,7 +44,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 class="reveal">Under the <span class="accent">Hood</span></h1>
-      <p class="reveal" style="--stagger: 1">How a $5 chip runs 18 tools, a rule engine, and an AI agent.</p>
+      <p class="reveal" style="--stagger: 1">How a $5 chip runs 18 tools, a rule engine, and an AI agent. Cloud optional.</p>
     </div>
   </section>
 
@@ -71,7 +71,7 @@
           </div>
           <div>
             <h3>Rule Engine</h3>
-            <p>Persistent automation. Reads sensors, checks conditions (<code>gt</code>, <code>lt</code>, <code>eq</code>, <code>neq</code>, <code>change</code>, <code>always</code>), fires actions (actuator, LED, GPIO, NATS, Telegram). Edge-triggered - fires once per transition, auto-resets. Survives reboots.</p>
+            <p>Persistent automation. Reads sensors, checks conditions (<code>gt</code>, <code>lt</code>, <code>eq</code>, <code>neq</code>, <code>change</code>, <code>always</code>), fires actions (actuator, LED, GPIO, NATS, Telegram). Edge-triggered conditions fire once per transition, then auto-reset. The <code>always</code> condition fires every <code>interval_seconds</code> - use it for periodic reports and heartbeats. Message interpolation: <code>{value}</code>, <code>{device_name}</code>, <code>{name:msg}</code>. Survives reboots.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 2">
@@ -80,7 +80,7 @@
           </div>
           <div>
             <h3>AI Loop</h3>
-            <p>LLM via OpenRouter or local models. 18 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
+            <p>LLM via OpenRouter, Ollama, llama.cpp, or any OpenAI-compatible endpoint. HTTPS for cloud, HTTP for local (saves ~40% RAM). 18 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 3">
@@ -98,7 +98,16 @@
           </div>
           <div>
             <h3>Time-Based Automation</h3>
-            <p>Virtual clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) auto-register on boot. NTP-synced with timezone and DST. Schedule anything — the same rule engine that watches temperature can watch the clock.</p>
+            <p>Virtual clock sensors (<code>clock_hour</code>, <code>clock_minute</code>, <code>clock_hhmm</code>) auto-register on boot. NTP-synced with timezone and DST. Schedule anything - the same rule engine that watches temperature can watch the clock.</p>
+          </div>
+        </div>
+        <div class="arch-step reveal" style="--stagger: 5">
+          <div class="arch-step-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="5" cy="12" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><path d="M8 12h4M15.5 7l-3.5 3M15.5 17l-3.5-3"/></svg>
+          </div>
+          <div>
+            <h3>NATS Mesh Communication</h3>
+            <p>Devices talk to each other over NATS. Register <code>nats_value</code> sensors that subscribe to external subjects and feed data into the rule engine. The <code>remote_chat</code> tool lets one device's AI ask another a natural language question. Publish sensor data, trigger cross-device rules, build a mesh of $5 autonomous agents.</p>
           </div>
         </div>
       </div>
@@ -126,8 +135,12 @@
           <span class="tools-summary-list"><code>rule_create</code>, <code>rule_list</code>, <code>rule_delete</code>, <code>rule_enable</code></span>
         </div>
         <div class="tools-summary-row">
-          <span class="tools-summary-label">System (5)</span>
-          <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code>, <code>nats_publish</code>, <code>remote_chat</code></span>
+          <span class="tools-summary-label">System (3)</span>
+          <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code></span>
+        </div>
+        <div class="tools-summary-row">
+          <span class="tools-summary-label">Messaging (2)</span>
+          <span class="tools-summary-list"><code>nats_publish</code>, <code>remote_chat</code></span>
         </div>
       </div>
       <div style="text-align: center; margin-top: var(--space-xl);">
@@ -189,6 +202,13 @@
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Persistent Memory</h3>
       <p class="reveal" style="text-align: center; max-width: 550px; margin: 0 auto var(--space-xl);">Long-term preferences in <code>/memory.txt</code> on flash. The AI writes autonomously. Injected into every conversation. 512 chars. Survives reboots.</p>
+      <div class="reveal" style="max-width: 440px; margin: 0 auto var(--space-xl); font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.8; background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: var(--space-md) var(--space-lg);">
+        <div><span style="color: var(--accent);">></span> <span style="color: var(--text-primary);">"My favorite color is blue"</span></div>
+        <div style="color: var(--text-muted);">  [writes to /memory.txt]</div>
+        <div style="color: var(--led-blue);">  --- reboot ---</div>
+        <div><span style="color: var(--accent);">></span> <span style="color: var(--text-primary);">"Set the LED to my favorite color"</span></div>
+        <div style="color: var(--led-green);">  LED set to blue (0, 0, 255)</div>
+      </div>
       <div class="memory-file reveal">
         <div class="memory-file-header">/memory.txt</div>
         <div class="memory-file-body">User's favorite color is blue.
@@ -212,9 +232,9 @@ Garden-node is the outdoor sensor.</div>
             <tr><th>Language</th><td>C++ (Arduino-flavored)</td></tr>
             <tr><th>RAM Usage</th><td>~280 KB with active conversation</td></tr>
             <tr><th>Tools</th><td>18 built-in (hardware, registry, rules, filesystem, messaging, communication)</td></tr>
-            <tr><th>Rule Engine</th><td>6 conditions, 5 action types, edge-triggered, message interpolation, /rules.json</td></tr>
+            <tr><th>Rule Engine</th><td>6 conditions (incl. always/periodic), 5 action types, edge-triggered, message interpolation ({value}, {device_name}, {name:msg}), /rules.json</td></tr>
             <tr><th>Device Registry</th><td>8 sensor types (incl. 3 virtual clock), 3 actuator types, persisted to flash</td></tr>
-            <tr><th>Clock Sensors</th><td>clock_hour, clock_minute, clock_hhmm — NTP-synced, POSIX timezone + DST</td></tr>
+            <tr><th>Clock Sensors</th><td>clock_hour, clock_minute, clock_hhmm - NTP-synced, POSIX timezone + DST</td></tr>
             <tr><th>Telegram Alerts</th><td>Rule-triggered, no LLM, configurable cooldown, long polling, message interpolation</td></tr>
             <tr><th>Persistent Memory</th><td>/memory.txt on flash, 512 char limit, AI-managed</td></tr>
             <tr><th>JSON Parsing</th><td>Streaming token-by-token (ArduinoJson)</td></tr>
@@ -222,6 +242,8 @@ Garden-node is the outdoor sensor.</div>
             <tr><th>Flash Storage</th><td>LittleFS partition for config, history, rules, and device registry</td></tr>
             <tr><th>API Protocol</th><td>HTTPS with TLS 1.2, OpenAI-compatible chat completions, or HTTP for local LLMs (Ollama, llama.cpp)</td></tr>
             <tr><th>NATS Support</th><td>Publish, subscribe, request/reply over TCP</td></tr>
+            <tr><th>NATS Sensors</th><td>nats_value type - subscribe to external NATS subjects, feed readings into rule engine, no hardware pin needed</td></tr>
+            <tr><th>Local LLM</th><td>Ollama, llama.cpp, any OpenAI-compatible endpoint. HTTP mode saves ~40% RAM. No API key needed.</td></tr>
             <tr><th>Configuration</th><td>JSON config on flash - WiFi, API key, model, system prompt</td></tr>
             <tr><th>History Buffer</th><td>6-turn circular buffer persisted to flash</td></tr>
           </tbody>
@@ -249,7 +271,7 @@ Garden-node is the outdoor sensor.</div>
           <div class="step-number">2</div>
           <div>
             <h3>Configure on Flash</h3>
-            <p>Edit <code>system_prompt.txt</code> and <code>config.json</code> with your WiFi credentials, API key, and model. Upload with <code>pio run -t uploadfs</code></p>
+            <p>Edit <code>system_prompt.txt</code> and <code>config.json</code> with your WiFi credentials and model. Add an API key for cloud LLMs, or point to a local Ollama endpoint - no key needed. Upload with <code>pio run -t uploadfs</code></p>
           </div>
         </div>
         <div class="step-card reveal" style="--stagger: 2">

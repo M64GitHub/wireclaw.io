@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WireClaw - AI That Lives on the Wire</title>
-  <meta name="description" content="A self-contained AI agent on a $5 ESP32. The AI creates automation rules. The rules run locally, forever. 18 tools. Rules run locally, forever.">
+  <meta name="description" content="A self-contained AI agent on a $5 ESP32. 18 tools. Rule engine. Persistent memory. Runs locally, forever. No cloud required.">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wireclaw.io/">
-<meta property="og:title" content="WireClaw — AI That Lives on the Wire">
+<meta property="og:title" content="WireClaw - AI That Lives on the Wire">
 <meta property="og:description" content="AI agent on a $5 ESP32. Talk once. Automate forever. 18 tools. Telegram ESP bot.">
 <meta property="og:image" content="https://wireclaw.io/assets/preview.png">
 <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WireClaw — AI That Lives on the Wire">
+<meta name="twitter:title" content="WireClaw - AI That Lives on the Wire">
 <meta name="twitter:description" content="AI agent on a $5 ESP32. Talk once. Automate forever. 18 tools. Telegram ESP bot.">
 <meta name="twitter:image" content="https://wireclaw.io/assets/preview.png">
 
@@ -68,7 +68,7 @@
           ESP32 AI Agent
         </span>
         <h1>AI That Lives on<br>the <span class="accent">Wire</span></h1>
-        <p class="subtitle">A self-contained AI agent on a $5 microcontroller. Understands natural language. Remembers your preferences. Creates automation rules. Runs them locally, forever.</p>
+        <p class="subtitle">A self-contained AI agent on a $5 microcontroller. Understands natural language. Remembers your preferences. Creates automation rules. Runs them locally, forever. No cloud required.</p>
         <div class="hero-ctas">
           <a href="learn-more.html" class="btn btn-primary">Learn More</a>
           <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener" class="btn btn-outline">
@@ -86,6 +86,31 @@
             <span class="terminal-title">wireclaw - serial</span>
           </div>
           <div class="terminal-body"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Gallery -->
+  <section class="showcase">
+    <div class="container">
+      <div class="gallery-frame">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">wireclaw - nats sensors in action</span>
+        </div>
+        <div class="gallery-viewport">
+          <img src="assets/nats-temp-chat.png" alt="Telegram NATS sensor flow" class="active">
+          <img src="assets/nats-temp-serial.png" alt="Serial log showing NATS and LLM tool calls">
+          <img src="assets/nats-temp-pub-commandst.png" alt="NATS publish triggering rule">
+        </div>
+        <div class="gallery-caption">Telegram: register sensor → ask temperature → set alert → get notification</div>
+        <div class="gallery-dots">
+          <button class="gallery-dot active" aria-label="Slide 1"></button>
+          <button class="gallery-dot" aria-label="Slide 2"></button>
+          <button class="gallery-dot" aria-label="Slide 3"></button>
         </div>
       </div>
     </div>
@@ -124,10 +149,10 @@
         </div>
         <div class="card reveal" style="--stagger: 2">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"/><path d="M5 5l14 14" stroke-linecap="round"/><path d="M8 2.5V6M16 18v3.5" opacity="0.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4M7.5 17.2L10.5 13M16.5 17.2L13.5 13"/></svg>
           </div>
-          <h3>No Middleman</h3>
-          <p>The ESP32 calls the LLM API directly - no intermediary server, no cloud functions, no backend to maintain. Point it at OpenRouter, or run locally with Ollama.</p>
+          <h3>Your AI, Your Network</h3>
+          <p>Run with OpenRouter, or go fully local with Ollama or llama.cpp. No API key, no internet, no cloud. HTTP mode saves ~40% RAM. Direct LLM calls from the ESP32 - no intermediary, no backend.</p>
         </div>
         <div class="card reveal" style="--stagger: 3">
           <div class="card-icon">
@@ -152,7 +177,7 @@
             </svg>
           </div>
           <h3>Persistent Memory</h3>
-          <p>The agent remembers your preferences across reboots. Tell it your favorite color today. Ask for it next week. It just knows.</p>
+          <p>Tell it your favorite color is blue. Reboot. Ask it to set the LED to your favorite color. It writes to flash, loads on boot. 512 bytes that make it personal.</p>
         </div>
       </div>
     </div>
@@ -190,7 +215,7 @@
               <span>Actions</span>
             </div>
           </div>
-          <p class="loop-desc">Every iteration. No network. No LLM. Reads sensors, checks conditions, fires actions.</p>
+          <p class="loop-desc">Every iteration. No network. No LLM. Reads sensors, checks conditions, fires actions. Edge-triggered or periodic - your choice.</p>
         </div>
 
         <div class="loop-connector">
@@ -263,5 +288,6 @@
   <script defer src="js/nav.js"></script>
   <script defer src="js/scroll-reveal.js"></script>
   <script defer src="js/terminal.js"></script>
+  <script defer src="js/gallery.js"></script>
 </body>
 </html>

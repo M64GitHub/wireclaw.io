@@ -189,6 +189,13 @@
   }
 }
 
+/* Gallery responsive - tablets */
+@media (max-width: 768px) {
+  .gallery-viewport {
+    aspect-ratio: 4 / 3;
+  }
+}
+
 /* Small phones */
 @media (max-width: 480px) {
   h1 {
@@ -275,5 +282,9 @@
 
   .try-example {
     font-size: 0.8rem;
+  }
+
+  .gallery-caption {
+    font-size: 0.65rem;
   }
 }
