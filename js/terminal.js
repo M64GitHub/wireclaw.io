@@ -43,7 +43,7 @@
     { type: 'user-input', text: 'Send me a Telegram message when the room temperature reaches 30 degrees' },
     { type: 'spacer' },
     { type: 'thinking', text: '[thinking...]  Creating rule...', delay: 600 },
-    { type: 'tool-call', text: '[tool-call]    rule_create("Room Temp Alert", "room_temp", "gt", 30, "telegram", "Room temperature has reached {value}\u00b0C.")', delay: 150 },
+    { type: 'tool-call', text: '[tool-call]    rule_create(rule_name="Room Temp Alert", sensor_name="room_temp", condition="gt", threshold=30, on_action="telegram", on_telegram_message="Room temperature has reached {value}\u00b0C.")', delay: 150 },
     { type: 'result', text: '[result]       Rule created: rule_01 \'Room Temp Alert\' - room_temp > 30 (every 5s)', delay: 300 },
     { type: 'response', text: '[response]     Done. You\'ll get a Telegram message when room temperature exceeds 30\u00b0C.', delay: 1500 },
     { type: 'result', text: '[result]       [Rule] rule_01 \'Room Temp Alert\' TRIGGERED (reading=45, threshold=30)', delay: 300 },
