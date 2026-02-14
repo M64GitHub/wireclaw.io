@@ -153,14 +153,6 @@
   grid-column: span 2;
 }
 
-/* Center last row of 2 cards in 8-card grid */
-.highlights-grid .card:nth-child(7) {
-  grid-column: 2 / span 2;
-}
-
-.highlights-grid .card:nth-child(8) {
-  grid-column: 4 / span 2;
-}
 
 /* Chain visual one-liner */
 .chain-visual {

@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WireClaw Config</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#08090e;--bg2:#0d1019;--bg3:#141822;
+--accent:#00d4aa;--accent-dim:rgba(0,212,170,0.15);--accent-glow:rgba(0,212,170,0.25);
+--text:#e8eaf0;--text2:#8b92a8;--text3:#4a5068;
+--border:rgba(255,255,255,0.06);--border-a:rgba(0,212,170,0.25);
+--red:#ff4757;
+--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+--mono:"SF Mono","Cascadia Code","Fira Code",Consolas,monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:1rem}
+header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem}
+header h1{font-size:1.25rem;font-weight:700}
+header .ver{font-family:var(--mono);font-size:0.75rem;color:var(--accent);background:var(--accent-dim);
+border:1px solid var(--border-a);border-radius:9999px;padding:0.2rem 0.6rem}
+header .demo{font-family:var(--mono);font-size:0.75rem;color:var(--red);background:rgba(255,71,87,0.12);
+border:1px solid rgba(255,71,87,0.25);border-radius:9999px;padding:0.2rem 0.6rem}
+nav{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0.5rem}
+nav button{background:none;border:none;color:var(--text2);font-family:var(--font);font-size:0.9rem;
+font-weight:500;padding:0.5rem 1rem;cursor:pointer;border-radius:8px 8px 0 0;
+border-bottom:2px solid transparent;transition:all 0.15s}
+nav button:hover{color:var(--text)}
+nav button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab{display:none}.tab.active{display:block}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+label{display:block;font-size:0.8rem;color:var(--accent);font-weight:600;margin:1rem 0 0.25rem;
+font-family:var(--mono);text-transform:uppercase;letter-spacing:0.04em}
+label:first-child{margin-top:0}
+input[type=text],input[type=password],input[type=number]{width:100%;padding:0.6rem 0.75rem;
+background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);
+font-family:var(--mono);font-size:0.85rem;transition:border-color 0.15s}
+input:focus{outline:none;border-color:var(--border-a)}
+textarea{width:100%;padding:0.75rem;background:var(--bg2);border:1px solid var(--border);
+border-radius:8px;color:var(--text);font-family:var(--mono);font-size:0.85rem;
+resize:vertical;min-height:200px;line-height:1.6;transition:border-color 0.15s}
+textarea:focus{outline:none;border-color:var(--border-a)}
+.hint{font-size:0.75rem;color:var(--text3);margin-top:0.2rem}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.25rem;border:none;
+border-radius:8px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;
+font-family:var(--font)}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{box-shadow:0 0 20px var(--accent-glow)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{box-shadow:0 0 20px rgba(255,71,87,0.3)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border-a)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.actions{display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap}
+.sep{border-top:1px solid var(--border);margin:1rem 0}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);padding:0.6rem 1.25rem;
+border-radius:8px;font-size:0.85rem;font-weight:500;z-index:999;opacity:0;
+transition:opacity 0.3s;pointer-events:none}
+.toast.show{opacity:1}
+.toast.ok{background:var(--accent);color:var(--bg)}
+.toast.err{background:var(--red);color:#fff}
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.status-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:0.75rem}
+.status-item .label{font-size:0.7rem;color:var(--text3);font-family:var(--mono);
+text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.25rem}
+.status-item .value{font-size:0.95rem;color:var(--text);font-family:var(--mono);word-break:break-all}
+.status-item .value.accent{color:var(--accent)}
+.status-item.full{grid-column:1/-1}
+@media(max-width:480px){
+.wrap{padding:0.75rem}
+.card{padding:1rem}
+.status-grid{grid-template-columns:1fr}
+nav button{padding:0.4rem 0.6rem;font-size:0.8rem}
+}
+</style></head><body>
+<div class="wrap">
+<header>
+<h1>WireClaw</h1>
+<span class="ver">v0.3.1</span>
+<span class="demo">Demo</span>
+</header>
+<nav>
+<button class="active" onclick="showTab('config')">Config</button>
+<button onclick="showTab('prompt')">Prompt</button>
+<button onclick="showTab('memory')">Memory</button>
+<button onclick="showTab('status')">Status</button>
+</nav>
+
+<div id="config" class="tab active">
+<div class="card">
+<label>WiFi SSID</label>
+<input type="text" id="c_wifi_ssid">
+<label>WiFi Password</label>
+<input type="password" id="c_wifi_pass">
+<div class="sep"></div>
+<label>API Key</label>
+<input type="password" id="c_api_key">
+<label>Model</label>
+<input type="text" id="c_model">
+<label>Device Name</label>
+<input type="text" id="c_device_name">
+<label>API Base URL</label>
+<input type="text" id="c_api_base_url" placeholder="http://192.168.1.x:11434/v1">
+<p class="hint">For local LLM. Leave empty for OpenRouter.</p>
+<div class="sep"></div>
+<label>NATS Host</label>
+<input type="text" id="c_nats_host">
+<label>NATS Port</label>
+<input type="number" id="c_nats_port">
+<div class="sep"></div>
+<label>Telegram Bot Token</label>
+<input type="password" id="c_telegram_token">
+<label>Telegram Chat ID</label>
+<input type="text" id="c_telegram_chat_id">
+<label>Telegram Cooldown (seconds)</label>
+<input type="number" id="c_telegram_cooldown">
+<div class="sep"></div>
+<label>Timezone</label>
+<input type="text" id="c_timezone">
+<p class="hint">POSIX TZ string, e.g. CET-1CEST,M3.5.0,M10.5.0/3</p>
+<div class="actions">
+<button class="btn btn-primary" onclick="demoToast()">Save Config</button>
+<button class="btn btn-danger" onclick="demoToast()">Reboot</button>
+</div>
+<p class="hint" style="margin-top:0.75rem">Reboot required to apply config changes.</p>
+</div>
+</div>
+
+<div id="prompt" class="tab">
+<div class="card">
+<label>System Prompt</label>
+<textarea id="prompt_text" rows="12" maxlength="4095"></textarea>
+<p class="hint">Applied immediately, no reboot needed. Max 4095 chars.</p>
+<div class="actions">
+<button class="btn btn-primary" onclick="demoToast()">Save Prompt</button>
+</div>
+</div>
+</div>
+
+<div id="memory" class="tab">
+<div class="card">
+<label>AI Memory</label>
+<textarea id="memory_text" rows="8" maxlength="511"></textarea>
+<p class="hint">Persistent context injected into every conversation. Active on next chat.</p>
+<div class="actions">
+<button class="btn btn-primary" onclick="demoToast()">Save Memory</button>
+</div>
+</div>
+</div>
+
+<div id="status" class="tab">
+<div class="card">
+<div class="status-grid" id="status-grid"></div>
+<div class="actions">
+<button class="btn btn-outline" onclick="loadStatus()">Refresh</button>
+<button class="btn btn-danger" onclick="demoToast()">Reboot</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* Mock data */
+var mockConfig={
+wifi_ssid:"MyNetwork",
+wifi_pass:"...word",
+api_key:"...v1-x",
+model:"google/gemini-2.5-flash",
+device_name:"wireclaw-01",
+api_base_url:"",
+nats_host:"192.168.1.10",
+nats_port:"4222",
+telegram_token:"...4:AB",
+telegram_chat_id:"123456789",
+telegram_cooldown:"3",
+timezone:"CET-1CEST,M3.5.0,M10.5.0/3"
+};
+
+var mockPrompt="You are WireClaw, a helpful AI assistant running on an ESP32 microcontroller.\n\nBe concise. Keep responses under 200 words unless asked for detail.\n\nIMPORTANT - choosing the right tool:\n- For direct requests (\"set LED pink\", \"turn on pin 4\"), use the direct tool: led_set, gpio_write, etc. Do NOT create a rule.\n- Only create rules when the user asks for AUTOMATION with a condition (\"when temperature exceeds...\", \"if sensor reads...\", \"whenever...\").\n- One rule = one condition + one action type. Don't create two opposing rules - use on_action + off_action in a single rule.\n- Each rule supports only ONE action type (led_set OR telegram OR gpio_write, etc). You CANNOT combine them.\n- To do two different actions on the same condition (e.g. LED + Telegram), create TWO separate rules with the same sensor/condition/threshold.\n- When the user asks to ADD a new action, do NOT delete existing rules. Create an additional rule alongside them.\n\nLED rules:\n- The onboard LED is NOT a registered actuator. Do NOT use actuator_name for the LED.\n- For LED rules, use: on_action=\"led_set\" with on_r, on_g, on_b (0-255) and off_action=\"led_set\" with off_r, off_g, off_b.\n\nDevice registry:\n- \"chip_temp\" is pre-registered (internal temperature sensor).\n- Use device_register to add external sensors/actuators. Use sensor_read/actuator_set to interact.\n- actuator_name in rule_create refers to a REGISTERED device name (like \"fan\"), not a tool name.\n\nNATS virtual sensors:\n- Use device_register(name=\"x\", type=\"nats_value\", subject=\"topic.name\") to create a sensor fed by NATS messages.\n- No pin needed. The sensor stores the last value received on that NATS subject.\n- Payload parsing: bare numbers (\"32.5\"), JSON ({\"value\":32.5}), or booleans (\"on\"/\"off\" -> 1/0).\n- JSON payloads can include a \"message\" field: {\"value\":32.5,\"message\":\"Alert text\"}.\n- Use {sensor_name:msg} in telegram/nats templates to insert the message field.\n- Example: device_register(name=\"power\", type=\"nats_value\", subject=\"home.power\", unit=\"W\")\n  then: rule_create(sensor_name=\"power\", condition=\"gt\", threshold=3000, on_action=\"telegram\", on_telegram_message=\"Power: {value}W\")\n\nSerial text UART:\n- Use device_register(name=\"x\", type=\"serial_text\", baud=9600) to attach a serial device on UART1.\n- Only ONE serial_text device allowed. Fixed pins per chip: C6/C3=RX4/TX5, S3=RX19/TX20.\n- The sensor stores the last received text line. Numbers parsed as float for rule conditions.\n- JSON payloads with \"value\" and \"message\" fields also supported (same as NATS).\n- IMPORTANT: {name} gives the NUMERIC value (0 if text). {name:msg} gives the actual TEXT. Always use {name:msg} when forwarding serial text to telegram/nats.\n- Example: on_telegram_message=\"{arduino:msg}\" sends the raw text line. {arduino} would only send the number.\n- serial_send tool: sends text to the UART. Use on_action=\"serial_send\" in rules with on_serial_text=\"message\".\n- condition=\"change\" detects both numeric value changes AND text changes for serial_text sensors.\n\nTelegram alerts in rules:\n- Use on_action=\"telegram\" with on_telegram_message=\"your message\" to send a Telegram message when a rule triggers.\n- Combine with off_action=\"telegram\" and off_telegram_message for clear notifications.\n- Use {value} in messages for the triggering sensor's reading, or {device_name} for any sensor.\n- Example: on_telegram_message=\"Chip temp: {chip_temp}\u00b0C\" sends \"Chip temp: 28.5\u00b0C\".\n\nRule chaining:\n- For multi-step automations (2-5 steps), use chain_create. Describe steps in natural order.\n- chain_create handles all rule creation internally \u2014 ONE tool call creates the full chain.\n- step1 fires when the condition triggers. step2 fires after step2_delay seconds. step3-step5 are optional, each with their own delay.\n- Example: \"telegram when temp > 30, LED red after 5s, LED off after 10s more\":\n  chain_create(sensor_name=\"chip_temp\", condition=\"gt\", threshold=30,\n    step1_action=\"telegram\", step1_message=\"Temp: {value}C\",\n    step2_action=\"led_set\", step2_delay=5, step2_r=255, step2_g=0, step2_b=0,\n    step3_action=\"led_set\", step3_delay=10, step3_r=0, step3_g=0, step3_b=0)\n- For simple rules (no chain), use rule_create as before.\n- For advanced chaining (OFF-chain, manual linking), rule_create with chain_rule/chain_off_rule is still available.\n\nManaging rules:\n- Use rule_list to see existing rules before creating new ones.\n- To modify a rule, delete it with rule_delete and recreate with rule_create.\n- Use rule_enable to temporarily disable/enable a rule without deleting it.\n- ALWAYS call rule_list first to find the rule_id before deleting.\n- To delete ALL rules at once, use rule_delete(rule_id=\"all\") \u2014 no need to list first.\n\nTime-based rules:\n- \"clock_hour\" (0-23), \"clock_minute\" (0-59), and \"clock_hhmm\" are pre-registered virtual sensors.\n- \"clock_hhmm\" encodes time as hour*100+minute (e.g. 810 = 08:10, 1830 = 18:30). Use it for exact times.\n- For whole-hour triggers, use clock_hour: sensor_name=\"clock_hour\", condition=\"eq\", threshold=18 means \"at 6 PM\".\n- For exact times, use clock_hhmm: sensor_name=\"clock_hhmm\", condition=\"eq\", threshold=810 means \"at 08:10\".\n- For ranges, use clock_hhmm with gt/lt: threshold=2200 means \"after 10 PM\".\n- For periodic tasks (\"every 2 minutes\"), use condition=\"always\" with interval_seconds=120.\n- \"always\" rules fire repeatedly every interval. All other conditions are edge-triggered.\n- For \"do X at time Y\", use ONE rule with on_action + off_action. Example: \"LED pink at 08:33\" = clock_hhmm eq 833 with on_action=led_set (pink) and off_action=led_set (off). The off_action auto-fires when the minute passes.\n\nMemory:\n- You can persist notes using file_write(path=\"/memory.txt\", content=\"...\").\n- Your memory file is automatically loaded into every conversation.\n- Use it for user preferences, device nicknames, or important observations.\n- Keep it concise (under 500 characters).\n\nMulti-device:\n- Use remote_chat(device=\"name\", message=\"...\") to talk to other WireClaw devices on the same NATS network.\n- Each device has its own tools and controls its own hardware.\n\nDevice types: digital_in, analog_in, ntc_10k, ldr, nats_value, serial_text, clock_hour, clock_minute, clock_hhmm, digital_out, relay (inverted logic), pwm.\nRule conditions: gt (>), lt (<), eq (==), neq (!=), change, always, chained (chain-only target).\nRule actions: gpio_write, led_set, nats_publish, actuator, telegram, serial_send.\n\nBe friendly, practical, and embedded-systems-aware.";
+
+var mockMemory="User's favorite color is blue.\nGarage relay is on pin 4 (inverted).";
+
+var mockStatus={
+version:"0.3.1",
+device_name:"wireclaw-01",
+uptime:"2d 7h 14m 33s",
+uptime_seconds:199473,
+heap_free:134144,
+heap_total:327680,
+wifi_ssid:"MyNetwork",
+wifi_ip:"192.168.1.42",
+wifi_rssi:-54,
+model:"google/gemini-2.5-flash",
+nats:"connected",
+telegram:"enabled"
+};
+
+function showTab(id){
+document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active')});
+document.getElementById(id).classList.add('active');
+event.target.classList.add('active');
+if(id==='status')loadStatus();
+if(id==='prompt')loadPrompt();
+if(id==='memory')loadMemory();
+}
+
+function toast(msg,ok){
+var t=document.getElementById('toast');
+t.textContent=msg;t.className='toast show '+(ok?'ok':'err');
+setTimeout(function(){t.className='toast'},2500);
+}
+
+function demoToast(){
+toast('This is a demo - running on your ESP32, this saves to flash!',true);
+}
+
+function loadConfig(){
+var f=['wifi_ssid','wifi_pass','api_key','model','device_name','api_base_url',
+'nats_host','nats_port','telegram_token','telegram_chat_id','telegram_cooldown','timezone'];
+f.forEach(function(k){var el=document.getElementById('c_'+k);if(el)el.value=mockConfig[k]||''});
+}
+
+function loadPrompt(){
+document.getElementById('prompt_text').value=mockPrompt;
+}
+
+function loadMemory(){
+document.getElementById('memory_text').value=mockMemory;
+}
+
+function loadStatus(){
+var d=mockStatus;
+var items=[
+{l:'Version',v:d.version,cls:'accent'},
+{l:'Device',v:d.device_name},
+{l:'Uptime',v:d.uptime},
+{l:'Heap',v:Math.round(d.heap_free/1024)+'KB / '+Math.round(d.heap_total/1024)+'KB'},
+{l:'WiFi',v:d.wifi_ssid+' ('+d.wifi_rssi+'dBm)',full:true},
+{l:'IP Address',v:d.wifi_ip,cls:'accent'},
+{l:'Model',v:d.model,full:true},
+{l:'NATS',v:d.nats},
+{l:'Telegram',v:d.telegram}
+];
+var h='';items.forEach(function(i){
+h+='<div class="status-item'+(i.full?' full':'')+'"><div class="label">'+i.l+
+'</div><div class="value'+(i.cls?' '+i.cls:'')+'">'+i.v+'</div></div>';
+});
+document.getElementById('status-grid').innerHTML=h;
+}
+
+loadConfig();
+</script>
+</body></html>
