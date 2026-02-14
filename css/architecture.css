@@ -39,40 +39,6 @@
   font-weight: 600;
 }
 
-/* Reference Grid */
-.ref-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
-  max-width: 900px;
-  margin: var(--space-xl) auto 0;
-}
-
-.ref-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  transition: border-color var(--transition-base);
-}
-
-.ref-card:hover {
-  border-color: var(--border-accent);
-}
-
-.ref-card-name {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: var(--space-xs);
-}
-
-.ref-card p {
-  font-size: 0.85rem;
-  margin: 0;
-}
-
 /* Example Timeline */
 .example-timeline {
   max-width: 700px;

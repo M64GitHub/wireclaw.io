@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Under the Hood - WireClaw</title>
-  <meta name="description" content="How a $5 ESP32 chip runs 18 tools, a rule engine, and an AI agent. Architecture, tools, LED feedback, and technical specs.">
+  <meta name="description" content="How a $5 ESP32 chip runs 20 tools, a rule engine, rule chains, and an AI agent. Architecture, tools, LED feedback, and technical specs.">
   <meta name="author" content="Mario Schallner">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://wireclaw.io/learn-more.html">
   <meta property="og:title" content="Under the Hood - WireClaw">
-  <meta property="og:description" content="How a $5 ESP32 chip runs 18 tools, a rule engine, NATS mesh, and an AI agent. Architecture, tools, and technical specs.">
+  <meta property="og:description" content="How a $5 ESP32 chip runs 20 tools, a rule engine, rule chains, NATS mesh, and an AI agent. Architecture, tools, and technical specs.">
   <meta property="og:image" content="https://wireclaw.io/assets/preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Under the Hood - WireClaw">
-  <meta name="twitter:description" content="How a $5 ESP32 chip runs 18 tools, a rule engine, and an AI agent.">
+  <meta name="twitter:description" content="How a $5 ESP32 chip runs 20 tools, a rule engine, rule chains, and an AI agent.">
   <meta name="twitter:image" content="https://wireclaw.io/assets/preview.png">
   <!-- Theme -->
   <meta name="theme-color" content="#00d4aa">
@@ -66,7 +66,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 class="reveal">Under the <span class="accent">Hood</span></h1>
-      <p class="reveal" style="--stagger: 1">How a $5 chip runs 18 tools, a rule engine, and an AI agent. Cloud optional.</p>
+      <p class="reveal" style="--stagger: 1">How a $5 chip runs 20 tools, a rule engine, rule chains, and an AI agent. Cloud optional.</p>
     </div>
   </section>
 
@@ -93,7 +93,7 @@
           </div>
           <div>
             <h3>Rule Engine</h3>
-            <p>Persistent automation. Reads sensors, checks conditions (<code>gt</code>, <code>lt</code>, <code>eq</code>, <code>neq</code>, <code>change</code>, <code>always</code>), fires actions (actuator, LED, GPIO, NATS, Telegram). Edge-triggered conditions fire once per transition, then auto-reset. The <code>always</code> condition fires every <code>interval_seconds</code> - use it for periodic reports and heartbeats. Message interpolation: <code>{value}</code>, <code>{device_name}</code>, <code>{name:msg}</code>. Survives reboots.</p>
+            <p>Persistent automation. Reads sensors, checks conditions (<code>gt</code>, <code>lt</code>, <code>eq</code>, <code>neq</code>, <code>change</code>, <code>always</code>), fires actions (actuator, LED, GPIO, NATS, Telegram, Serial). Edge-triggered conditions fire once per transition, then auto-reset. Chain rules together with delays via <code>chain_create</code>. Message interpolation: <code>{value}</code>, <code>{device_name}</code>, <code>{name:msg}</code>. Survives reboots.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 2">
@@ -102,7 +102,7 @@
           </div>
           <div>
             <h3>AI Loop</h3>
-            <p>LLM via OpenRouter, Ollama, llama.cpp, or any OpenAI-compatible endpoint. HTTPS for cloud, HTTP for local (saves ~40% RAM). 18 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
+            <p>LLM via OpenRouter, Ollama, llama.cpp, or any OpenAI-compatible endpoint. HTTPS for cloud, HTTP for local (saves ~40% RAM). 20 tools. Up to 5 iterations per request. Creates rules, registers devices, reads sensors, writes files. The AI is the compiler - it turns intent into persistent automation.</p>
           </div>
         </div>
         <div class="arch-step reveal" style="--stagger: 3">
@@ -136,11 +136,188 @@
     </div>
   </section>
 
-  <!-- 18 Tools -->
+  <!-- Inputs & Outputs -->
+  <section class="io-reference">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Inputs &amp; <span class="accent">Outputs</span></h2>
+        <p>What it can read, what it can control, and how rules react.</p>
+      </div>
+
+      <h3 class="reveal" style="text-align: center; margin-bottom: var(--space-xl);">Sensor Types (10)</h3>
+      <div class="ref-grid reveal" style="--stagger: 0">
+        <div class="ref-card">
+          <div class="ref-card-name">digital_in</div>
+          <p>Digital input pin. Returns HIGH (1) or LOW (0).</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">analog_in</div>
+          <p>Analog input via ADC. Returns raw value (0-4095).</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">ntc_10k</div>
+          <p>10K NTC thermistor. Automatic temperature conversion.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">ldr</div>
+          <p>Light-dependent resistor. Returns light level reading.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">internal_temp</div>
+          <p>Chip's internal temperature sensor. No external hardware needed.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">nats_value</div>
+          <p>NATS-subscribed sensor. Receives values from any NATS subject. No GPIO pin.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">serial_text</div>
+          <p>Text lines from UART1 serial port. Connects Arduinos, GPS, CO2 sensors. One device max.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">clock_hour</div>
+          <p>Current hour (0-23). NTP-synced, POSIX timezone + DST.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">clock_minute</div>
+          <p>Current minute (0-59). Updates every rule evaluation cycle.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">clock_hhmm</div>
+          <p>Combined time as hour*100+minute (e.g., 1830 = 6:30 PM).</p>
+        </div>
+      </div>
+
+      <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Actuator Types (3)</h3>
+      <div class="ref-grid reveal" style="--stagger: 1; grid-template-columns: repeat(3, 1fr);">
+        <div class="ref-card">
+          <div class="ref-card-name">digital_out</div>
+          <p>Digital output pin. Set HIGH or LOW.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">relay</div>
+          <p>Relay control. On/off switching with optional inverted logic.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">pwm</div>
+          <p>PWM output. Variable duty cycle for dimmers, motors, servos.</p>
+        </div>
+      </div>
+
+      <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Rule Action Types (6)</h3>
+      <div class="ref-grid reveal" style="--stagger: 2; grid-template-columns: repeat(3, 1fr);">
+        <div class="ref-card">
+          <div class="ref-card-name">actuator</div>
+          <p>Set a registered actuator's value by name. Auto on/off.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">led_set</div>
+          <p>Set the onboard RGB LED to any color. Takes R,G,B values.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">gpio_write</div>
+          <p>Write HIGH or LOW to a GPIO pin directly.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">nats_publish</div>
+          <p>Publish a message to a NATS subject. Rule-triggered device-to-device messaging.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">telegram</div>
+          <p>Send a Telegram alert. Configurable cooldown prevents flooding.</p>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-name">serial_send</div>
+          <p>Send text over serial_text UART. Supports <code>{value}</code> and <code>{device_name}</code> interpolation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rule Chains -->
+  <section class="architecture-deep">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Rule <span class="accent">Chains</span></h2>
+        <p>Chain up to 5 actions with delays in a single tool call. The AI creates the chain. The firmware runs it.</p>
+      </div>
+
+      <div class="loop-flow reveal" style="--stagger: 0; justify-content: center; margin-bottom: var(--space-2xl);">
+        <div class="loop-flow-node">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>Sensor</span>
+        </div>
+        <div class="loop-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+        <div class="loop-flow-node">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Step 1</span>
+        </div>
+        <div class="loop-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+        <div class="loop-flow-node" style="border-color: var(--led-orange);">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--led-orange)" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span style="color: var(--led-orange);">Delay</span>
+        </div>
+        <div class="loop-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+        <div class="loop-flow-node">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Step 2</span>
+        </div>
+        <div class="loop-flow-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </div>
+        <div class="loop-flow-node">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>...</span>
+        </div>
+      </div>
+
+      <div class="terminal reveal" style="--stagger: 1; max-width: 720px; margin: 0 auto var(--space-2xl);">
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-title">serial - chain_create via Telegram</span>
+        </div>
+        <div class="terminal-body" style="min-height: auto; max-height: none; font-size: 0.8rem; line-height: 1.6;">
+          <div class="terminal-line user-input" style="color: var(--text-muted); font-weight: 400;">[TG] Message: send me a telegram when test &gt; 100, wait 5s, send "hello test", set LED green, after 10s turn LED off</div>
+          <div class="terminal-line spacer"></div>
+          <div class="terminal-line thinking">--- Thinking... ---</div>
+          <div class="terminal-line tool-call">[Agent] 1 tool call(s) in iteration 1:</div>
+          <div class="terminal-line tool-call">  -&gt; chain_create(sensor_name="test", condition="gt", threshold=100,</div>
+          <div class="terminal-line tool-call">       step1_action="telegram", step1_message="Test exceeded 100: {value}",</div>
+          <div class="terminal-line tool-call">       step2_action="telegram", step2_delay=5, step2_message="hello test",</div>
+          <div class="terminal-line tool-call">       step3_action="led_set", step3_r=0, step3_g=255, step3_b=0,</div>
+          <div class="terminal-line tool-call">       step4_action="led_set", step4_delay=10, step4_r=0, step4_g=0, step4_b=0)</div>
+          <div class="terminal-line result">     = Chain created: rule_04 test&gt;100 -&gt; telegram -&gt; 5s -&gt; telegram -&gt; LED(0,255,0) -&gt; 10s -&gt; LED(0,0,0)</div>
+        </div>
+      </div>
+
+      <div class="behaviors-list reveal" style="--stagger: 2">
+        <div class="behavior-item">Up to 5 steps per <code>chain_create</code></div>
+        <div class="behavior-item">16 rules max, 8 pending entries</div>
+        <div class="behavior-item">Non-blocking delays</div>
+        <div class="behavior-item">Max chain depth: 8</div>
+        <div class="behavior-item">672 bytes RAM (0.2% of ESP32's 320KB)</div>
+        <div class="behavior-item">Persisted to <code>/rules.json</code></div>
+      </div>
+
+      <div style="text-align: center; margin-top: var(--space-xl);">
+        <a href="architecture.html" class="arch-link reveal" style="--stagger: 3">Chain internals &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20 Tools -->
   <section class="tools-section">
     <div class="container">
       <div class="section-header reveal">
-        <h2>18 <span class="accent">Tools</span></h2>
+        <h2>20 <span class="accent">Tools</span></h2>
         <p>Each tool maps to a real hardware or system capability.</p>
       </div>
       <div class="tools-summary reveal">
@@ -153,16 +330,16 @@
           <span class="tools-summary-list"><code>device_register</code>, <code>device_list</code>, <code>device_remove</code>, <code>sensor_read</code>, <code>actuator_set</code></span>
         </div>
         <div class="tools-summary-row">
-          <span class="tools-summary-label">Rule Engine (4)</span>
-          <span class="tools-summary-list"><code>rule_create</code>, <code>rule_list</code>, <code>rule_delete</code>, <code>rule_enable</code></span>
+          <span class="tools-summary-label">Rule Engine (5)</span>
+          <span class="tools-summary-list"><code>rule_create</code>, <code>rule_list</code>, <code>rule_delete</code>, <code>rule_enable</code>, <code>chain_create</code></span>
         </div>
         <div class="tools-summary-row">
           <span class="tools-summary-label">System (3)</span>
           <span class="tools-summary-list"><code>device_info</code>, <code>file_read</code>, <code>file_write</code></span>
         </div>
         <div class="tools-summary-row">
-          <span class="tools-summary-label">Messaging (2)</span>
-          <span class="tools-summary-list"><code>nats_publish</code>, <code>remote_chat</code></span>
+          <span class="tools-summary-label">Messaging (3)</span>
+          <span class="tools-summary-list"><code>nats_publish</code>, <code>serial_send</code>, <code>remote_chat</code></span>
         </div>
       </div>
       <div style="text-align: center; margin-top: var(--space-xl);">
@@ -253,9 +430,11 @@ Garden-node is the outdoor sensor.</div>
             <tr><th>Framework</th><td>Arduino + PlatformIO</td></tr>
             <tr><th>Language</th><td>C++ (Arduino-flavored)</td></tr>
             <tr><th>RAM Usage</th><td>~280 KB with active conversation</td></tr>
-            <tr><th>Tools</th><td>18 built-in (hardware, registry, rules, filesystem, messaging, communication)</td></tr>
-            <tr><th>Rule Engine</th><td>6 conditions (incl. always/periodic), 5 action types, edge-triggered, message interpolation ({value}, {device_name}, {name:msg}), /rules.json</td></tr>
-            <tr><th>Device Registry</th><td>8 sensor types (incl. 3 virtual clock), 3 actuator types, persisted to flash</td></tr>
+            <tr><th>Tools</th><td>20 built-in (hardware, registry, rules, chains, filesystem, messaging)</td></tr>
+            <tr><th>Rule Engine</th><td>7 conditions (incl. always/periodic, chained), 6 action types, edge-triggered, message interpolation ({value}, {device_name}, {name:msg}), /rules.json</td></tr>
+            <tr><th>Rule Chaining</th><td><code>chain_create</code> tool, up to 5 steps with non-blocking delays, max depth 8, 672 bytes RAM, persisted to /rules.json</td></tr>
+            <tr><th>Device Registry</th><td>10 sensor types (incl. 3 virtual clock, NATS, serial), 3 actuator types, persisted to flash</td></tr>
+            <tr><th>Serial Bridge</th><td>UART1, <code>serial_text</code> sensor + <code>serial_send</code> tool/action, 9600-115200 baud, text + JSON parsing</td></tr>
             <tr><th>Clock Sensors</th><td>clock_hour, clock_minute, clock_hhmm - NTP-synced, POSIX timezone + DST</td></tr>
             <tr><th>Telegram Alerts</th><td>Rule-triggered, no LLM, configurable cooldown, long polling, message interpolation</td></tr>
             <tr><th>Persistent Memory</th><td>/memory.txt on flash, 512 char limit, AI-managed</td></tr>

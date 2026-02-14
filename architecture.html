@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Architecture - WireClaw</title>
-  <meta name="description" content="The full WireClaw architecture. Two loops, eighteen tools, rules that run locally, forever. Deep technical reference.">
+  <meta name="description" content="The full WireClaw architecture. Two loops, twenty tools, rule chains, rules that run locally, forever. Deep technical reference.">
   <meta name="author" content="Mario Schallner">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://wireclaw.io/architecture.html">
   <meta property="og:title" content="Architecture - WireClaw">
-  <meta property="og:description" content="The full WireClaw architecture. Two loops, eighteen tools, NATS mesh, rules that run locally, forever.">
+  <meta property="og:description" content="The full WireClaw architecture. Two loops, twenty tools, rule chains, NATS mesh, rules that run locally, forever.">
   <meta property="og:image" content="https://wireclaw.io/assets/preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Architecture - WireClaw">
-  <meta name="twitter:description" content="The full WireClaw architecture. Two loops, eighteen tools, rules that run locally, forever.">
+  <meta name="twitter:description" content="The full WireClaw architecture. Two loops, twenty tools, rule chains, rules that run locally, forever.">
   <meta name="twitter:image" content="https://wireclaw.io/assets/preview.png">
   <!-- Theme -->
   <meta name="theme-color" content="#00d4aa">
@@ -67,7 +67,7 @@
   <section class="page-hero">
     <div class="container">
       <h1 class="reveal">Inside the <span class="accent">Wire</span></h1>
-      <p class="reveal" style="--stagger: 1">The full architecture. Two loops. Eighteen tools. Rules that run locally, forever.</p>
+      <p class="reveal" style="--stagger: 1">The full architecture. Two loops. Twenty tools. Rules that run locally, forever.</p>
     </div>
   </section>
 
@@ -177,7 +177,7 @@
     <div class="container">
       <div class="section-header reveal">
         <h2>Rule <span class="accent">Engine</span></h2>
-        <p>Six conditions. Five action types. Persistent, edge-triggered automation.</p>
+        <p>Seven conditions. Six action types. Persistent, edge-triggered automation.</p>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-bottom: var(--space-xl);">Conditions</h3>
@@ -206,6 +206,10 @@
           <div class="ref-card-name">always</div>
           <p>Periodic. Fires every <code>interval_seconds</code> (default: evaluation interval). Use for heartbeats, scheduled reports, and watchdogs. Tool output shows last=Xs for verification.</p>
         </div>
+        <div class="ref-card">
+          <div class="ref-card-name">chained</div>
+          <p>Chain-triggered. Skipped during normal evaluation. Only fires when another rule's chain targets it. Created automatically by <code>chain_create</code>.</p>
+        </div>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Action Types</h3>
@@ -230,6 +234,10 @@
           <div class="ref-card-name">telegram</div>
           <p>Send a Telegram alert. Configurable cooldown (default 60s) prevents message flooding.</p>
         </div>
+        <div class="ref-card">
+          <div class="ref-card-name">serial_send</div>
+          <p>Send text over serial_text UART. Supports <code>{value}</code> and <code>{device_name}</code> interpolation.</p>
+        </div>
       </div>
 
       <div class="behaviors-list reveal" style="--stagger: 2">
@@ -240,6 +248,8 @@
         <div class="behavior-item">Persistence: /rules.json on flash</div>
         <div class="behavior-item">Telegram cooldown: 60s default</div>
         <div class="behavior-item">always condition: fires every interval_seconds</div>
+        <div class="behavior-item">Rule chains: up to 5 steps with delays</div>
+        <div class="behavior-item">Chain depth limit: 8 (prevents loops)</div>
       </div>
 
       <div class="terminal reveal" style="--stagger: 3; max-width: 720px; margin: var(--space-2xl) auto 0;">
@@ -321,6 +331,10 @@
           <div class="ref-card-name">nats_value</div>
           <p>NATS-subscribed sensor. Receives values published to a configured NATS subject. No GPIO pin. Bridges external systems into the rule engine.</p>
         </div>
+        <div class="ref-card">
+          <div class="ref-card-name">serial_text</div>
+          <p>Text lines from UART1 serial port. Connects Arduinos, GPS modules, CO2 sensors. Stores last line as value + message. One device max.</p>
+        </div>
       </div>
 
       <h3 class="reveal" style="text-align: center; margin-top: var(--space-3xl); margin-bottom: var(--space-xl);">Virtual Sensors (Clock)</h3>
@@ -378,11 +392,11 @@
     </div>
   </section>
 
-  <!-- All 18 Tools -->
+  <!-- All 20 Tools -->
   <section id="tools" class="architecture-deep">
     <div class="container">
       <div class="section-header reveal">
-        <h2>All 18 <span class="accent">Tools</span></h2>
+        <h2>All 20 <span class="accent">Tools</span></h2>
         <p>The complete tool reference, grouped by category.</p>
       </div>
 
@@ -466,6 +480,11 @@
             <span class="tool-badge">Rules</span>
             <p>Enable or disable a rule without deleting it. Disabled rules are preserved but skip evaluation.</p>
           </div>
+          <div class="tool-card">
+            <div class="tool-name">chain_create</div>
+            <span class="tool-badge">Rules</span>
+            <p>Create a multi-step automation chain in one call. Up to 5 steps with delays. Actions: telegram, led_set, gpio_write, nats_publish, actuator, serial_send.</p>
+          </div>
         </div>
       </div>
 
@@ -487,17 +506,22 @@
             <span class="tool-badge">Flash FS</span>
             <p>Write data to the flash filesystem. Create or update config files, persist sensor readings, store notes or custom data.</p>
           </div>
+        </div>
+      </div>
+
+      <div class="tools-category reveal" style="--stagger: 4">
+        <div class="tools-category-title">Messaging</div>
+        <div class="tools-grid">
           <div class="tool-card">
             <div class="tool-name">nats_publish</div>
             <span class="tool-badge">Messaging</span>
             <p>Publish messages to NATS subjects. Enables device-to-device communication, event broadcasting, and IoT mesh coordination.</p>
           </div>
-        </div>
-      </div>
-
-      <div class="tools-category reveal" style="--stagger: 4">
-        <div class="tools-category-title">Communication</div>
-        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-name">serial_send</div>
+            <span class="tool-badge">UART</span>
+            <p>Send text over the serial_text UART connection. Appends newline automatically. Supports <code>{value}</code> and <code>{device_name}</code> interpolation.</p>
+          </div>
           <div class="tool-card">
             <div class="tool-name">remote_chat</div>
             <span class="tool-badge">Multi-Device</span>
@@ -525,6 +549,8 @@
         <div class="try-example reveal" style="--stagger: 6">Ask garden-node what its soil moisture is</div>
         <div class="try-example reveal" style="--stagger: 7">Send me a Telegram every 2 minutes saying "system OK"</div>
         <div class="try-example reveal" style="--stagger: 8">Register a NATS sensor called room_temp on subject home.room.temp</div>
+        <div class="try-example reveal" style="--stagger: 9">When chip temp exceeds 30, set LED red, wait 10 seconds, send me a Telegram, then set LED off</div>
+        <div class="try-example reveal" style="--stagger: 10">Connect an Arduino on serial at 9600 baud, alert me when it reports above 50</div>
       </div>
     </div>
   </section>
