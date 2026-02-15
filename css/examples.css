@@ -1,0 +1,279 @@
+/* Examples page TOC */
+.examples-toc {
+  padding: 0 0 var(--space-xl);
+  text-align: center;
+}
+
+.toc-pills {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.toc-pill {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-base);
+}
+
+.toc-pill:hover {
+  border-color: var(--border-accent);
+  color: var(--accent);
+}
+
+/* Example section */
+.example-section {
+  padding: var(--space-3xl) 0;
+}
+
+/* Example Recipe Card */
+.example-recipe {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recipe-header {
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.recipe-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-sm);
+}
+
+.recipe-title-row h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.recipe-badges {
+  display: flex;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.recipe-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recipe-badge-easy {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
+}
+
+.recipe-badge-mid {
+  background: rgba(255, 140, 0, 0.12);
+  color: var(--led-orange);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+}
+
+.recipe-badge-hw {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.recipe-subtitle {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.recipe-body {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Recipe Steps */
+.recipe-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.recipe-step {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.recipe-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  border: 1px solid var(--border-accent);
+}
+
+.recipe-step strong {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 0.95rem;
+}
+
+.recipe-step p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.recipe-step code {
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Recipe Wiring (terminal overrides) */
+.recipe-wiring .terminal-body {
+  min-height: auto;
+  max-height: none;
+}
+
+.recipe-wiring pre {
+  font-family: var(--font-mono);
+  white-space: pre;
+  line-height: 1.7;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+/* Recipe Chat */
+.recipe-chat {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.chat-label {
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.chat-msg {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.chat-msg:last-child {
+  border-bottom: none;
+}
+
+.chat-msg.chat-user {
+  color: var(--text-primary);
+  border-left: 3px solid var(--accent);
+  font-weight: 500;
+}
+
+.chat-msg.chat-user::before {
+  content: '> ';
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.chat-msg.chat-bot {
+  color: var(--text-secondary);
+  padding-left: calc(var(--space-md) + 3px);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.chat-msg.chat-bot strong {
+  color: var(--accent);
+}
+
+.chat-msg code {
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+}
+
+/* Recipe Chain Visualization */
+.recipe-chain {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.chain-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-sm);
+}
+
+/* Recipe Result */
+.recipe-result {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(0, 212, 170, 0.06);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.result-icon {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  line-height: 1.5;
+}

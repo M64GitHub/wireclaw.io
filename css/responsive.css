@@ -54,6 +54,10 @@
   .behaviors-list {
     grid-template-columns: 1fr 1fr;
   }
+
+  .recipe-title-row h2 {
+    font-size: 1.35rem;
+  }
 }
 
 /* Tablets */
@@ -192,6 +196,39 @@
     width: 100%;
     justify-content: center;
   }
+
+  .recipe-title-row {
+    flex-direction: column;
+  }
+
+  .recipe-header {
+    padding: var(--space-lg);
+  }
+
+  .recipe-body {
+    padding: var(--space-lg);
+  }
+
+  .recipe-title-row h2 {
+    font-size: 1.25rem;
+  }
+
+  .toc-pills {
+    gap: var(--space-xs);
+  }
+
+  .toc-pill {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .chat-msg {
+    font-size: 0.82rem;
+  }
+
+  .chat-msg.chat-bot {
+    font-size: 0.78rem;
+  }
 }
 
 /* Gallery responsive - tablets */
@@ -291,5 +328,47 @@
 
   .gallery-caption {
     font-size: 0.65rem;
+  }
+
+  .recipe-title-row h2 {
+    font-size: 1.15rem;
+  }
+
+  .recipe-badge {
+    font-size: 0.65rem;
+  }
+
+  .recipe-header {
+    padding: var(--space-md);
+  }
+
+  .recipe-body {
+    padding: var(--space-md);
+    gap: var(--space-lg);
+  }
+
+  .recipe-step-num {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .chat-msg {
+    font-size: 0.78rem;
+    padding: var(--space-sm);
+  }
+
+  .chat-msg.chat-bot {
+    font-size: 0.74rem;
+    padding-left: calc(var(--space-sm) + 3px);
+  }
+
+  .recipe-result {
+    font-size: 0.82rem;
+  }
+
+  .toc-pill {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
   }
 }

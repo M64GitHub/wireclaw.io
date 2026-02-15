@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examples - WireClaw</title>
+  <meta name="description" content="Copy-paste WireClaw examples. Temperature alerts, light-activated LEDs, scheduled reports, NATS mesh, Arduino serial bridge. Wire it. Chat it. Done.">
+  <meta name="author" content="Mario Schallner">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wireclaw.io/examples.html">
+  <meta property="og:title" content="Examples - WireClaw">
+  <meta property="og:description" content="Copy-paste WireClaw examples. Temperature alerts, light-activated LEDs, scheduled reports, NATS mesh, Arduino serial bridge.">
+  <meta property="og:image" content="https://wireclaw.io/assets/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="WireClaw">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Examples - WireClaw">
+  <meta name="twitter:description" content="Copy-paste WireClaw examples. Wire it. Chat it. Done.">
+  <meta name="twitter:image" content="https://wireclaw.io/assets/preview.png">
+  <!-- Theme -->
+  <meta name="theme-color" content="#00d4aa">
+  <link rel="canonical" href="https://wireclaw.io/examples.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/learn-more.css">
+  <link rel="stylesheet" href="css/examples.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo" aria-label="WireClaw home">
+        <img src="assets/logo.svg" width="32" height="32" alt="" aria-hidden="true">
+        <span>WireClaw</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="learn-more.html">Learn More</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="examples.html">Examples</a>
+        <a href="config-portal/">Web UI</a>
+        <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="flash.html" class="btn btn-outline btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Flash Now
+        </a>
+      </nav>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="reveal">Real <span class="accent">Examples</span></h1>
+      <p class="reveal" style="--stagger: 1">Wire it. Chat it. Done. Copy-paste recipes from zero hardware to multi-device mesh.</p>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <section class="examples-toc">
+    <div class="container">
+      <div class="toc-pills reveal" style="--stagger: 2">
+        <a href="#quick-start" class="toc-pill">Quick Start</a>
+        <a href="#temp-alert" class="toc-pill">Temp Alert</a>
+        <a href="#light-led" class="toc-pill">Light LED</a>
+        <a href="#scheduled" class="toc-pill">Scheduled Reports</a>
+        <a href="#nats-mesh" class="toc-pill">NATS Mesh</a>
+        <a href="#serial-bridge" class="toc-pill">Serial Bridge</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 1: Quick Start -->
+  <section id="quick-start" class="example-section">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>Quick Start <span class="accent">(No Soldering)</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-easy">beginner</span>
+              <span class="recipe-badge recipe-badge-hw">no hardware</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">Flash via browser. Configure via captive portal. Chat on Telegram. Five minutes.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-steps">
+            <div class="recipe-step">
+              <span class="recipe-step-num">1</span>
+              <div>
+                <strong>Flash</strong>
+                <p>Open <a href="flash.html" style="color: var(--accent)">Flash Firmware</a> in Chrome. Plug in your ESP32. Click &ldquo;Install WireClaw.&rdquo;</p>
+              </div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-step-num">2</span>
+              <div>
+                <strong>Configure</strong>
+                <p>Connect to <code>WireClaw-Setup</code> WiFi from your phone. Enter your WiFi credentials, API key, model, and Telegram token in the captive portal.</p>
+              </div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-step-num">3</span>
+              <div>
+                <strong>Chat</strong>
+                <p>Open Telegram. Send a message to your bot.</p>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram</div>
+            <div class="chat-msg chat-user">What's the chip temperature?</div>
+            <div class="chat-msg chat-bot">The current chip temperature is <strong>32.4&deg;C</strong>.</div>
+            <div class="chat-msg chat-user">Set the LED to purple</div>
+            <div class="chat-msg chat-bot">LED set to purple (176, 106, 255). Looking good!</div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Working AI agent. No soldering. No code. Five minutes.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 2: Temperature Alert -->
+  <section id="temp-alert" class="example-section architecture-deep">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>Temperature <span class="accent">Alert</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-easy">beginner</span>
+              <span class="recipe-badge recipe-badge-hw">NTC 10K + resistor</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">Wire a thermistor. Register it. Get a Telegram alert when it&rsquo;s too hot.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-wiring">
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">wiring &mdash; NTC 10K voltage divider</span>
+              </div>
+              <div class="terminal-body">
+<pre>
+  3.3V ──┬──
+         │
+        [NTC 10K]
+         │
+  GPIO2 ─┤── ADC input
+         │
+        [10K resistor]
+         │
+  GND ───┘
+</pre>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram</div>
+            <div class="chat-msg chat-user">Register a temperature sensor called room_temp on pin 2, type ntc_10k</div>
+            <div class="chat-msg chat-bot">Registered sensor <strong>"room_temp"</strong> (ntc_10k) on GPIO 2.</div>
+            <div class="chat-msg chat-user">Alert me on Telegram when room_temp goes above 30</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"room_temp_alert"</strong> &mdash; when room_temp &gt; 30 &rarr; Telegram "Room temperature: {value}&deg;C"</div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Telegram alert fires when temperature crosses 30&deg;C. Edge-triggered &mdash; fires once, resets when temp drops back. Survives reboots.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 3: Light-Activated LED -->
+  <section id="light-led" class="example-section">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>Light-Activated <span class="accent">LED</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-easy">beginner</span>
+              <span class="recipe-badge recipe-badge-hw">LDR + resistor</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">Wire a light sensor. LED goes warm when it&rsquo;s dark. Off when it&rsquo;s bright. No code.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-wiring">
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">wiring &mdash; LDR voltage divider</span>
+              </div>
+              <div class="terminal-body">
+<pre>
+  3.3V ──┬──
+         │
+        [LDR]
+         │
+  GPIO3 ─┤── ADC input
+         │
+        [10K resistor]
+         │
+  GND ───┘
+</pre>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram</div>
+            <div class="chat-msg chat-user">Register a light sensor called light on pin 3, type ldr</div>
+            <div class="chat-msg chat-bot">Registered sensor <strong>"light"</strong> (ldr) on GPIO 3.</div>
+            <div class="chat-msg chat-user">When light drops below 500, set LED warm white. When above, turn LED off.</div>
+            <div class="chat-msg chat-bot">Created 2 rules: <strong>"dark_on"</strong> &mdash; light &lt; 500 &rarr; LED(255,180,50) and <strong>"bright_off"</strong> &mdash; light &gt; 500 &rarr; LED off.</div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Cover the sensor &rarr; LED glows warm. Uncover &rarr; LED off. Real-time. No cloud. No polling delay.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 4: Scheduled Reports -->
+  <section id="scheduled" class="example-section architecture-deep">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>Scheduled <span class="accent">Reports</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-easy">beginner</span>
+              <span class="recipe-badge recipe-badge-hw">no hardware</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">One chat message. Daily chip temperature on Telegram at 8 AM. Uses the built-in clock sensor.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram</div>
+            <div class="chat-msg chat-user">Every day at 8 AM, send me the chip temperature on Telegram</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"morning_report"</strong> &mdash; when clock_hhmm = 800 &rarr; Telegram "Good morning! Chip temp: {chip_temp}&deg;C"</div>
+          </div>
+          <div class="recipe-chain">
+            <span class="chain-label">Rule visualization</span>
+            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
+              clock_hhmm <span class="chain-arrow">&rarr;</span> eq 800 <span class="chain-arrow">&rarr;</span> telegram
+            </div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Telegram message every morning at 8:00. No cron. No external hardware. Just a rule on the clock sensor.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 5: NATS Mesh -->
+  <section id="nats-mesh" class="example-section">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>NATS <span class="accent">Mesh</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-mid">intermediate</span>
+              <span class="recipe-badge recipe-badge-hw">2 ESP32s + NATS server</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">One device publishes sensor data. Another triggers a rule from it. Cross-device automation over NATS.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-steps">
+            <div class="recipe-step">
+              <span class="recipe-step-num">A</span>
+              <div>
+                <strong>Device A &mdash; Sensor Node</strong>
+                <p>Has an NTC sensor. Publishes temperature to NATS subject <code>home.room.temp</code>.</p>
+              </div>
+            </div>
+            <div class="recipe-step">
+              <span class="recipe-step-num">B</span>
+              <div>
+                <strong>Device B &mdash; Alert Node</strong>
+                <p>Subscribes to the same NATS subject. Creates an alert rule on the incoming data.</p>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram (Device A)</div>
+            <div class="chat-msg chat-user">Create a rule that publishes room_temp to NATS subject home.room.temp every 60 seconds</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"publish_temp"</strong> &mdash; always (every 60s) &rarr; nats_publish home.room.temp with {value}.</div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram (Device B)</div>
+            <div class="chat-msg chat-user">Register a NATS sensor called room_temp on subject home.room.temp</div>
+            <div class="chat-msg chat-bot">Registered sensor <strong>"room_temp"</strong> (nats_value) subscribed to home.room.temp.</div>
+            <div class="chat-msg chat-user">Alert me when room_temp goes above 28</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"room_hot"</strong> &mdash; when room_temp &gt; 28 &rarr; Telegram "Room temperature: {value}&deg;C &mdash; too hot!"</div>
+          </div>
+          <div class="recipe-chain">
+            <span class="chain-label">Data flow</span>
+            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
+              Device A sensor <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> Device B rule <span class="chain-arrow">&rarr;</span> Telegram
+            </div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Two $5 chips. One reads. One alerts. Connected over NATS. No central server logic.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example 6: Serial Bridge -->
+  <section id="serial-bridge" class="example-section architecture-deep">
+    <div class="container">
+      <div class="example-recipe reveal">
+        <div class="recipe-header">
+          <div class="recipe-title-row">
+            <h2>Serial <span class="accent">Bridge</span></h2>
+            <div class="recipe-badges">
+              <span class="recipe-badge recipe-badge-mid">intermediate</span>
+              <span class="recipe-badge recipe-badge-hw">Arduino + 2 wires</span>
+            </div>
+          </div>
+          <p class="recipe-subtitle">Connect an Arduino over serial. WireClaw reads its output as a sensor. Alert on any reading.</p>
+        </div>
+        <div class="recipe-body">
+          <div class="recipe-wiring">
+            <div class="terminal">
+              <div class="terminal-header">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">wiring &mdash; Arduino to ESP32</span>
+              </div>
+              <div class="terminal-body">
+<pre>
+  Arduino TX  ──── ESP32 GPIO5 (UART1 RX)
+  Arduino GND ──── ESP32 GND
+
+  Arduino sketch: Serial.println(analogRead(A0));
+</pre>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-chat">
+            <div class="chat-label">Telegram</div>
+            <div class="chat-msg chat-user">Connect an Arduino on serial at 9600 baud and register it as a sensor called arduino_val</div>
+            <div class="chat-msg chat-bot">Registered sensor <strong>"arduino_val"</strong> (serial_text) on UART1 at 9600 baud.</div>
+            <div class="chat-msg chat-user">Alert me on Telegram when arduino_val goes above 800</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"arduino_alert"</strong> &mdash; when arduino_val &gt; 800 &rarr; Telegram "Arduino reading exceeded threshold: {value}"</div>
+          </div>
+          <div class="recipe-result">
+            <span class="result-icon">&#10003;</span>
+            <span>Any Arduino sensor becomes a WireClaw sensor. Two wires. Full rule engine. Telegram alerts on any reading.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="github-cta">
+    <div class="container">
+      <h2 class="reveal">Ready to Build <span class="accent">Your Own</span>?</h2>
+      <p class="reveal" style="--stagger: 1; color: var(--text-secondary); margin-bottom: var(--space-xl);">Flash in the browser. Configure from your phone. Chat on Telegram.</p>
+      <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap;">
+        <a href="flash.html" class="btn btn-primary reveal" style="--stagger: 1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Flash Now
+        </a>
+        <a href="architecture.html" class="btn btn-outline reveal" style="--stagger: 2">Full Reference &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">
+        <img src="assets/logo.svg" width="28" height="28" alt="" aria-hidden="true">
+        <span>WireClaw</span>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="learn-more.html">Learn More</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="examples.html">Examples</a>
+        <a href="flash.html">Flash Firmware</a>
+        <a href="config-portal/">Web UI</a>
+        <a href="https://github.com/M64GitHub/WireClaw" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <span class="footer-copy">&copy; 2026 Mario Schallner</span>
+    </div>
+  </footer>
+
+  <script defer src="js/nav.js"></script>
+  <script defer src="js/scroll-reveal.js"></script>
+</body>
+</html>
