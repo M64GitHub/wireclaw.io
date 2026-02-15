@@ -64,6 +64,23 @@ text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.25rem}
 .status-item .value{font-size:0.95rem;color:var(--text);font-family:var(--mono);word-break:break-all}
 .status-item .value.accent{color:var(--accent)}
 .status-item.full{grid-column:1/-1}
+.rule{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:0.75rem}
+.rule-hdr{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem}
+.rule-id{font-family:var(--mono);font-size:0.8rem;color:var(--accent);font-weight:600}
+.rule-name{flex:1;font-size:0.85rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font-size:0.65rem;font-weight:700;font-family:var(--mono);padding:0.15rem 0.5rem;
+border-radius:9999px;letter-spacing:0.04em}
+.badge.on{background:var(--accent-dim);color:var(--accent);border:1px solid var(--border-a)}
+.badge.off{background:rgba(255,71,87,0.12);color:var(--red);border:1px solid rgba(255,71,87,0.25)}
+.del{background:none;border:none;color:var(--text3);font-size:1.1rem;cursor:pointer;
+padding:0.1rem 0.4rem;border-radius:4px;line-height:1;transition:all 0.15s}
+.del:hover{color:var(--red);background:rgba(255,71,87,0.12)}
+.rule-meta{font-family:var(--mono);font-size:0.75rem;color:var(--text2);margin-bottom:0.3rem}
+.rule-act{font-family:var(--mono);font-size:0.75rem;color:var(--text3)}
+.rule-act .arrow{color:var(--accent)}
+.rule-act.off-act .arrow{color:var(--red)}
+.rule-act.chain-act{color:var(--text3);font-style:italic}
+.rules-empty{text-align:center;color:var(--text3);padding:2rem 0;font-size:0.9rem}
 @media(max-width:480px){
 .wrap{padding:0.75rem}
 .card{padding:1rem}
@@ -81,6 +98,8 @@ nav button{padding:0.4rem 0.6rem;font-size:0.8rem}
 <button class="active" onclick="showTab('config')">Config</button>
 <button onclick="showTab('prompt')">Prompt</button>
 <button onclick="showTab('memory')">Memory</button>
+<button onclick="showTab('devices')">Devices</button>
+<button onclick="showTab('rules')">Rules</button>
 <button onclick="showTab('status')">Status</button>
 </nav>
 
@@ -146,6 +165,23 @@ nav button{padding:0.4rem 0.6rem;font-size:0.8rem}
 </div>
 </div>
 
+<div id="devices" class="tab">
+<div id="devices-list"></div>
+<div class="actions">
+<button class="btn btn-outline" onclick="loadDevices()">Refresh</button>
+</div>
+<p class="hint" style="margin-top:0.75rem">To register devices, chat with WireClaw.</p>
+</div>
+
+<div id="rules" class="tab">
+<div id="rules-list"></div>
+<div class="actions">
+<button class="btn btn-outline" onclick="loadRules()">Refresh</button>
+<button class="btn btn-danger" onclick="deleteAllRules()">Delete All</button>
+</div>
+<p class="hint" style="margin-top:0.75rem">To create rules, chat with WireClaw.</p>
+</div>
+
 <div id="status" class="tab">
 <div class="card">
 <div class="status-grid" id="status-grid"></div>
@@ -195,6 +231,31 @@ nats:"connected",
 telegram:"enabled"
 };
 
+var mockRules=[
+{id:"rule_01",name:"Hot Alert",en:true,src:"chip_temp gt 30",
+on:'telegram "Room temp: {value}\u00b0C"',off:"led_set(0,255,255)",
+chain:"->rule_02 (5s)",val:28,fired:false},
+{id:"rule_02",name:"Warning LED",en:false,src:"chained",
+on:"led_set(255,60,0)",off:"led_set(0,0,0)",chain:"",val:0,fired:false},
+{id:"rule_03",name:"Heartbeat",en:true,src:"chip_temp always 0",
+on:'nats_publish "status/alive"',off:"",chain:"",val:26,fired:true}
+];
+
+var mockDevices=[
+{name:"chip_temp",kind:"internal_temp",pin:"virtual",value:"39.2 C",extra:"",msg:"",internal:true},
+{name:"clock_hour",kind:"clock_hour",pin:"virtual",value:"14.0 h",extra:"",msg:"",internal:true},
+{name:"clock_minute",kind:"clock_minute",pin:"virtual",value:"37.0 m",extra:"",msg:"",internal:true},
+{name:"clock_hhmm",kind:"clock_hhmm",pin:"virtual",value:"1437.0",extra:"",msg:"",internal:true},
+{name:"power",kind:"nats_value",pin:"virtual",value:"2450.0 W",extra:"home.power",msg:"Power spike detected",internal:false},
+{name:"arduino",kind:"serial_text",pin:"virtual",value:"23.5",extra:"9600 baud",msg:"temperature=23.5",internal:false},
+{name:"button1",kind:"digital_in",pin:"4",value:"1.0",extra:"",msg:"",internal:false},
+{name:"light1",kind:"ldr",pin:"34",value:"45.3 lux",extra:"",msg:"",internal:false},
+{name:"temp_ext",kind:"ntc_10k",pin:"35",value:"22.5 C",extra:"",msg:"",internal:false},
+{name:"pump",kind:"relay",pin:"7",value:"OFF",extra:"",msg:"",internal:false},
+{name:"fan",kind:"digital_out",pin:"8",value:"ON",extra:"",msg:"",internal:false},
+{name:"dimmer",kind:"pwm",pin:"6",value:"128/255",extra:"",msg:"",internal:false}
+];
+
 function showTab(id){
 document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
 document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active')});
@@ -203,6 +264,8 @@ event.target.classList.add('active');
 if(id==='status')loadStatus();
 if(id==='prompt')loadPrompt();
 if(id==='memory')loadMemory();
+if(id==='devices')loadDevices();
+if(id==='rules')loadRules();
 }
 
 function toast(msg,ok){
@@ -247,6 +310,59 @@ h+='<div class="status-item'+(i.full?' full':'')+'"><div class="label">'+i.l+
 '</div><div class="value'+(i.cls?' '+i.cls:'')+'">'+i.v+'</div></div>';
 });
 document.getElementById('status-grid').innerHTML=h;
+}
+
+function loadDevices(){
+var c=document.getElementById('devices-list');
+if(!mockDevices.length){c.innerHTML='<div class="rules-empty">No devices registered.</div>';return}
+var h='';mockDevices.forEach(function(d){
+h+='<div class="rule"><div class="rule-hdr"><span class="rule-id">'+d.name+'</span>';
+h+='<span class="rule-name">'+d.kind+'</span>';
+h+='<span class="badge on">'+(d.pin==='virtual'?'virtual':'pin '+d.pin)+'</span>';
+if(!d.internal)h+='<button class="del" onclick="deleteDevice(\''+d.name+'\')">&times;</button>';
+h+='</div>';
+h+='<div class="rule-meta">value: '+d.value+'</div>';
+if(d.extra)h+='<div class="rule-act"><span class="arrow">&rarr;</span> '+d.extra+'</div>';
+if(d.msg)h+='<div class="rule-act"><span class="arrow">&rarr;</span> "'+d.msg+'"</div>';
+h+='</div>'});
+c.innerHTML=h;
+}
+
+function deleteDevice(name){
+if(!confirm('Delete device "'+name+'"?'))return;
+mockDevices=mockDevices.filter(function(d){return d.name!==name});
+loadDevices();
+toast('Deleted '+name,true);
+}
+
+function loadRules(){
+var c=document.getElementById('rules-list');
+if(!mockRules.length){c.innerHTML='<div class="rules-empty">No rules defined.</div>';return}
+var h='';mockRules.forEach(function(r){
+h+='<div class="rule"><div class="rule-hdr"><span class="rule-id">'+r.id+'</span>';
+h+='<span class="rule-name">'+r.name+'</span>';
+h+='<span class="badge '+(r.en?'on':'off')+'">'+(r.en?'ON':'OFF')+'</span>';
+h+='<button class="del" onclick="deleteRule(\''+r.id+'\')">&times;</button></div>';
+h+='<div class="rule-meta">'+r.src+'&ensp;val='+r.val+'&ensp;'+(r.fired?'FIRED':'idle')+'</div>';
+h+='<div class="rule-act"><span class="arrow">&rarr;</span> '+r.on+'</div>';
+if(r.off)h+='<div class="rule-act off-act"><span class="arrow">&larr;</span> '+r.off+'</div>';
+if(r.chain)h+='<div class="rule-act chain-act">chain: '+r.chain+'</div>';
+h+='</div>'});
+c.innerHTML=h;
+}
+
+function deleteRule(id){
+if(!confirm('Delete '+id+'?'))return;
+mockRules=mockRules.filter(function(r){return r.id!==id});
+loadRules();
+toast('Deleted '+id,true);
+}
+
+function deleteAllRules(){
+if(!confirm('Delete ALL rules? This cannot be undone.'))return;
+mockRules=[];
+loadRules();
+toast('All rules deleted',true);
 }
 
 loadConfig();
