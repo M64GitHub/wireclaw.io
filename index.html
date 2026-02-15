@@ -233,10 +233,10 @@
         </div>
         <div class="card reveal" style="--stagger: 2">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4M7.5 17.2L10.5 13M16.5 17.2L13.5 13"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3"/><rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M9 14h6"/><path d="M4 12H2M22 12h-2"/></svg>
           </div>
-          <h3>Your AI, Your Network</h3>
-          <p>Run with OpenRouter, or go fully local with Ollama or llama.cpp. No API key, no internet, no cloud. HTTP mode saves ~40% RAM. Direct LLM calls from the ESP32 - no intermediary, no backend.</p>
+          <h3>Agentic Tool Loop</h3>
+          <p>Not just chat - a true agent. Reasons, calls tools, observes results, iterates up to 5 times.</p>
         </div>
         <div class="card reveal" style="--stagger: 3">
           <div class="card-icon">
@@ -247,13 +247,6 @@
         </div>
         <div class="card reveal" style="--stagger: 4">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3"/><rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M9 14h6"/><path d="M4 12H2M22 12h-2"/></svg>
-          </div>
-          <h3>Agentic Tool Loop</h3>
-          <p>Not just chat - a true agent. Reasons, calls tools, observes results, iterates up to 5 times.</p>
-        </div>
-        <div class="card reveal" style="--stagger: 5">
-          <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
               <path d="M12 8v4l3 1.5"/>
@@ -263,7 +256,25 @@
           <h3>Persistent Memory</h3>
           <p>Tell it your favorite color is blue. Reboot. Ask it to set the LED to your favorite color. It writes to flash, loads on boot. 512 bytes that make it personal.</p>
         </div>
+        <div class="card reveal" style="--stagger: 5">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4M7.5 17.2L10.5 13M16.5 17.2L13.5 13"/></svg>
+          </div>
+          <h3>Your AI, Your Network</h3>
+          <p>Run with OpenRouter, or go fully local with Ollama or llama.cpp. No API key, no internet, no cloud. HTTP mode saves ~40% RAM. Direct LLM calls from the ESP32 - no intermediary, no backend.</p>
+        </div>
         <div class="card reveal" style="--stagger: 6">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+            </svg>
+          </div>
+          <h3>Web Config</h3>
+          <p>Configure from any browser. Edit prompt, memory, and settings at <code>device.local</code>. No reflash needed.</p>
+          <a href="config-portal/" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">Try the demo &rarr;</a>
+        </div>
+        <div class="card reveal" style="--stagger: 7">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
@@ -274,7 +285,7 @@
           <p>Chain up to 5 actions with delays. One sentence creates the sequence. It runs forever.</p>
           <div class="chain-visual">sensor <span class="chain-arrow">&rarr;</span> alert <span class="chain-arrow">&rarr;</span> <span class="chain-delay">5s</span> <span class="chain-arrow">&rarr;</span> LED red <span class="chain-arrow">&rarr;</span> <span class="chain-delay">10s</span> <span class="chain-arrow">&rarr;</span> LED off</div>
         </div>
-        <div class="card reveal" style="--stagger: 7">
+        <div class="card reveal" style="--stagger: 8">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M4 9h16M4 15h16"/>
@@ -283,17 +294,6 @@
           </div>
           <h3>Serial Bridge</h3>
           <p>Connect any serial device &mdash; Arduinos, GPS modules, CO2 sensors. Read data as a sensor, send commands, trigger rules. All over UART.</p>
-        </div>
-        <div class="card reveal" style="--stagger: 8">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-            </svg>
-          </div>
-          <h3>Web Config</h3>
-          <p>Configure from any browser. Edit prompt, memory, and settings at <code>device.local</code>. No reflash needed.</p>
-          <a href="config-portal/" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">Try the demo &rarr;</a>
         </div>
       </div>
     </div>
