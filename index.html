@@ -226,24 +226,25 @@
         </div>
         <div class="card reveal" style="--stagger: 1">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/><polygon points="13 8 11 13 14 13 12 18"/></svg>
           </div>
           <h3>Rule Engine</h3>
-          <p>Persistent local automation. Edge-triggered rules read sensors and fire actions every loop iteration. No LLM. No cloud. Survives reboots.</p>
+          <p>Persistent local automation. Edge-triggered rules with multi-step chains and delays. No LLM. No cloud. Survives reboots.</p>
+          <div class="chain-visual">sensor <span class="chain-arrow">&rarr;</span> alert <span class="chain-arrow">&rarr;</span> <span class="chain-delay">5s</span> <span class="chain-arrow">&rarr;</span> LED red <span class="chain-arrow">&rarr;</span> <span class="chain-delay">10s</span> <span class="chain-arrow">&rarr;</span> LED off</div>
         </div>
         <div class="card reveal" style="--stagger: 2">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3"/><rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M9 14h6"/><path d="M4 12H2M22 12h-2"/></svg>
-          </div>
-          <h3>Agentic Tool Loop</h3>
-          <p>Not just chat - a true agent. Reasons, calls tools, observes results, iterates up to 5 times.</p>
-        </div>
-        <div class="card reveal" style="--stagger: 3">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3"/><path d="M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
           </div>
           <h3>Multi-Channel Control</h3>
           <p>Telegram bot, USB serial, or NATS messaging. Same intelligence, any interface.</p>
+        </div>
+        <div class="card reveal" style="--stagger: 3">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3"/><rect x="6" y="6" width="12" height="12" rx="2"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/><path d="M9 14h6"/><path d="M4 12H2M22 12h-2"/></svg>
+          </div>
+          <h3>Agentic Tool Loop</h3>
+          <p>Not just chat - a true agent. Reasons, calls tools, observes results, iterates up to 5 times.</p>
         </div>
         <div class="card reveal" style="--stagger: 4">
           <div class="card-icon">
@@ -265,27 +266,12 @@
         </div>
         <div class="card reveal" style="--stagger: 6">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="5" cy="6" r="3"/><circle cx="19" cy="6" r="3"/><circle cx="12" cy="19" r="3"/><path d="M8 7l3 10M16 7l-3 10M8 6h8"/></svg>
           </div>
-          <h3>Web Config</h3>
-          <p>Configure from any browser. Edit prompt, memory, and settings at <code>device.local</code>. No reflash needed.</p>
-          <a href="config-portal/" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">Try the demo &rarr;</a>
+          <h3>Device Mesh</h3>
+          <p>WireClaws talk to each other over NATS. Ask another device a question. Trigger cross-device rules. Build a network of $5 autonomous agents.</p>
         </div>
         <div class="card reveal" style="--stagger: 7">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
-            </svg>
-          </div>
-          <h3>Rule Chains</h3>
-          <p>Chain up to 5 actions with delays. One sentence creates the sequence. It runs forever.</p>
-          <div class="chain-visual">sensor <span class="chain-arrow">&rarr;</span> alert <span class="chain-arrow">&rarr;</span> <span class="chain-delay">5s</span> <span class="chain-arrow">&rarr;</span> LED red <span class="chain-arrow">&rarr;</span> <span class="chain-delay">10s</span> <span class="chain-arrow">&rarr;</span> LED off</div>
-        </div>
-        <div class="card reveal" style="--stagger: 8">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M4 9h16M4 15h16"/>
@@ -294,6 +280,17 @@
           </div>
           <h3>Serial Bridge</h3>
           <p>Connect any serial device &mdash; Arduinos, GPS modules, CO2 sensors. Read data as a sensor, send commands, trigger rules. All over UART.</p>
+        </div>
+        <div class="card reveal" style="--stagger: 8">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+            </svg>
+          </div>
+          <h3>Web Config</h3>
+          <p>Configure from any browser. Edit prompt, memory, and settings at <code>device.local</code>. No reflash needed.</p>
+          <a href="config-portal/" style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">Try the demo &rarr;</a>
         </div>
       </div>
     </div>
