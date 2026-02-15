@@ -346,7 +346,7 @@
               <span class="recipe-step-num">A</span>
               <div>
                 <strong>Device A &mdash; Sensor Node</strong>
-                <p>Has an NTC sensor. Publishes temperature to NATS subject <code>home.room.temp</code>.</p>
+                <p>Uses built-in <code>chip_temp</code>. Publishes temperature to NATS subject <code>home.room.temp</code>.</p>
               </div>
             </div>
             <div class="recipe-step">
@@ -359,25 +359,59 @@
           </div>
           <div class="recipe-chat">
             <div class="chat-label">Telegram (Device A)</div>
-            <div class="chat-msg chat-user">Create a rule that publishes room_temp to NATS subject home.room.temp every 60 seconds</div>
-            <div class="chat-msg chat-bot">Rule created: <strong>"publish_temp"</strong> &mdash; always (every 60s) &rarr; nats_publish home.room.temp with {value}.</div>
+            <div class="chat-msg chat-user">Create a rule that publishes chip_temp to NATS subject home.room.temp every 60 seconds</div>
+            <div class="chat-msg chat-bot">OK, I've created a rule named <strong>`publish_temp_to_nats`</strong> that will publish the <strong>`chip_temp`</strong> to the NATS subject <strong>`home.room.temp`</strong> every 60 seconds.</div>
+          </div>
+          <div class="recipe-verify">
+            <div class="verify-label">Web Config Portal &mdash; Device A</div>
+            <div class="rule-card">
+              <div class="rule-card-hdr">
+                <span class="rule-card-id">rule_01</span>
+                <span class="rule-card-name">publish_temp_to_nats</span>
+                <span class="rule-card-badge">ON</span>
+              </div>
+              <div class="rule-card-meta">chip_temp always 0 val=31 idle</div>
+              <div class="rule-card-act"><span class="rule-arrow">&rarr;</span> nats_publish "{value}"</div>
+            </div>
           </div>
           <div class="recipe-chat">
             <div class="chat-label">Telegram (Device B)</div>
             <div class="chat-msg chat-user">Register a NATS sensor called room_temp on subject home.room.temp</div>
-            <div class="chat-msg chat-bot">Registered sensor <strong>"room_temp"</strong> (nats_value) subscribed to home.room.temp.</div>
+            <div class="chat-msg chat-bot">I have registered a NATS sensor named <strong>`room_temp`</strong> on the subject <strong>`home.room.temp`</strong>.</div>
             <div class="chat-msg chat-user">Alert me when room_temp goes above 28</div>
-            <div class="chat-msg chat-bot">Rule created: <strong>"room_hot"</strong> &mdash; when room_temp &gt; 28 &rarr; Telegram "Room temperature: {value}&deg;C &mdash; too hot!"</div>
+            <div class="chat-msg chat-bot">I have created a rule to alert you via Telegram when the <strong>`room_temp`</strong> goes above 28 degrees Celsius.</div>
+            <div class="chat-msg chat-bot">Room temperature is <strong>31&deg;C</strong>, which is above 28&deg;C.</div>
+          </div>
+          <div class="recipe-verify">
+            <div class="verify-label">Web Config Portal &mdash; Device B</div>
+            <div class="device-card">
+              <div class="device-card-hdr">
+                <span class="device-card-name">room_temp</span>
+                <span class="device-card-type">nats_value</span>
+                <span class="device-card-pin">virtual</span>
+              </div>
+              <div class="device-card-value">value: 31.0</div>
+              <div class="device-card-value"><span class="rule-arrow">&rarr;</span> home.room.temp</div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-card-hdr">
+                <span class="rule-card-id">rule_01</span>
+                <span class="rule-card-name">room_temp_high_alert</span>
+                <span class="rule-card-badge">ON</span>
+              </div>
+              <div class="rule-card-meta">room_temp gt 28 val=31 FIRED</div>
+              <div class="rule-card-act"><span class="rule-arrow">&rarr;</span> telegram "Room temperature is {value}&deg;C, which is above 28&deg;C."</div>
+            </div>
           </div>
           <div class="recipe-chain">
             <span class="chain-label">Data flow</span>
             <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
-              Device A sensor <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> Device B rule <span class="chain-arrow">&rarr;</span> Telegram
+              chip_temp <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> room_temp <span class="chain-arrow">&rarr;</span> Telegram
             </div>
           </div>
           <div class="recipe-result">
             <span class="result-icon">&#10003;</span>
-            <span>Two $5 chips. One reads. One alerts. Connected over NATS. No central server logic.</span>
+            <span>Two $5 chips. One publishes chip_temp over NATS. The other subscribes and alerts. No external sensors needed.</span>
           </div>
         </div>
       </div>
