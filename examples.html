@@ -187,6 +187,26 @@
             <div class="chat-msg chat-bot">I will send you a Telegram message when the room temperature goes above 30&deg;C.</div>
             <div class="chat-msg chat-bot">Room temperature is <strong>35&deg;C</strong>, which is above 30&deg;C!</div>
           </div>
+          <div class="recipe-verify">
+            <div class="verify-label">Web Config Portal</div>
+            <div class="device-card">
+              <div class="device-card-hdr">
+                <span class="device-card-name">room_temp</span>
+                <span class="device-card-type">ntc_10k</span>
+                <span class="device-card-pin">pin 2</span>
+              </div>
+              <div class="device-card-value">value: 202.5</div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-card-hdr">
+                <span class="rule-card-id">rule_02</span>
+                <span class="rule-card-name">rule_01</span>
+                <span class="rule-card-badge">ON</span>
+              </div>
+              <div class="rule-card-meta">room_temp gt 30 val=69 FIRED</div>
+              <div class="rule-card-act"><span class="rule-arrow">&rarr;</span> telegram "Room temperature is {value}&deg;C - too hot!"</div>
+            </div>
+          </div>
           <div class="recipe-result">
             <span class="result-icon">&#10003;</span>
             <span>Telegram alert fires when temperature crosses 30&deg;C. Edge-triggered &mdash; fires once, resets when temp drops back. Survives reboots.</span>
@@ -237,9 +257,30 @@
           <div class="recipe-chat">
             <div class="chat-label">Telegram</div>
             <div class="chat-msg chat-user">Register a light sensor called light on pin 3, type ldr</div>
-            <div class="chat-msg chat-bot">Registered sensor <strong>"light"</strong> (ldr) on GPIO 3.</div>
+            <div class="chat-msg chat-bot">Registered a light sensor named <strong>`light`</strong> on pin 3.</div>
             <div class="chat-msg chat-user">When light drops below 500, set LED warm white. When above, turn LED off.</div>
-            <div class="chat-msg chat-bot">Created 2 rules: <strong>"dark_on"</strong> &mdash; light &lt; 500 &rarr; LED(255,180,50) and <strong>"bright_off"</strong> &mdash; light &gt; 500 &rarr; LED off.</div>
+            <div class="chat-msg chat-bot">Okay, I've set up a rule. When the light sensor <strong>`light`</strong> reads below 500, the LED will turn warm white (255, 255, 150). When it goes above 500, the LED will turn off.</div>
+          </div>
+          <div class="recipe-verify">
+            <div class="verify-label">Web Config Portal</div>
+            <div class="device-card">
+              <div class="device-card-hdr">
+                <span class="device-card-name">light</span>
+                <span class="device-card-type">ldr</span>
+                <span class="device-card-pin">pin 3</span>
+              </div>
+              <div class="device-card-value">value: 11.4</div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-card-hdr">
+                <span class="rule-card-id">rule_01</span>
+                <span class="rule-card-name">light_on</span>
+                <span class="rule-card-badge">ON</span>
+              </div>
+              <div class="rule-card-meta">light lt 500 val=13 FIRED</div>
+              <div class="rule-card-act"><span class="rule-arrow">&rarr;</span> led_set(255,255,150)</div>
+              <div class="rule-card-act"><span class="rule-arrow rule-arrow-off">&larr;</span> led_set(0,0,0)</div>
+            </div>
           </div>
           <div class="recipe-result">
             <span class="result-icon">&#10003;</span>
