@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenClaw Integration - WireClaw</title>
-  <meta name="description" content="Connect OpenClaw to WireClaw over NATS. Your desktop AI agent gets a body - LEDs, sensors, relays on a $5 ESP32. 30ms round trip. Rules run forever.">
+  <meta name="description" content="Connect OpenClaw to WireClaw over NATS. One skill. Your desktop AI agent discovers, controls, and automates hardware on ESP32. Rules run forever.">
   <meta name="author" content="Mario Schallner">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -82,6 +82,7 @@
         <a href="#the-idea" class="toc-pill">The Idea</a>
         <a href="#first-contact" class="toc-pill">First Contact</a>
         <a href="#get-started" class="toc-pill">Get Started</a>
+        <a href="#how-it-works" class="toc-pill">How It Works</a>
         <a href="#what-you-can-build" class="toc-pill">What You Can Build</a>
         <a href="#the-skill" class="toc-pill">Inside The Skill</a>
       </div>
@@ -93,7 +94,7 @@
     <div class="container">
       <div class="section-header reveal">
         <h2><span class="accent">OpenClaw</span> Meets WireClaw</h2>
-        <p>One AI in your terminal. Another on a $5 chip. Connected over NATS.</p>
+        <p>One AI in your terminal. Another bare metal on an ESP32. Connected over NATS.</p>
       </div>
 
       <div class="dual-loop">
@@ -116,7 +117,7 @@
             <span class="loop-badge loop-badge-always">hardware</span>
             <h3>WireClaw</h3>
           </div>
-          <p class="loop-desc">AI on the wire. LEDs, sensors, relays, GPIO. Creates rules that run 24/7 - no cloud, no LLM, no latency. $5.</p>
+          <p class="loop-desc">AI on the wire. LEDs, sensors, relays, GPIO. Creates rules that run 24/7 - no cloud, no LLM, no latency.</p>
         </div>
       </div>
 
@@ -137,7 +138,7 @@
               <span class="recipe-badge recipe-badge-openclaw">real session</span>
             </div>
           </div>
-          <p class="recipe-subtitle">This actually happened. Feb 16, 2026 - first time OpenClaw talked to WireClaw. Telegram to NATS to a $5 chip. Unedited.</p>
+          <p class="recipe-subtitle">This actually happened. Feb 16, 2026 - first time OpenClaw talked to WireClaw. Unedited.</p>
         </div>
         <div class="recipe-body">
           <div class="recipe-chat">
@@ -190,47 +191,18 @@
           <div class="step-number">1</div>
           <div>
             <h3>Install the Skill</h3>
-            <p>This is the entire integration. One folder, two files - a markdown doc and a shell helper. Drop it in and OpenClaw learns hardware.</p>
-            <div class="terminal" style="margin-top: var(--space-md);">
-              <div class="terminal-header">
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-title">install - skill</span>
-              </div>
-              <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-cp -r skill/wireclaw ~/.openclaw/workspace/skills/wireclaw</pre>
-              </div>
-            </div>
-            <p style="margin-top: var(--space-sm); font-size: 0.85rem; color: var(--text-muted);">Or ask OpenClaw: <em>&ldquo;Install the wireclaw skill from github.com/M64GitHub/WireClaw - it&rsquo;s in the skill/wireclaw folder.&rdquo;</em></p>
+            <p>This is the entire integration. One folder, two files - a markdown doc and a shell helper.</p>
+            <p style="margin-top: var(--space-md);">Tell OpenClaw: <em>&ldquo;Install the wireclaw skill from github.com/M64GitHub/WireClaw - it&rsquo;s in the skill/wireclaw folder.&rdquo;</em></p>
           </div>
         </div>
         <div class="step-card reveal" style="--stagger: 1">
           <div class="step-number">2</div>
           <div>
-            <h3>NATS Server + CLI</h3>
-            <p>The bridge between OpenClaw and WireClaw. Ask OpenClaw: <em>&ldquo;Install nats-server and the nats CLI, then start the server.&rdquo;</em></p>
-            <p>Or do it yourself:</p>
-            <div class="terminal" style="margin-top: var(--space-md);">
-              <div class="terminal-header">
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-title">install - NATS</span>
-              </div>
-              <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-muted);"># macOS</span>
-brew install nats-server nats-io/nats-tools/nats
-nats-server -a 0.0.0.0 &amp;
-
-<span style="color: var(--text-muted);"># Linux</span>
-curl -sf https://install.nats.dev | sh
-nats-server -a 0.0.0.0 &amp;</pre>
-              </div>
-            </div>
-            <p style="margin-top: var(--space-sm); font-size: 0.85rem; color: var(--text-muted);">Point WireClaw at it: set <code style="color: var(--accent); background: var(--accent-dim); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm);">nats_host</code> in the <a href="config-portal/" style="color: var(--accent);">web config portal</a>. Non-default URL? <code style="color: var(--accent); background: var(--accent-dim); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm);">export WIRECLAW_NATS_URL="nats://192.168.1.100:4222"</code></p>
+            <h3>Start a NATS Server</h3>
+            <p>OpenClaw and WireClaw talk through <a href="https://nats.io" target="_blank" rel="noopener" style="color: var(--accent);">NATS</a>.</p>
+            <p style="margin-top: var(--space-md);">Tell OpenClaw: <em>&ldquo;Install the NATS server and CLI, then start the server.&rdquo;</em></p>
+            <p style="margin-top: var(--space-md);">Then set the NATS server IP in WireClaw&rsquo;s <a href="config-portal/" style="color: var(--accent);">web config portal</a> so it knows where to connect.</p>
+            <p style="margin-top: var(--space-md); font-size: 0.85rem; color: var(--text-muted);">Want to run the NATS server on a different machine, or install manually? <a href="openclaw-setup.html" style="color: var(--accent);">See detailed setup &rarr;</a></p>
           </div>
         </div>
         <div class="step-card reveal" style="--stagger: 2">
@@ -248,6 +220,19 @@ nats-server -a 0.0.0.0 &amp;</pre>
             <p style="margin-top: var(--space-sm); font-size: 0.9rem; color: var(--text-secondary);">That&rsquo;s it. From chat to hardware in three steps. No SDK, no plugins, no config files. Just a skill.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="architecture-deep">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>How It <span class="accent">Works</span></h2>
+        <p>You just talk to OpenClaw. It handles the rest.</p>
+      </div>
+      <div class="insight reveal" style="--stagger: 1; max-width: 640px; margin: 0 auto; border-top: none; padding-top: 0;">
+        The skill teaches OpenClaw to talk to WireClaw. You just say what you want - OpenClaw translates it into hardware commands. Under the hood, they communicate through <a href="https://nats.io" target="_blank" rel="noopener" style="color: var(--accent);">NATS</a> - the same lightweight message bus that WireClaw already uses for its sensors and device mesh. Point both at a NATS server on any machine, and they find each other.
       </div>
     </div>
   </section>
@@ -285,7 +270,7 @@ nats-server -a 0.0.0.0 &amp;</pre>
           <div class="step-number"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg></div>
           <div>
             <h3>Temperature Telegram Alert</h3>
-            <p>NTC sensor on an ESP32 near your server rack. Rule fires a Telegram message when it crosses 40&deg;C. No polling. No lambda. Just a rule on a $5 chip.</p>
+            <p>NTC sensor on an ESP32 near your server rack. Rule fires a Telegram message when it crosses 40&deg;C. No polling. No lambda. Just a rule on a chip.</p>
           </div>
         </div>
         <div class="step-card reveal" style="--stagger: 4">
