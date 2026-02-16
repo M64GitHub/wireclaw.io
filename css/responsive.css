@@ -35,6 +35,10 @@
     font-size: 1.15rem;
   }
 
+  .bridge-statement {
+    font-size: 1.5rem;
+  }
+
   .dual-loop {
     max-width: 100%;
   }
@@ -58,27 +62,8 @@
   .recipe-title-row h2 {
     font-size: 1.35rem;
   }
-}
 
-/* Tablets */
-@media (max-width: 768px) {
-  :root {
-    --space-4xl: 4rem;
-  }
-
-  h1 {
-    font-size: 2.25rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  .container {
-    padding: 0 var(--space-md);
-  }
-
-  /* Nav mobile */
+  /* Nav mobile — hamburger at 1024px for 7 nav items */
   .nav-links {
     display: none;
     flex-direction: column;
@@ -98,6 +83,30 @@
 
   .hamburger {
     display: flex;
+  }
+
+  .nav-links .btn.btn-sm {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  :root {
+    --space-4xl: 4rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .container {
+    padding: 0 var(--space-md);
   }
 
   .highlights-grid {
@@ -190,11 +199,6 @@
 
   .example-timeline {
     padding-left: var(--space-xl);
-  }
-
-  .nav-links .btn.btn-sm {
-    width: 100%;
-    justify-content: center;
   }
 
   .recipe-title-row {
@@ -303,6 +307,18 @@
 
   .positioning-line {
     font-size: 0.95rem;
+  }
+
+  .bridge-statement {
+    font-size: 1.3rem;
+  }
+
+  .bridge-sub {
+    font-size: 0.95rem;
+  }
+
+  .bridge-flow {
+    font-size: 0.75rem;
   }
 
   .loop-header h3 {

@@ -171,6 +171,42 @@
   color: var(--led-orange);
 }
 
+/* OpenClaw Bridge Teaser */
+.openclaw-bridge {
+  padding: var(--space-3xl) 0;
+  text-align: center;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.bridge-statement {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.02em;
+}
+
+.bridge-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto var(--space-lg);
+  line-height: 1.7;
+}
+
+.bridge-flow {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xl);
+}
+
+.bridge-flow .accent {
+  color: var(--accent);
+}
+
 /* Dual-Loop Architecture */
 .architecture-teaser {
   text-align: center;
