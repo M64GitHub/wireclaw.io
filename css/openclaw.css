@@ -24,3 +24,22 @@
   font-style: normal;
   font-weight: 600;
 }
+
+/* First Contact gallery — full-width inside recipe card */
+#first-contact .recipe-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#first-contact .gallery-viewport {
+  aspect-ratio: 9 / 10;
+}
+
+#first-contact .gallery-frame {
+  max-width: none;
+  margin: 0 auto;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}

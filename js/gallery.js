@@ -5,11 +5,14 @@
   var images = viewport.querySelectorAll('img');
   var dots = document.querySelectorAll('.gallery-dot');
   var caption = document.querySelector('.gallery-caption');
-  var captions = [
-    'Telegram: register sensor \u2192 ask temperature \u2192 set alert \u2192 get notification',
-    'Serial log: NATS subscribe, LLM tool calls, rule trigger + clear',
-    'Any machine: nats pub home.room.temp "45.3" \u2192 rule fires'
-  ];
+  var hasDataCaptions = images[0] && images[0].getAttribute('data-caption');
+  var captions = hasDataCaptions
+    ? Array.prototype.map.call(images, function(img) { return img.getAttribute('data-caption') || ''; })
+    : [
+      'Telegram: register sensor \u2192 ask temperature \u2192 set alert \u2192 get notification',
+      'Serial log: NATS subscribe, LLM tool calls, rule trigger + clear',
+      'Any machine: nats pub home.room.temp "45.3" \u2192 rule fires'
+    ];
   var current = 0;
   var timer;
 
@@ -17,7 +20,7 @@
     current = index;
     images.forEach(function(img, i) { img.classList.toggle('active', i === index); });
     dots.forEach(function(dot, i) { dot.classList.toggle('active', i === index); });
-    if (caption) caption.textContent = captions[index] || '';
+    if (caption) caption.innerHTML = captions[index] || '';
   }
 
   function advance() { show((current + 1) % images.length); }

@@ -79,50 +79,11 @@
   <section class="examples-toc">
     <div class="container">
       <div class="toc-pills reveal" style="--stagger: 2">
-        <a href="#the-idea" class="toc-pill">The Idea</a>
         <a href="#first-contact" class="toc-pill">First Contact</a>
         <a href="#get-started" class="toc-pill">Get Started</a>
         <a href="#how-it-works" class="toc-pill">How It Works</a>
         <a href="#what-you-can-build" class="toc-pill">What You Can Build</a>
         <a href="#the-skill" class="toc-pill">Inside The Skill</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- The Idea -->
-  <section id="the-idea" class="architecture-deep">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2><span class="accent">OpenClaw</span> Meets WireClaw</h2>
-        <p>One AI agent in your terminal. Another bare metal on an ESP32. Connected over NATS.</p>
-      </div>
-
-      <div class="dual-loop">
-        <div class="loop-panel loop-secondary reveal" style="--stagger: 0">
-          <div class="loop-header">
-            <span class="loop-badge loop-badge-ondemand">desktop</span>
-            <h3>OpenClaw</h3>
-          </div>
-          <p class="loop-desc">Controls your digital life - files, repos, shell, email. Lives in your terminal. Thinks in code.</p>
-        </div>
-
-        <div class="loop-connector">
-          <div class="connector-line"></div>
-          <span class="connector-label">NATS - flat JSON, request/reply, 30ms</span>
-          <div class="connector-line"></div>
-        </div>
-
-        <div class="loop-panel loop-primary reveal" style="--stagger: 1">
-          <div class="loop-header">
-            <span class="loop-badge loop-badge-always">hardware</span>
-            <h3>WireClaw</h3>
-          </div>
-          <p class="loop-desc">AI on the wire. LEDs, sensors, relays, GPIO. Creates rules that run 24/7 - no cloud, no LLM, no latency.</p>
-        </div>
-      </div>
-
-      <div class="insight reveal" style="--stagger: 2">
-        OpenClaw&rsquo;s LLM generates the tool calls. WireClaw <span class="accent">executes them on hardware</span>. No second LLM. No translation layer.
       </div>
     </div>
   </section>
@@ -141,38 +102,22 @@
           <p class="recipe-subtitle">This actually happened. Feb 16, 2026 - first time OpenClaw talked to WireClaw. Unedited.</p>
         </div>
         <div class="recipe-body">
-          <div class="recipe-chat">
-            <div class="chat-label">Telegram &rarr; OpenClaw &rarr; NATS &rarr; WireClaw</div>
-            <div class="chat-msg chat-user">Discover what WireClaw devices are on my network</div>
-            <div class="chat-msg chat-bot"><strong>wireclaw-01</strong> is live - v0.4.0, chip temp 33.2&deg;C, no rules set. 19 tools at my disposal.</div>
-            <div class="chat-msg chat-user">Set the LED to purple!</div>
-            <div class="chat-msg chat-bot">Purple! &#x1F49C; 30ms round trip. Can you see it?</div>
-            <div class="chat-msg chat-user">OMFG!!!!!!!!!!!! IT WOOOOORKSSSS!!!</div>
-            <div class="chat-msg chat-user">Set the LED to orange when the chip temperature is above 32, and back to cyan</div>
-            <div class="chat-msg chat-bot">Rule <strong>&ldquo;temp color&rdquo;</strong> is live on the chip - &gt; 32&deg;C &rarr; &#x1F7E0; orange, &le; 32&deg;C &rarr; &#x1F535; cyan. That rule runs 24/7 now - no WiFi, no me, no nothing needed. What color is it showing? Chip was at 33.2°C so it should be orange right now &#x1F7E0;.</div>
-          </div>
-          <div class="recipe-verify">
-            <div class="verify-label">Web Config Portal - wireclaw-01</div>
-            <div class="rule-card">
-              <div class="rule-card-hdr">
-                <span class="rule-card-id">rule_01</span>
-                <span class="rule-card-name">temp color</span>
-                <span class="rule-card-badge">ON</span>
-              </div>
-              <div class="rule-card-meta">chip_temp gt 32 val=33 FIRED</div>
-              <div class="rule-card-act"><span class="rule-arrow">&rarr;</span> led_set(255,100,0)</div>
-              <div class="rule-card-act"><span class="rule-arrow rule-arrow-off">&larr;</span> led_set(0,255,255)</div>
+          <div class="gallery-frame">
+            <div class="terminal-header">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-title">openclaw + wireclaw - first light</span>
             </div>
-          </div>
-          <div class="recipe-chain">
-            <span class="chain-label">What just happened</span>
-            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
-              Telegram <span class="chain-arrow">&rarr;</span> OpenClaw <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> ESP32 <span class="chain-arrow">&rarr;</span> rule runs forever
+            <div class="gallery-viewport">
+              <img src="assets/openclaw1.png" alt="OpenClaw discovers WireClaw and controls LED over NATS" data-caption="OpenClaw discovers WireClaw, sets LED to purple &ndash; 30ms over NATS" class="active">
+              <img src="assets/openclaw2.png" alt="OpenClaw creates autonomous rule on WireClaw via Telegram" data-caption="Rule created: chip temp &gt; 32 &rarr; orange, &le; 32 &rarr; cyan. Runs forever.">
             </div>
-          </div>
-          <div class="recipe-result">
-            <span class="result-icon">&#10003;</span>
-            <span>From a chat message to autonomous hardware. The AI creates the rules. The rules run without the AI. OpenClaw disconnects. The chip keeps going.</span>
+            <div class="gallery-caption">OpenClaw discovers WireClaw, sets LED to purple &ndash; 30ms over NATS</div>
+            <div class="gallery-dots">
+              <button class="gallery-dot active" aria-label="Slide 1"></button>
+              <button class="gallery-dot" aria-label="Slide 2"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -399,5 +344,6 @@ wc.sh sub  &lt;device&gt;                    <span style="color: var(--text-mute
 
   <script defer src="js/nav.js"></script>
   <script defer src="js/scroll-reveal.js"></script>
+  <script defer src="js/gallery.js"></script>
 </body>
 </html>
