@@ -83,10 +83,7 @@
         <a href="#first-contact" class="toc-pill">First Contact</a>
         <a href="#get-started" class="toc-pill">Get Started</a>
         <a href="#what-you-can-build" class="toc-pill">What You Can Build</a>
-        <a href="#protocol" class="toc-pill">Protocol</a>
-        <a href="#patterns" class="toc-pill">Patterns</a>
         <a href="#the-skill" class="toc-pill">Inside The Skill</a>
-        <a href="#security" class="toc-pill">Security</a>
       </div>
     </div>
   </section>
@@ -240,9 +237,10 @@ nats-server -a 0.0.0.0 &amp;</pre>
           <div class="step-number">3</div>
           <div>
             <h3>Talk to Hardware</h3>
+            <p>Ask OpenClaw to use the WireClaw skill to discover devices on your network:</p>
             <div class="recipe-chat" style="margin-top: var(--space-md);">
               <div class="chat-label">OpenClaw</div>
-              <div class="chat-msg chat-user">Discover what WireClaw devices are on my network</div>
+              <div class="chat-msg chat-user">Use the wireclaw skill to discover devices on my network</div>
               <div class="chat-msg chat-bot">Found <strong>wireclaw-01</strong> - ESP32-C6, v0.4.0, chip temp 33.2&deg;C, 0 rules, 19 tools.</div>
               <div class="chat-msg chat-user">Set the LED to purple</div>
               <div class="chat-msg chat-bot">Purple! &#x1F49C; 30ms round trip.</div>
@@ -295,224 +293,6 @@ nats-server -a 0.0.0.0 &amp;</pre>
           <div>
             <h3>Live Event Monitor</h3>
             <p>Subscribe to <code>wireclaw-01.events</code> and stream rule triggers, sensor readings, and status changes in real time. Debug rules, log data, or feed into dashboards - all through NATS.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Protocol -->
-  <section id="protocol" class="architecture-deep">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2>How It <span class="accent">Works</span></h2>
-        <p>Flat JSON over NATS request/reply. OpenClaw&rsquo;s LLM reads the skill, generates the payloads. WireClaw executes on hardware.</p>
-      </div>
-
-      <div class="terminal reveal" style="max-width: 720px; margin: 0 auto var(--space-2xl);">
-        <div class="terminal-header">
-          <span class="terminal-dot"></span>
-          <span class="terminal-dot"></span>
-          <span class="terminal-dot"></span>
-          <span class="terminal-title">nats - request/reply</span>
-        </div>
-        <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{"tool":"led_set","r":128,"g":0,"b":255}'</span>
-{"ok":true,"result":"LED set to RGB(128, 0, 255)"}
-
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{"tool":"sensor_read","name":"chip_temp"}'</span>
-{"ok":true,"result":"chip_temp: 33.2 C"}</pre>
-        </div>
-      </div>
-
-      <!-- NATS Subjects -->
-      <div class="section-header reveal">
-        <h2>NATS <span class="accent">Subjects</span></h2>
-      </div>
-      <div class="specs-wrapper reveal" style="max-width: 750px; margin: 0 auto var(--space-2xl);">
-        <table class="specs-table">
-          <tbody>
-            <tr><th><code>{device}.tool_exec</code></th><td>Execute any tool, get result. Request/reply.</td></tr>
-            <tr><th><code>{device}.capabilities</code></th><td>Query available tools, devices, rules.</td></tr>
-            <tr><th><code>{device}.events</code></th><td>Subscribe to rule triggers, sensor readings, and status changes. Stream with <code>nats sub wireclaw-01.events</code>.</td></tr>
-            <tr><th><code>_wc.discover</code></th><td>Find all WireClaws on the network. Multiple responses.</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Available Tools -->
-      <div class="section-header reveal">
-        <h2>Available <span class="accent">Tools</span></h2>
-        <p>All 19 WireClaw tools accessible via <code style="color: var(--accent); background: var(--accent-dim); padding: 0.1rem 0.4rem; border-radius: var(--radius-sm);">tool_exec</code>. Rules created remotely persist on the chip and survive reboots.</p>
-      </div>
-      <div class="tools-summary reveal">
-        <div class="tools-summary-row">
-          <span class="tools-summary-label">Hardware</span>
-          <span class="tools-summary-list"><code>led_set</code> <code>gpio_write</code> <code>gpio_read</code> <code>temperature_read</code></span>
-        </div>
-        <div class="tools-summary-row">
-          <span class="tools-summary-label">Sensors &amp; Actuators</span>
-          <span class="tools-summary-list"><code>device_register</code> <code>device_list</code> <code>device_remove</code> <code>sensor_read</code> <code>actuator_set</code></span>
-        </div>
-        <div class="tools-summary-row">
-          <span class="tools-summary-label">Automation</span>
-          <span class="tools-summary-list"><code>rule_create</code> <code>rule_list</code> <code>rule_delete</code> <code>rule_enable</code> <code>chain_create</code></span>
-        </div>
-        <div class="tools-summary-row">
-          <span class="tools-summary-label">System</span>
-          <span class="tools-summary-list"><code>device_info</code> <code>file_read</code> <code>file_write</code> <code>nats_publish</code> <code>serial_send</code></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Cross-Domain Patterns -->
-  <section id="patterns" class="example-section">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2>Cross-Domain <span class="accent">Patterns</span></h2>
-        <p>Digital triggers physical. Physical triggers digital. Data bridges both.</p>
-      </div>
-
-      <!-- Pattern 1: Digital → Physical -->
-      <div class="example-recipe reveal" style="margin-bottom: var(--space-3xl);">
-        <div class="recipe-header">
-          <div class="recipe-title-row">
-            <h2>Digital &rarr; <span class="accent">Physical</span></h2>
-            <div class="recipe-badges">
-              <span class="recipe-badge recipe-badge-openclaw">pattern</span>
-            </div>
-          </div>
-          <p class="recipe-subtitle">OpenClaw detects something. WireClaw reacts in hardware.</p>
-        </div>
-        <div class="recipe-body">
-          <div class="recipe-chat">
-            <div class="chat-label">OpenClaw</div>
-            <div class="chat-msg chat-user">When my GitHub CI fails, flash the desk LED red</div>
-            <div class="chat-msg chat-bot">Watching CI status. On failure, sending <code>led_set(255,0,0)</code> to <strong>wireclaw-01</strong>.</div>
-          </div>
-          <div class="terminal" style="margin-top: 0;">
-            <div class="terminal-header">
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-title">nats - digital to physical</span>
-            </div>
-            <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{"tool":"led_set","r":255,"g":0,"b":0}'</span>
-{"ok":true,"result":"LED set to RGB(255, 0, 0)"}</pre>
-            </div>
-          </div>
-          <div class="recipe-chain">
-            <span class="chain-label">flow</span>
-            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
-              CI fail <span class="chain-arrow">&rarr;</span> OpenClaw <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> WireClaw <span class="chain-arrow">&rarr;</span> <span style="color: var(--led-red);">LED red</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pattern 2: Physical → Digital -->
-      <div class="example-recipe reveal" style="margin-bottom: var(--space-3xl);">
-        <div class="recipe-header">
-          <div class="recipe-title-row">
-            <h2>Physical &rarr; <span class="accent">Digital</span></h2>
-            <div class="recipe-badges">
-              <span class="recipe-badge recipe-badge-openclaw">pattern</span>
-            </div>
-          </div>
-          <p class="recipe-subtitle">WireClaw rule fires. OpenClaw subscribes and reacts digitally.</p>
-        </div>
-        <div class="recipe-body">
-          <div class="terminal">
-            <div class="terminal-header">
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-title">nats - physical to digital</span>
-            </div>
-            <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-muted);"># WireClaw: alert when overheating</span>
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{
-    "tool":"rule_create",
-    "rule_name":"temp alert",
-    "sensor_name":"chip_temp",
-    "condition":"gt","threshold":35,
-    "on_action":"nats_publish",
-    "on_nats_subject":"alerts.overheating",
-    "on_nats_payload":"Temperature: {value}C"
-  }'</span>
-{"ok":true,"result":"Rule created: temp alert"}
-
-<span style="color: var(--text-muted);"># OpenClaw: subscribe and react</span>
-<span style="color: var(--text-primary);">$ nats sub alerts.overheating</span></pre>
-            </div>
-          </div>
-          <div class="recipe-chain">
-            <span class="chain-label">flow</span>
-            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
-              sensor <span class="chain-arrow">&rarr;</span> rule fires <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> OpenClaw <span class="chain-arrow">&rarr;</span> reacts digitally
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pattern 3: Data Bridge -->
-      <div class="example-recipe reveal">
-        <div class="recipe-header">
-          <div class="recipe-title-row">
-            <h2>Data <span class="accent">Bridge</span></h2>
-            <div class="recipe-badges">
-              <span class="recipe-badge recipe-badge-easy">most powerful</span>
-            </div>
-          </div>
-          <p class="recipe-subtitle">OpenClaw pushes data to NATS. WireClaw has a virtual sensor on that subject. Persistent rules handle the rest.</p>
-        </div>
-        <div class="recipe-body">
-          <div class="terminal">
-            <div class="terminal-header">
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-dot"></span>
-              <span class="terminal-title">nats - data bridge</span>
-            </div>
-            <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-muted);"># Register a virtual sensor fed by NATS</span>
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{
-    "tool":"device_register",
-    "name":"ci_status","type":"nats_value",
-    "subject":"ci.build.status"
-  }'</span>
-{"ok":true,"result":"Registered: ci_status (nats_value)"}
-
-<span style="color: var(--text-muted);"># Create rule: CI fail → red, CI pass → green</span>
-<span style="color: var(--text-primary);">$ nats req wireclaw-01.tool_exec '{
-    "tool":"rule_create",
-    "rule_name":"ci alert","sensor_name":"ci_status",
-    "condition":"eq","threshold":0,
-    "on_action":"led_set","on_r":255,"on_g":0,"on_b":0,
-    "off_action":"led_set","off_r":0,"off_g":255,"off_b":0
-  }'</span>
-{"ok":true,"result":"Rule created: ci alert"}
-
-<span style="color: var(--text-muted);"># OpenClaw just pushes status - WireClaw handles everything</span>
-<span style="color: var(--text-primary);">$ nats pub ci.build.status "0"</span>   <span style="color: var(--led-red);">fail → red</span>
-<span style="color: var(--text-primary);">$ nats pub ci.build.status "1"</span>   <span style="color: var(--led-green);">pass → green</span></pre>
-            </div>
-          </div>
-          <div class="recipe-chain">
-            <span class="chain-label">data flow</span>
-            <div class="chain-visual" style="font-size: 0.85rem; text-align: center;">
-              OpenClaw pushes <span class="chain-arrow">&rarr;</span> NATS <span class="chain-arrow">&rarr;</span> virtual sensor <span class="chain-arrow">&rarr;</span> rule engine <span class="chain-arrow">&rarr;</span> LED
-            </div>
-          </div>
-          <div class="recipe-result">
-            <span class="result-icon">&#10003;</span>
-            <span>After setup, WireClaw runs the rules autonomously. OpenClaw just pushes data. No polling. No LLM in the loop. The chip handles everything locally.</span>
           </div>
         </div>
       </div>
@@ -586,65 +366,6 @@ wc.sh discover                         <span style="color: var(--text-muted);">#
 wc.sh sub  &lt;device&gt;                    <span style="color: var(--text-muted);"># Subscribe to events</span></pre>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Security -->
-  <section id="security" class="architecture-deep">
-    <div class="container">
-      <div class="section-header reveal">
-        <h2>Security <span class="accent">Model</span></h2>
-        <p>What&rsquo;s enforced, what&rsquo;s blocked, and how to lock it down.</p>
-      </div>
-
-      <div class="steps-list" style="max-width: 800px; margin: 0 auto;">
-        <div class="step-card reveal" style="--stagger: 0">
-          <div class="step-number"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg></div>
-          <div>
-            <h3>Blocked Tools</h3>
-            <div class="specs-wrapper" style="margin-top: var(--space-md);">
-              <table class="specs-table">
-                <tbody>
-                  <tr><th><code>remote_chat</code></th><td>Uses re-entrant NATS processing that corrupts state inside a callback. Use <code>nats req other-device.tool_exec</code> instead.</td></tr>
-                  <tr><th><code>file_write</code> to <code>/memory.txt</code></th><td>Internal AI memory - external writes would corrupt the device&rsquo;s learned context.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="step-card reveal" style="--stagger: 1">
-          <div class="step-number"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
-          <div>
-            <h3>Network Security</h3>
-            <p>v1 has no built-in authentication - anyone on the NATS network can call tools. For trusted home networks, this is fine. For anything else:</p>
-            <div class="terminal" style="margin-top: var(--space-md);">
-              <div class="terminal-header">
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-title">nats-server.conf - lock it down</span>
-              </div>
-              <div class="terminal-body" style="min-height: auto; max-height: none;">
-<pre style="font-family: var(--font-mono); white-space: pre; margin: 0; color: var(--text-secondary); font-size: 0.78rem; line-height: 1.7;">
-<span style="color: var(--text-muted);"># Require credentials</span>
-authorization {
-  users = [
-    { user: "openclaw", password: "...",
-      permissions: { publish: "&gt;", subscribe: "&gt;" } }
-    { user: "wireclaw", password: "...",
-      permissions: { subscribe: ["wireclaw-01.&gt;", "_wc.&gt;"],
-                     publish: "&gt;" } }
-  ]
-}
-
-<span style="color: var(--text-muted);"># Bind to localhost only (if same machine)</span>
-listen: 127.0.0.1:4222</pre>
-              </div>
-            </div>
-            <p style="margin-top: var(--space-sm); font-size: 0.85rem; color: var(--text-muted);">NATS supports user/password, token, TLS, and NKey authentication. Subject-level permissions let you restrict exactly which devices each client can talk to.</p>
           </div>
         </div>
       </div>
