@@ -257,7 +257,7 @@
 
       <div id="chain-internals" class="reveal" style="--stagger: 3; max-width: 800px; margin: var(--space-3xl) auto 0;">
         <h3 style="text-align: center; margin-bottom: var(--space-xl);">Chain <span class="accent">Internals</span></h3>
-        <p><code>chain_create</code> generates multiple linked rules under the hood. The first rule evaluates normally against the sensor condition. Each subsequent step becomes a separate rule with <code>condition: chained</code> &mdash; these skip normal evaluation and only fire when the previous step queues them.</p>
+        <p><code>chain_create</code> generates multiple linked rules under the hood. The first rule evaluates normally against the sensor condition. Each subsequent step becomes a separate rule with <code>condition: chained</code> - these skip normal evaluation and only fire when the previous step queues them.</p>
 
         <h4 style="margin-top: var(--space-xl); margin-bottom: var(--space-sm);">Execution Flow</h4>
         <div class="chain-visual" style="font-size: 0.85rem; padding: var(--space-md) var(--space-lg); background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); text-align: center;">sensor triggers <span class="chain-arrow">&rarr;</span> step1 fires <span class="chain-arrow">&rarr;</span> queues step2 with delay <span class="chain-arrow">&rarr;</span> <span class="chain-delay">delay expires</span> <span class="chain-arrow">&rarr;</span> step2 fires <span class="chain-arrow">&rarr;</span> queues step3...</div>
@@ -267,9 +267,9 @@
 
         <h4 style="margin-top: var(--space-xl); margin-bottom: var(--space-sm);">Safety Limits</h4>
         <div class="behaviors-list" style="grid-template-columns: 1fr;">
-          <div class="behavior-item"><strong>Max chain depth: 8</strong> &mdash; prevents infinite loops from circular chains</div>
-          <div class="behavior-item"><strong>Pending queue: 8 entries</strong> &mdash; concurrent chains share the queue</div>
-          <div class="behavior-item"><strong>5 steps per chain_create</strong> &mdash; tool limit, but chains can manually link more via <code>rule_create</code></div>
+          <div class="behavior-item"><strong>Max chain depth: 8</strong> - prevents infinite loops from circular chains</div>
+          <div class="behavior-item"><strong>Pending queue: 8 entries</strong> - concurrent chains share the queue</div>
+          <div class="behavior-item"><strong>5 steps per chain_create</strong> - tool limit, but chains can manually link more via <code>rule_create</code></div>
         </div>
       </div>
 

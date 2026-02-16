@@ -163,7 +163,7 @@
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
-                <span class="terminal-title">wiring &mdash; NTC 10K voltage divider</span>
+                <span class="terminal-title">wiring - NTC 10K voltage divider</span>
               </div>
               <div class="terminal-body">
 <pre>
@@ -210,7 +210,7 @@
           </div>
           <div class="recipe-result">
             <span class="result-icon">&#10003;</span>
-            <span>Telegram alert fires when temperature crosses 30&deg;C. Edge-triggered &mdash; fires once, resets when temp drops back. Survives reboots.</span>
+            <span>Telegram alert fires when temperature crosses 30&deg;C. Edge-triggered - fires once, resets when temp drops back. Survives reboots.</span>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
-                <span class="terminal-title">wiring &mdash; LDR voltage divider</span>
+                <span class="terminal-title">wiring - LDR voltage divider</span>
               </div>
               <div class="terminal-body">
 <pre>
@@ -310,7 +310,7 @@
           <div class="recipe-chat">
             <div class="chat-label">Telegram</div>
             <div class="chat-msg chat-user">Every day at 8 AM, send me the chip temperature on Telegram</div>
-            <div class="chat-msg chat-bot">Rule created: <strong>"morning_report"</strong> &mdash; when clock_hhmm = 800 &rarr; Telegram "Good morning! Chip temp: {chip_temp}&deg;C"</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"morning_report"</strong> - when clock_hhmm = 800 &rarr; Telegram "Good morning! Chip temp: {chip_temp}&deg;C"</div>
           </div>
           <div class="recipe-chain">
             <span class="chain-label">Rule visualization</span>
@@ -346,14 +346,14 @@
             <div class="recipe-step">
               <span class="recipe-step-num">A</span>
               <div>
-                <strong>Device A &mdash; Sensor Node</strong>
+                <strong>Device A - Sensor Node</strong>
                 <p>Uses built-in <code>chip_temp</code>. Publishes temperature to NATS subject <code>home.room.temp</code>.</p>
               </div>
             </div>
             <div class="recipe-step">
               <span class="recipe-step-num">B</span>
               <div>
-                <strong>Device B &mdash; Alert Node</strong>
+                <strong>Device B - Alert Node</strong>
                 <p>Subscribes to the same NATS subject. Creates an alert rule on the incoming data.</p>
               </div>
             </div>
@@ -364,7 +364,7 @@
             <div class="chat-msg chat-bot">OK, I've created a rule named <strong>`publish_temp_to_nats`</strong> that will publish the <strong>`chip_temp`</strong> to the NATS subject <strong>`home.room.temp`</strong> every 60 seconds.</div>
           </div>
           <div class="recipe-verify">
-            <div class="verify-label">Web Config Portal &mdash; Device A</div>
+            <div class="verify-label">Web Config Portal - Device A</div>
             <div class="rule-card">
               <div class="rule-card-hdr">
                 <span class="rule-card-id">rule_01</span>
@@ -384,7 +384,7 @@
             <div class="chat-msg chat-bot">Room temperature is <strong>31&deg;C</strong>, which is above 28&deg;C.</div>
           </div>
           <div class="recipe-verify">
-            <div class="verify-label">Web Config Portal &mdash; Device B</div>
+            <div class="verify-label">Web Config Portal - Device B</div>
             <div class="device-card">
               <div class="device-card-hdr">
                 <span class="device-card-name">room_temp</span>
@@ -440,7 +440,7 @@
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
                 <span class="terminal-dot"></span>
-                <span class="terminal-title">wiring &mdash; Arduino to ESP32</span>
+                <span class="terminal-title">wiring - Arduino to ESP32</span>
               </div>
               <div class="terminal-body">
 <pre>
@@ -457,7 +457,7 @@
             <div class="chat-msg chat-user">Connect an Arduino on serial at 9600 baud and register it as a sensor called arduino_val</div>
             <div class="chat-msg chat-bot">Registered sensor <strong>"arduino_val"</strong> (serial_text) on UART1 at 9600 baud.</div>
             <div class="chat-msg chat-user">Alert me on Telegram when arduino_val goes above 800</div>
-            <div class="chat-msg chat-bot">Rule created: <strong>"arduino_alert"</strong> &mdash; when arduino_val &gt; 800 &rarr; Telegram "Arduino reading exceeded threshold: {value}"</div>
+            <div class="chat-msg chat-bot">Rule created: <strong>"arduino_alert"</strong> - when arduino_val &gt; 800 &rarr; Telegram "Arduino reading exceeded threshold: {value}"</div>
           </div>
           <div class="recipe-result">
             <span class="result-icon">&#10003;</span>
