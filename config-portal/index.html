@@ -80,6 +80,8 @@ padding:0.1rem 0.4rem;border-radius:4px;line-height:1;transition:all 0.15s}
 .rule-act .arrow{color:var(--accent)}
 .rule-act.off-act .arrow{color:var(--red)}
 .rule-act.chain-act{color:var(--text3);font-style:italic}
+.spark{display:flex;align-items:flex-end;gap:2px;height:20px;margin-top:4px}
+.spark-bar{width:6px;background:var(--accent);border-radius:1px;min-height:2px}
 .rules-empty{text-align:center;color:var(--text3);padding:2rem 0;font-size:0.9rem}
 @media(max-width:480px){
 .wrap{padding:0.75rem}
@@ -234,23 +236,23 @@ telegram:"enabled"
 var mockRules=[
 {id:"rule_01",name:"Hot Alert",en:true,src:"chip_temp gt 30",
 on:'telegram "Room temp: {value}\u00b0C"',off:"led_set(0,255,255)",
-chain:"->rule_02 (5s)",val:28,fired:false},
+chain:"->rule_02 (5s)",val:28.3,fired:false,eval:3,every:5},
 {id:"rule_02",name:"Warning LED",en:false,src:"chained",
-on:"led_set(255,60,0)",off:"led_set(0,0,0)",chain:"",val:0,fired:false},
+on:"led_set(255,60,0)",off:"led_set(0,0,0)",chain:"",val:0,fired:false,eval:3,every:5},
 {id:"rule_03",name:"Heartbeat",en:true,src:"chip_temp always 0",
-on:'nats_publish "status/alive"',off:"",chain:"",val:26,fired:true}
+on:'nats_publish "status/alive"',off:"",chain:"",val:26.1,fired:true,eval:10,every:60}
 ];
 
 var mockDevices=[
-{name:"chip_temp",kind:"internal_temp",pin:"virtual",value:"39.2 C",extra:"",msg:"",internal:true},
+{name:"chip_temp",kind:"internal_temp",pin:"virtual",value:"39.2 C",extra:"",msg:"",internal:true,hist:[38.2,38.5,38.8,39.0,39.2,39.1]},
 {name:"clock_hour",kind:"clock_hour",pin:"virtual",value:"14.0 h",extra:"",msg:"",internal:true},
 {name:"clock_minute",kind:"clock_minute",pin:"virtual",value:"37.0 m",extra:"",msg:"",internal:true},
 {name:"clock_hhmm",kind:"clock_hhmm",pin:"virtual",value:"1437.0",extra:"",msg:"",internal:true},
 {name:"power",kind:"nats_value",pin:"virtual",value:"2450.0 W",extra:"home.power",msg:"Power spike detected",internal:false},
 {name:"arduino",kind:"serial_text",pin:"virtual",value:"23.5",extra:"9600 baud",msg:"temperature=23.5",internal:false},
 {name:"button1",kind:"digital_in",pin:"4",value:"1.0",extra:"",msg:"",internal:false},
-{name:"light1",kind:"ldr",pin:"34",value:"45.3 lux",extra:"",msg:"",internal:false},
-{name:"temp_ext",kind:"ntc_10k",pin:"35",value:"22.5 C",extra:"",msg:"",internal:false},
+{name:"light1",kind:"ldr",pin:"34",value:"45.3 lux",extra:"",msg:"",internal:false,hist:[40.8,41.5,42.1,43.0,44.5,45.3]},
+{name:"temp_ext",kind:"ntc_10k",pin:"35",value:"22.5 C",extra:"",msg:"",internal:false,hist:[21.5,21.6,21.8,22.0,22.3,22.5]},
 {name:"pump",kind:"relay",pin:"7",value:"OFF",extra:"",msg:"",internal:false},
 {name:"fan",kind:"digital_out",pin:"8",value:"ON",extra:"",msg:"",internal:false},
 {name:"dimmer",kind:"pwm",pin:"6",value:"128/255",extra:"",msg:"",internal:false}
@@ -322,6 +324,7 @@ h+='<span class="badge on">'+(d.pin==='virtual'?'virtual':'pin '+d.pin)+'</span>
 if(!d.internal)h+='<button class="del" onclick="deleteDevice(\''+d.name+'\')">&times;</button>';
 h+='</div>';
 h+='<div class="rule-meta">value: '+d.value+'</div>';
+if(d.hist&&d.hist.length>1){var mn=Math.min.apply(null,d.hist),mx=Math.max.apply(null,d.hist),rng=mx-mn||1,bars='';d.hist.forEach(function(v){var pct=Math.round(((v-mn)/rng)*100);bars+='<span class="spark-bar" style="height:'+Math.max(pct,5)+'%"></span>'});h+='<div class="spark">'+bars+'</div>'}
 if(d.extra)h+='<div class="rule-act"><span class="arrow">&rarr;</span> '+d.extra+'</div>';
 if(d.msg)h+='<div class="rule-act"><span class="arrow">&rarr;</span> "'+d.msg+'"</div>';
 h+='</div>'});
@@ -343,7 +346,7 @@ h+='<div class="rule"><div class="rule-hdr"><span class="rule-id">'+r.id+'</span
 h+='<span class="rule-name">'+r.name+'</span>';
 h+='<span class="badge '+(r.en?'on':'off')+'">'+(r.en?'ON':'OFF')+'</span>';
 h+='<button class="del" onclick="deleteRule(\''+r.id+'\')">&times;</button></div>';
-h+='<div class="rule-meta">'+r.src+'&ensp;val='+r.val+'&ensp;'+(r.fired?'FIRED':'idle')+'</div>';
+h+='<div class="rule-meta">'+r.src+'&ensp;val='+r.val+'&ensp;'+(r.fired?'FIRED':'idle')+'&ensp;eval='+r.eval+'s&ensp;every='+r.every+'s</div>';
 h+='<div class="rule-act"><span class="arrow">&rarr;</span> '+r.on+'</div>';
 if(r.off)h+='<div class="rule-act off-act"><span class="arrow">&larr;</span> '+r.off+'</div>';
 if(r.chain)h+='<div class="rule-act chain-act">chain: '+r.chain+'</div>';
